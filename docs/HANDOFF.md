@@ -1,6 +1,6 @@
 # Handoff for a new chat
 
-Read in this order: `CLAUDE.md`, `PLATFORM.md`, `docs/PROGRESS.md`, `docs/DATABASE.md`, then the current file in `docs/steps/`.
+Read in this order: `CLAUDE.md`, `PLATFORM.md`, `docs/PROGRESS.md`, `docs/DATABASE.md`, `docs/DESIGN.md` for UI work, then the current file in `docs/steps/`.
 Work happens on Plesk, not on the owner's computer. Step 1 is done. The next step is step 2 (`docs/steps/02-database-and-tenancy.md`).
 
 ## How the owner runs things on Plesk
