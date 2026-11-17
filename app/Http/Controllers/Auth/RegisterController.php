@@ -24,7 +24,12 @@ class RegisterController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:120'],
-            'email' => ['required', 'email', 'max:190', 'unique:public.users,email'],
+            // Not the `unique:` rule: it reads "public.users" as connection "public", so the check is done by hand.
+            'email' => ['required', 'email', 'max:190', function ($attribute, $value, $fail) {
+                if (User::where('email', $value)->exists()) {
+                    $fail('This email already has an account.');
+                }
+            }],
             'password' => ['required', 'confirmed', Password::min(10)],
         ]);
 
