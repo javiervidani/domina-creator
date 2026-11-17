@@ -24,3 +24,8 @@ Claude cannot read Plesk logs, so two token-protected GET endpoints give a short
 - `/ops/health`: app, PHP and Laravel versions, commit, database check, log size, last error.
 - `/ops/logs?level=error&limit=10&since=2026-11-17 14:00`: one line per distinct problem with a count, newest first. Secrets are masked and lines cut.
 - Code is in `app/Ops`; config in `config/ops.php`. Rate limit uses the file cache (`CACHE_LIMITER`), so it works when the database is down.
+
+## Database setup (one time, by the owner)
+Create the database in Plesk, then run `database/setup/01-app-user.sql` with `psql` (the password is passed with
+`-v app_pw=...`, never committed). Set `DB_CONNECTION=pgsql`, `DB_HOST`, `DB_DATABASE`, `DB_USERNAME=app_user`,
+`DB_PASSWORD` in the server `.env`, then run `php artisan migrate` with the admin connection (see step 2).
