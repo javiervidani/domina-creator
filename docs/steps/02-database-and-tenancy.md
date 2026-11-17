@@ -23,3 +23,4 @@
 
 ## Notes
 - See `docs/DATABASE.md` for the role rules. Check `CREATEROLE` behaviour on the installed PostgreSQL version.
+- Setup (superuser, once): `database/setup/02-admin-grants.sql` gives the admin login CREATE on the database, so `provision_creator` can create schemas.
