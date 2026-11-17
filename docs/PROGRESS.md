@@ -6,7 +6,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | # | Step | State |
 |---|---|---|
 | 0 | Planning, mockups, decisions | Done |
-| 1 | Project setup and deploy to Plesk | In progress |
+| 1 | Project setup and deploy to Plesk | Done |
 | 2 | Database, roles, creator schemas | Not started |
 | 3 | Sign in and registration | Not started |
 | 4 | Accounts and connections | Not started |
@@ -26,7 +26,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
   manual re-publish, 60-day recovery.
 - Repo `domina-creator` created and documented.
 - Deploy flow tested: push to `main` reaches the Plesk domain through the webhook.
-- Laravel 13 skeleton pushed; read-only ops API (`/ops/health`, `/ops/logs`) added. Waiting on owner: Install packages, `.env`, `key:generate`, PostgreSQL credentials.
+- Laravel 13 skeleton pushed; read-only ops API (`/ops/health`, `/ops/logs`) added. Laravel runs on Plesk (PHP 8.3, home page loads). PostgreSQL database `ds_domina_creator` is live: `app_user` (NOINHERIT, no CREATEROLE) is the app login, the Plesk DB user is admin with CREATEROLE, central tables migrated with `migrate --database=pgsql_admin --force`.
 
 ## Open questions
 - PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.
@@ -36,7 +36,8 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - Repo name was confirmed as `domina-creator`. Domain name is not decided.
 
 ## Next
-Step 1: create the Laravel project, wire the deploy, confirm it opens on Plesk. See `docs/steps/01-project-setup.md`.
+Step 2: creator roles, schemas and the tenancy class. See `docs/steps/02-database-and-tenancy.md`.
+Open for step 1 housekeeping: rotate the ops token, record the deployed commit in `storage/app/deploy-commit`.
 
 ## Blockers
 - Claude's workspace cannot reach `repo.packagist.org` (egress policy), so Composer cannot install Laravel there.
