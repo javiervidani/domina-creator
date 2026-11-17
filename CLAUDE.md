@@ -44,7 +44,10 @@ Never put secrets, tokens, or real creator data in the repo, in logs, or in test
 - Check a package's current version and Laravel compatibility before installing it.
 
 ## Working rules
-- Do not commit or push unless the owner asks.
+- Until the owner says the baseline is reached, work directly on `main`: commit and push each finished piece. After
+  the baseline, go back to committing only when the owner asks.
+- Claude cannot read server logs on Plesk. Errors reach Claude only if the owner pastes them, or if the app records
+  them where Claude can see them (see `docs/steps/01-project-setup.md`).
 - After finishing a step: update `docs/PROGRESS.md`, update the step file, and add tests.
 - Run Pint, Larastan, and Pest before saying a step is done.
 - If something in these docs is wrong or missing, say so and fix the doc in the same change.
