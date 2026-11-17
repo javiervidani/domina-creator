@@ -11,3 +11,8 @@
 ## Done when
 - Register, sign in, sign out, and reset all work on Plesk.
 - A new registration ends on the empty Library page of its own schema.
+
+## Built
+- Plain Laravel auth, no package: `app/Http/Controllers/Auth`, `app/Tenancy/EnterTenancy` (alias `tenant`), `LibraryController`, views in `resources/views`.
+- Tests: `AuthPagesTest` (any DB), `RegistrationTest` (PostgreSQL only).
+- Owner: set `MAIL_*` in `.env` for reset emails; run `migrate` is not needed (no new tables).
