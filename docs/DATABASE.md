@@ -18,8 +18,9 @@ Engine: PostgreSQL, one new database. Every creator has a private schema. Decisi
   `users`, `creators`, or any other creator's schema.
 - **No foreign keys** from creator tables to `public` tables. User ids are stored as plain numbers, so a schema can be
   dropped or exported without touching `public`.
-- **Provisioning** (create role, schema, run migrations) uses a separate admin connection used only by that job.
-  Check how `CREATEROLE` behaves in the installed PostgreSQL version.
+- **Provisioning** is done by the SQL function `public.provision_creator(bigint)`, `SECURITY DEFINER`, owned by the admin
+  login (CREATEROLE). It creates the role and schema when a creator first needs them and grants the role to `app_user`.
+  Only `app_user` may run it. The creator migrations then run as that creator role, so no admin login is used at runtime.
 
 ## Central schema (`public`)
 - users, creators (one per workspace), creator_members (user, creator, role)
@@ -81,5 +82,4 @@ Engine: PostgreSQL, one new database. Every creator has a private schema. Decisi
 - Deleted data survives in older backups until they rotate out. State the retention in the privacy policy.
 
 ## Open items
-- Which tenancy approach switches schemas (package or our own class).
 - Exact column lists. They are written step by step in `docs/steps/`.

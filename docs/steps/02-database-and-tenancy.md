@@ -14,5 +14,12 @@
 - A request without a switch gets "permission denied".
 - Queue jobs carry the creator id and switch before they run.
 
+## Built
+- `app/Tenancy` (Tenancy, Provisioner, CreatorMigrator), `app/Jobs/CreatorJob`, `creators:migrate`, central models, migrations
+  in `database/migrations/central` and `creator`, `tests/Feature/TenancyTest.php`.
+- Session, cache and queue tables are `public.*` so they work while a creator schema is the search path. Leave the
+  schema before the session is saved (step 3 middleware).
+- Run: `migrate --database=pgsql_admin --force`, then `DB_CONNECTION=pgsql ... php artisan test --filter=TenancyTest`.
+
 ## Notes
 - See `docs/DATABASE.md` for the role rules. Check `CREATEROLE` behaviour on the installed PostgreSQL version.
