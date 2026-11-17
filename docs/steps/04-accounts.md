@@ -12,3 +12,10 @@
 ## Done when
 - Instagram connects, a token refresh job runs, and errors show on the page.
 - Changing the source of truth warns the creator and moves the badge.
+
+## Built
+- Creator tables: `connected_accounts`, `account_tokens` (encrypted), `account_targets`, `sync_runs`.
+- `app/Platforms` (BaseConnector, Instagram connector and Socialite provider), `app/Accounts/AccountHealth`, `app/Jobs/RefreshTokenJob`, `SyncAccountJob`, `accounts:refresh-tokens`.
+- Jobs are dispatched `afterResponse()` because the queue table is in `public` and a creator role cannot write to it.
+- Tests: `AccountHealthTest`, `InstagramConnectorTest` (fake HTTP), `AccountsTest` (PostgreSQL only).
+- Not done here: the real OAuth round trip needs a Meta app and cannot be tested from this workspace. Run `creators:migrate` once after deploy so existing creators get the new tables.

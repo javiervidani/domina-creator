@@ -9,7 +9,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | 1 | Project setup and deploy to Plesk | Done |
 | 2 | Database, roles, creator schemas | Code written, not yet run on Plesk |
 | 3 | Sign in and registration | Code written, not yet run on Plesk |
-| 4 | Accounts and connections | Not started |
+| 4 | Accounts and connections | Code written, not yet run on Plesk |
 | 5 | Import and the one ID | Not started |
 | 6 | Library page | Not started |
 | 7 | Content editor | Not started |
@@ -30,6 +30,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 
 - Step 2 code: own `Tenancy` class, `public.provision_creator(id)` SQL function (SECURITY DEFINER) creates the role and schema on demand, `creators:migrate` command, `CreatorJob` base job, tenancy tests (PostgreSQL only). Central migrations moved to `database/migrations/central`; session, cache and queue tables are qualified as `public.*`.
 - Step 3 code: register (creates user, creator, member, provisions the schema), sign in/out with throttling, password reset, `tenant` middleware (enters the schema after `auth`, leaves before the session is saved), empty Library page. Bootstrap 5.3.3 vendored in `public/vendor/bootstrap`; own styles in `public/css/app.css`. Password reset needs `MAIL_*` set in the server `.env`.
+- Step 4 code: Accounts page (health badge, import on/off, frequency, Sync now, source of truth with confirm, targets with review-first default, activity list), Instagram connect through our own Socialite provider for Instagram Login (`app/Platforms/Instagram`), encrypted tokens, `RefreshTokenJob` and `accounts:refresh-tokens` (weekly in the scheduler), `SyncAccountJob` (reads one page and records the run; storing content is step 5). `laravel/socialite` ^5.33 added to `composer.json` (supports Laravel 13); the community Instagram provider is not used because it targets the retired Basic Display API.
 
 ## Open questions
 - PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.
@@ -39,7 +40,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - Repo name was confirmed as `domina-creator`. Domain name is not decided.
 
 ## Next
-Step 2: owner runs `migrate --database=pgsql_admin --force`, then the TenancyTest on PostgreSQL, and pastes results. See `docs/steps/02-database-and-tenancy.md`.
+Owner checklist for steps 2 to 4: (1) on Plesk run Package Dependencies, Update for `laravel/socialite` (`composer.lock` was not regenerated here); (2) `migrate --database=pgsql_admin --force`; (3) set `INSTAGRAM_CLIENT_ID`, `INSTAGRAM_CLIENT_SECRET`, `INSTAGRAM_REDIRECT_URI` and `MAIL_*` in `.env`; add the redirect URI in the Meta app; (4) cron `schedule:run` every minute and the queue; (5) run `php artisan test` and the PostgreSQL tests, paste failures. Step 2 detail: owner runs `migrate --database=pgsql_admin --force`, then the TenancyTest on PostgreSQL, and pastes results. See `docs/steps/02-database-and-tenancy.md`.
 Open for step 1 housekeeping: rotate the ops token, record the deployed commit in `storage/app/deploy-commit`.
 
 ## Blockers

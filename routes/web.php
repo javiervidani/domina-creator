@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\InstagramConnectController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\TargetsController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/library');
@@ -24,4 +27,16 @@ Route::post('logout', [LoginController::class, 'destroy'])->middleware('auth')->
 // `tenant` must come after `auth`: it needs the signed-in user to find the schema.
 Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('library', LibraryController::class)->name('library');
+
+    Route::get('accounts', [AccountsController::class, 'index'])->name('accounts');
+    Route::get('accounts/instagram/connect', [InstagramConnectController::class, 'redirect'])->name('accounts.instagram');
+    Route::get('accounts/instagram/callback', [InstagramConnectController::class, 'callback']);
+    Route::patch('accounts/{account}', [AccountsController::class, 'update'])->name('accounts.update');
+    Route::post('accounts/{account}/source', [AccountsController::class, 'makeSource'])->name('accounts.source');
+    Route::post('accounts/{account}/sync', [AccountsController::class, 'syncNow'])->name('accounts.sync');
+    Route::delete('accounts/{account}', [AccountsController::class, 'destroy'])->name('accounts.destroy');
+
+    Route::post('targets', [TargetsController::class, 'store'])->name('targets.store');
+    Route::patch('targets/{target}', [TargetsController::class, 'update'])->name('targets.update');
+    Route::delete('targets/{target}', [TargetsController::class, 'destroy'])->name('targets.destroy');
 });

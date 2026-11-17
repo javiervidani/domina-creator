@@ -21,6 +21,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias(['tenant' => App\Tenancy\EnterTenancy::class]);
+        // Route-model binding queries creator tables, so the schema must be entered before it runs (and after auth).
+        $middleware->prependToPriorityList(
+            before: Illuminate\Routing\Middleware\SubstituteBindings::class,
+            prepend: App\Tenancy\EnterTenancy::class,
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
