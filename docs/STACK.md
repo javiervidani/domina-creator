@@ -41,7 +41,7 @@ Status: **Decided** (agreed in chat), **Proposed** (recommended, not confirmed),
 ## Quality and operations
 | Library | Use | Status |
 |---|---|---|
-| Pest | Tests | Proposed |
+| PHPUnit | Tests (skeleton default, instead of Pest) | Chosen |
 | Larastan and Laravel Pint | Static checks and code style | Proposed |
 | Laravel Pulse | Queue and slow-job monitoring (works without Redis) | Proposed |
 | Laravel Horizon | Needs Redis, so not used | Decided |

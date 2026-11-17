@@ -6,7 +6,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | # | Step | State |
 |---|---|---|
 | 0 | Planning, mockups, decisions | Done |
-| 1 | Project setup and deploy to Plesk | Not started |
+| 1 | Project setup and deploy to Plesk | In progress |
 | 2 | Database, roles, creator schemas | Not started |
 | 3 | Sign in and registration | Not started |
 | 4 | Accounts and connections | Not started |
@@ -26,6 +26,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
   manual re-publish, 60-day recovery.
 - Repo `domina-creator` created and documented.
 - Deploy flow tested: push to `main` reaches the Plesk domain through the webhook.
+- Laravel 13 skeleton pushed; read-only ops API (`/ops/health`, `/ops/logs`) added. Waiting on owner: Install packages, `.env`, `key:generate`, PostgreSQL credentials.
 
 ## Open questions
 - PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.
