@@ -40,6 +40,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - Repo name was confirmed as `domina-creator`. Domain name is not decided.
 
 ## Next
+Deploy: paste `bash deploy/post-deploy.sh >> storage/logs/deploy.log 2>&1` into Plesk Git, Deployment settings, Post deployment actions. It runs Composer install, both migrations, and the Laravel caches on every push to `main`. This replaces the manual Package Dependencies step (the lock file for Socialite still has to be updated once, see below).
 Owner checklist for steps 2 to 4: (1) on Plesk run Package Dependencies, Update for `laravel/socialite` (`composer.lock` was not regenerated here); (2) `migrate --database=pgsql_admin --force`; (3) set `INSTAGRAM_CLIENT_ID`, `INSTAGRAM_CLIENT_SECRET`, `INSTAGRAM_REDIRECT_URI` and `MAIL_*` in `.env`; add the redirect URI in the Meta app; (4) cron `schedule:run` every minute and the queue; (5) run `php artisan test` and the PostgreSQL tests, paste failures. Step 2 detail: owner runs `migrate --database=pgsql_admin --force`, then the TenancyTest on PostgreSQL, and pastes results. See `docs/steps/02-database-and-tenancy.md`.
 Open for step 1 housekeeping: rotate the ops token, record the deployed commit in `storage/app/deploy-commit`.
 
