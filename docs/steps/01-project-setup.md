@@ -29,3 +29,7 @@ Claude cannot read Plesk logs, so two token-protected GET endpoints give a short
 Create the database in Plesk, then run `database/setup/01-app-user.sql` with `psql` (the password is passed with
 `-v app_pw=...`, never committed). Set `DB_CONNECTION=pgsql`, `DB_HOST`, `DB_DATABASE`, `DB_USERNAME=app_user`,
 `DB_PASSWORD` in the server `.env`, then run `php artisan migrate` with the admin connection (see step 2).
+
+Alternative to the SQL script: set `DB_ADMIN_USERNAME` and `DB_ADMIN_PASSWORD` (the Plesk DB user), `DB_USERNAME=app_user`
+and `DB_PASSWORD`, then run `php artisan migrate --database=pgsql_admin`. The first migration creates `app_user`
+(needs the right to create roles) and the central tables follow. The app itself keeps using `app_user`.
