@@ -25,10 +25,11 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - Decisions: Laravel on Plesk, PostgreSQL, schema per creator, no Redis, database queue, review-first publishing,
   manual re-publish, 60-day recovery.
 - Repo `domina-creator` created and documented.
+- Deploy flow tested: push to `main` reaches the Plesk domain through the webhook.
 
 ## Open questions
 - PHP version on the Plesk domain (decides the Laravel version).
-- Plesk Git webhook connected? (needs the owner)
+- Plesk webhook works. The deploy folder is the web root today; Laravel needs the document root set to `public`.
 - Sign-in library: Fortify with our own pages, or the current official starter kit.
 - Tenancy: a package or our own small class.
 - Repo name was confirmed as `domina-creator`. Domain name is not decided.
