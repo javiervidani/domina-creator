@@ -28,7 +28,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - Deploy flow tested: push to `main` reaches the Plesk domain through the webhook.
 
 ## Open questions
-- PHP version on the Plesk domain (decides the Laravel version).
+- PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.
 - Plesk webhook works. The deploy folder is the web root today; Laravel needs the document root set to `public`.
 - Sign-in library: Fortify with our own pages, or the current official starter kit.
 - Tenancy: a package or our own small class.
@@ -36,3 +36,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 
 ## Next
 Step 1: create the Laravel project, wire the deploy, confirm it opens on Plesk. See `docs/steps/01-project-setup.md`.
+
+## Blockers
+- Claude's workspace cannot reach `repo.packagist.org` (egress policy), so Composer cannot install Laravel there.
+  The owner must allow `repo.packagist.org` and `packagist.org` in the Claude settings (Capabilities, allowed domains).
