@@ -12,6 +12,13 @@ class InstagramConnectController extends Controller
 {
     public function redirect()
     {
+        // An empty id sends the creator to a dead Instagram page, so say what is missing here instead.
+        foreach (['client_id', 'client_secret', 'redirect'] as $key) {
+            if (! config('services.instagram.'.$key)) {
+                return redirect()->route('accounts')->with('error', 'Instagram is not set up on the server yet (missing '.$key.').');
+            }
+        }
+
         return Socialite::buildProvider(InstagramProvider::class, config('services.instagram'))->redirect();
     }
 
