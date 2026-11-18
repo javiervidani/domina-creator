@@ -11,5 +11,4 @@
 - [ ] **Claude:** restyle the pages to the mockup top bar and tokens in `docs/UI.md` (done with the shared layout in step 6).
 - [ ] **Claude:** a small profile page: change name, email, password. Not in the step list, so ask the owner first.
 - [ ] **Later:** email verification, two-factor sign-in, and inviting team members (only the `owner` role exists).
-- [ ] **Owner:** privacy policy and terms pages. Meta needs a privacy URL for the Instagram app, and `DATABASE.md` says the
-  backup retention must be stated there.
+- [x] Privacy page `/privacy` (draft). **Owner:** review it, add a contact email and the backup retention (`DATABASE.md`). A terms page is still missing.

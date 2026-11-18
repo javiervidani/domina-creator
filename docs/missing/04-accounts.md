@@ -12,10 +12,8 @@
   3. Development mode: only Instagram testers can connect. Other creators need the app Live, with Meta's approval of
      `instagram_business_basic`.
   4. The creator's Instagram must be a Professional account.
-- [ ] **Claude (needed before Live):** Meta requires a **deauthorize callback** and a **data deletion request URL**. Add the
-  two endpoints (they remove the account and its token), and a privacy URL (see step 3 file).
-- [ ] **Claude:** test the whole flow with a fake Instagram (fake HTTP for the token, exchange, `me` and media calls), so
-  it can be checked without waiting for Meta.
+- [x] Deauthorize callback, data deletion callback and privacy page are built (`/instagram/deauthorize`, `/instagram/data-deletion`, `/privacy`). **Owner:** enter these three URLs in the Meta app, and review the draft privacy text and add a contact email.
+- [x] Sign-in flow tested against a fake Instagram (`InstagramFlowTest`). Not run yet, see the step 2 file.
 - [ ] **Claude:** token expiry notice on the page is only a badge. Add a banner when any account is "expiring" or "reconnect".
 - [ ] **Claude:** the callback error handling only shows one generic message. Show Instagram's reason when it gives one.
 - [ ] **Owner:** cron for `schedule:run` (weekly token refresh) and a running queue (Sync now and refresh are queued jobs).

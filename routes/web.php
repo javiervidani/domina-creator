@@ -4,12 +4,19 @@ use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\InstagramCallbacksController;
 use App\Http\Controllers\InstagramConnectController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\TargetsController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/library');
+Route::view('privacy', 'privacy')->name('privacy');
+
+// Called by Meta, not by a person: no login, the signed request is checked in the controller.
+Route::post('instagram/deauthorize', [InstagramCallbacksController::class, 'deauthorize']);
+Route::post('instagram/data-deletion', [InstagramCallbacksController::class, 'deletion']);
+Route::get('instagram/data-deletion/{code}', [InstagramCallbacksController::class, 'status'])->name('instagram.deletion.status');
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisterController::class, 'show'])->name('register');
