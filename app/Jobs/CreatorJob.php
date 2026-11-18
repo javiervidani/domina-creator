@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Tenant;
 use App\Tenancy\Tenancy;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,6 +32,11 @@ abstract class CreatorJob implements ShouldQueue
 
     public function handle(Tenancy $tenancy): void
     {
+        // A creator whose history is being deleted has no running jobs: queued ones simply end here.
+        if (! Tenant::where('creator_id', $this->creatorId)->where('status', 'active')->exists()) {
+            return;
+        }
+
         $tenancy->run($this->creatorId, fn () => $this->work());
 
         foreach ($this->later as $job) {

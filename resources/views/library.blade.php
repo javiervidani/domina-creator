@@ -3,7 +3,7 @@
 @section('content')
 @php($platforms = ['instagram' => 'IG', 'youtube' => 'YT', 'telegram' => 'TG'])
 <div class="d-flex justify-content-between align-items-end mb-3">
-    <div><h1 class="h3 mb-0">Library</h1>
+    <div><h1 class="h3 mb-0">Library <a href="{{ route('recycle') }}" class="btn btn-sm btn-link text-muted">Recycle bin</a></h1>
         <div class="text-muted small">Everything imported from your accounts. One ID per piece of content.</div></div>
 </div>
 
@@ -50,6 +50,7 @@
                     <input name="new_name" class="form-control" placeholder="or a new collection" dir="auto">
                     <button class="btn btn-outline-primary" formaction="{{ route('library.collection') }}">Add</button>
                 </div>
+                <button class="btn btn-sm btn-outline-danger" formaction="{{ route('library.delete') }}" onclick="return confirm('Move the selected posts to the Recycle bin for 60 days?')">Move to Recycle bin</button>
             </div>
         </details>
     </div>

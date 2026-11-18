@@ -51,9 +51,9 @@ class CollectionsController extends Controller
 
     public function destroy(Collection $collection)
     {
-        $collection->delete(); // items and tokens go with it; the contents stay in the Library
+        $collection->delete(); // to the Recycle bin; the contents stay in the Library
 
-        return redirect()->route('collections')->with('status', 'Collection deleted. Its embed code and feeds stop working.');
+        return redirect()->route('collections')->with('status', 'Collection moved to the Recycle bin for 60 days. Its embed code and feeds stop working until you restore it.');
     }
 
     // Shared with "Add to collection" in the Library, which can start a new collection.
@@ -61,7 +61,7 @@ class CollectionsController extends Controller
     {
         $base = Str::slug($name) ?: 'collection';
         $slug = $base;
-        for ($n = 2; Collection::where('slug', $slug)->exists(); $n++) {
+        for ($n = 2; Collection::withTrashed()->where('slug', $slug)->exists(); $n++) { // a trashed slug stays reserved
             $slug = $base.'-'.$n;
         }
 

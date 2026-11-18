@@ -39,6 +39,9 @@
             <div class="small text-muted mb-2">Keep the link to yourself unless the collection is public: anyone who has it can read the collection.</div>
             <form method="post" action="{{ route('collections.token', $collection) }}" onsubmit="return confirm('Create a new link? The old embed code, RSS and JSON stop working until you update your website.')">@csrf
                 <button class="btn btn-sm btn-outline-danger rounded-pill">Create a new link</button></form>
+        @else
+            <div class="alert alert-secondary mb-2">There is no active link. Create one to get the embed code and feeds.</div>
+            <form method="post" action="{{ route('collections.token', $collection) }}">@csrf<button class="btn btn-sm btn-primary rounded-pill">Create a link</button></form>
         @endif
     </div></div></div>
 </div>

@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Collection extends Model
 {
+    use SoftDeletes;
+
     public const VISIBILITY = ['private' => 'Private', 'link' => 'Anyone with the link', 'public' => 'Public'];
 
     protected $guarded = [];

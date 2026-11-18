@@ -43,8 +43,8 @@
             <div class="small text-muted mb-3">Private: nobody but you. Anyone with the link: the embed and feeds work for people who have the link. Public: also available at a readable address.</div>
             <button class="btn btn-primary rounded-pill">Save</button>
         </form>
-        <form method="post" action="{{ route('collections.destroy', $collection) }}" class="mt-3" onsubmit="return confirm('Delete this collection? The embed code and feeds stop working. Your content stays.')">@csrf @method('DELETE')
-            <button class="btn btn-sm btn-outline-danger rounded-pill">Delete collection</button></form>
+        <form method="post" action="{{ route('collections.destroy', $collection) }}" class="mt-3" onsubmit="return confirm('Move this collection to the Recycle bin? The embed code and feeds stop working until you restore it. Your content stays.')">@csrf @method('DELETE')
+            <button class="btn btn-sm btn-outline-danger rounded-pill">Move to Recycle bin</button></form>
     </div></div></div>
 
     <div class="tab-pane fade" id="c-embed">@include('collections._embed')</div>

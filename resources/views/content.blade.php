@@ -13,6 +13,8 @@
     </div>
     <span class="small text-muted" id="saved">Saved</span>
     <button form="masterForm" class="btn btn-primary rounded-pill">Save</button>
+    <form method="post" action="{{ route('content.destroy', $content) }}" onsubmit="return confirm('Move this post to the Recycle bin for 60 days?')">@csrf @method('DELETE')
+        <button class="btn btn-outline-danger btn-sm rounded-pill">Delete</button></form>
 </div>
 
 @if ($content->source_changed && $diff)

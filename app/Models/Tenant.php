@@ -9,4 +9,9 @@ class Tenant extends Model
     protected $table = 'public.tenants';
 
     protected $guarded = [];
+
+    protected function casts(): array
+    {
+        return ['purge_at' => 'datetime'];
+    }
 }

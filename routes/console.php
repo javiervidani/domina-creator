@@ -11,3 +11,7 @@ Artisan::command('inspire', function () {
 Illuminate\Support\Facades\Schedule::command('accounts:refresh-tokens')->weekly();
 
 Illuminate\Support\Facades\Schedule::command('accounts:sync-due')->everyFiveMinutes()->withoutOverlapping();
+
+// Daily, at night: items that have sat in the Recycle bin for 60 days, and creators whose recovery time is over.
+Illuminate\Support\Facades\Schedule::command('items:purge')->dailyAt('03:10');
+Illuminate\Support\Facades\Schedule::command('creators:purge')->dailyAt('03:25');

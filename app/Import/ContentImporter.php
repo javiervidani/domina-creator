@@ -48,6 +48,9 @@ class ContentImporter
         }
 
         $content = $copy->content;
+        if (! $content) { // in the Recycle bin: the source text is kept up to date, nothing else is touched
+            return 'copy_updated';
+        }
         if ($content->master_text === $old) {
             // Never edited here, so following the original is safe.
             $content->update(['master_text' => $text, 'source_changed' => false]);

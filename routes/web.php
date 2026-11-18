@@ -10,6 +10,7 @@ use App\Http\Controllers\CollectionItemsController;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeletionController;
 use App\Http\Controllers\ContentPartsController;
 use App\Http\Controllers\ContentSourceController;
 use App\Http\Controllers\ContentTargetController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\InstagramCallbacksController;
 use App\Http\Controllers\InstagramConnectController;
 use App\Http\Controllers\LibraryBulkController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RecycleBinController;
 use App\Http\Controllers\PublishingController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TelegramConnectController;
@@ -45,6 +47,12 @@ Route::middleware('guest')->group(function () {
 
 Route::post('logout', [LoginController::class, 'destroy'])->middleware('auth')->name('logout');
 
+// Signed in but outside the workspace: a locked workspace cannot be entered, so these must not use the tenant middleware.
+Route::middleware('auth')->group(function () {
+    Route::get('deletion', [DeletionController::class, 'pending'])->name('deletion.pending');
+    Route::post('deletion/restore', [DeletionController::class, 'restore'])->name('deletion.restore');
+});
+
 // `tenant` must come after `auth`: it needs the signed-in user to find the schema.
 Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('/', [DashboardController::class, 'home'])->name('home');
@@ -63,6 +71,12 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::post('collections/{collection}/embed/token', [EmbedSettingsController::class, 'regenerate'])->name('collections.token');
     Route::post('collections/{collection}/items/{item}/move', [CollectionItemsController::class, 'move'])->name('collections.move');
     Route::delete('collections/{collection}/items/{item}', [CollectionItemsController::class, 'remove'])->name('collections.remove');
+    Route::post('library/delete', [RecycleBinController::class, 'bulkDelete'])->name('library.delete');
+    Route::delete('content/{content}', [RecycleBinController::class, 'destroyContent'])->name('content.destroy');
+    Route::get('recycle-bin', [RecycleBinController::class, 'index'])->name('recycle');
+    Route::post('recycle-bin/{type}/{id}/restore', [RecycleBinController::class, 'restore'])->name('recycle.restore');
+    Route::delete('recycle-bin/{type}/{id}', [RecycleBinController::class, 'forget'])->name('recycle.forget');
+    Route::post('settings/delete-history', [DeletionController::class, 'request'])->name('deletion.request');
     Route::post('library/tag', [LibraryBulkController::class, 'tag'])->name('library.tag');
     Route::get('content/{content}', [ContentController::class, 'show'])->name('content.show');
     Route::patch('content/{content}', [ContentController::class, 'update'])->name('content.update');
