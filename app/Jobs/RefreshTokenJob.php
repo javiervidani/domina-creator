@@ -6,6 +6,7 @@ use App\Models\ConnectedAccount;
 use App\Models\SyncRun;
 use App\Platforms\Instagram\InstagramConnector;
 use App\Platforms\PlatformException;
+use Illuminate\Support\Facades\Log;
 
 class RefreshTokenJob extends CreatorJob
 {
@@ -31,6 +32,8 @@ class RefreshTokenJob extends CreatorJob
             $account->update(['status' => 'ok', 'last_error' => null]);
             $run->update(['status' => 'ok', 'finished_at' => now()]);
         } catch (PlatformException $e) {
+            // Also in the log so /ops/logs shows it. Account id and creator only; the message never holds the token.
+            Log::warning('Instagram token refresh failed'." (creator {$this->creatorId}, account {$account->id}): ".$e->getMessage());
             // The page shows this error; a dead token needs the creator to reconnect.
             $account->update(['last_error' => $e->getMessage(), 'status' => $e->needsReconnect ? 'reconnect' : $account->status]);
             $run->update(['status' => 'failed', 'error' => $e->getMessage(), 'finished_at' => now()]);
