@@ -40,6 +40,7 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::post('library/combine', [LibraryBulkController::class, 'combine'])->name('library.combine');
     Route::post('library/tag', [LibraryBulkController::class, 'tag'])->name('library.tag');
     Route::get('content/{content}', [ContentController::class, 'show'])->name('content.show');
+    Route::patch('content/{content}', [ContentController::class, 'update'])->name('content.update');
 
     Route::get('accounts', [AccountsController::class, 'index'])->name('accounts');
     Route::get('accounts/instagram/connect', [InstagramConnectController::class, 'redirect'])->name('accounts.instagram');

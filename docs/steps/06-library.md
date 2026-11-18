@@ -17,4 +17,5 @@
 - Bulk: **Combine** creates a new draft content whose parts are the selected items in list order, then opens `/content/{id}`. **Tag** adds one tag to the selected items.
 - Top bar from the mockup: sync chip with a dropdown per account, and a drafts badge. Restyled `layouts/app` and `public/css/app.css`.
 - Tests: `LibraryTest` (PostgreSQL only).
-- Not built on purpose: **Add to collection** (button is disabled, collections are step 11), **Failed** saved view (needs publishing results, step 8), the editor (step 7).
+- The content page is a minimal editor (title and text, Save) so Combine opens something editable. Originals are never changed.
+- Not built on purpose: **Add to collection** (button is disabled, collections are step 11), **Failed** saved view (needs publishing results, step 8), the full editor (step 7).

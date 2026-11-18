@@ -10,7 +10,8 @@
 - Owner confirmed the Library page works on the live site. Combine and Tag live were not confirmed separately.
 
 ## Missing
-- [ ] **Step 6 done-when, open:** "Combine opens the editor with the selected items as parts". Met when step 7 turns `/content/{id}` into the editor.
+- [ ] **Owner:** try the editable content page live: open a row, change the text, Save; and Combine two rows (parts show on the page).
+- [ ] **Later (step 7):** the full editor (per-target tabs, history, linked-copy actions, AI panel). The current page only edits title and text.
 - [ ] **Owner:** try Combine and Tag on the live Library and say so.
 - [ ] **Claude:** tests have never run (see the step 2 file).
 - [ ] **Later (step 7):** the Content editor. Combine lands on a read-only page until then.

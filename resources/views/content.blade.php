@@ -2,15 +2,21 @@
 @section('title', $content->title)
 @section('content')
 <a href="{{ route('library') }}" class="btn btn-sm btn-outline-secondary rounded-pill mb-3">← Library</a>
-<div class="card mb-3"><div class="card-body">
-    <h1 class="h4" dir="auto">{{ $content->title }}</h1>
-    <div class="mb-3"><span class="cid">{{ $content->platformId() }}</span>
-        @if ($content->source_changed)<span class="pill warn">Source changed</span>@endif
-        @if ($content->status === 'draft')<span class="pill blue">Draft</span>@endif
-        @foreach ($content->tags as $tag)<span class="pill blue">{{ $tag->name }}</span>@endforeach</div>
-    <div style="white-space:pre-wrap" dir="auto">{{ $content->master_text }}</div>
-    <div class="small text-muted mt-3">Read-only for now. Editing arrives with the Content editor.</div>
-</div></div>
+<form method="post" action="{{ route('content.update', $content) }}" class="card mb-3">
+    @csrf @method('PATCH')
+    <div class="card-body">
+        <div class="mb-3"><span class="cid">{{ $content->platformId() }}</span>
+            @if ($content->source_changed)<span class="pill warn">Source changed</span>@endif
+            @if ($content->status === 'draft')<span class="pill blue">Draft</span>@endif
+            @foreach ($content->tags as $tag)<span class="pill blue">{{ $tag->name }}</span>@endforeach</div>
+        <label class="form-label small">Title</label>
+        <input name="title" class="form-control mb-3" dir="auto" value="{{ old('title', $content->title) }}" required>
+        <label class="form-label small">Text</label>
+        <textarea name="master_text" class="form-control mb-3" rows="12" dir="auto" required>{{ old('master_text', $content->master_text) }}</textarea>
+        <button class="btn btn-primary rounded-pill">Save</button>
+        <span class="small text-muted ms-2">Originals are never changed. Per-target versions, history and AI come with the full editor (step 7).</span>
+    </div>
+</form>
 
 @if ($content->parts->isNotEmpty())
 <h2 class="h5">Parts</h2>
