@@ -29,17 +29,28 @@
 <form method="post" id="bulk">
     @csrf
     <div class="selbar" id="selbar" hidden>
-        <span id="selcount">0 selected</span>
-        <button class="btn btn-primary btn-sm rounded-pill" formaction="{{ route('library.combine') }}">Combine</button>
-        <input name="tag" class="form-control form-control-sm w-auto" placeholder="Tag name" dir="auto">
-        <button class="btn btn-sm btn-outline-primary rounded-pill" formaction="{{ route('library.tag') }}">Tag</button>
-        <select name="collection_id" class="form-select form-select-sm w-auto" dir="auto">
-            <option value="">Add to collection…</option>
-            @foreach ($collections as $col)<option value="{{ $col->id }}">{{ $col->name }}</option>@endforeach
-        </select>
-        <input name="new_name" class="form-control form-control-sm w-auto" placeholder="or a new collection" dir="auto">
-        <button class="btn btn-sm btn-outline-primary rounded-pill" formaction="{{ route('library.collection') }}">Add</button>
-        <button type="button" class="btn btn-sm ms-auto" id="clearsel">Clear</button>
+        <div class="selbar-main">
+            <span id="selcount" class="fw-semibold">0 selected</span>
+            <button class="btn btn-primary btn-sm rounded-pill" formaction="{{ route('library.combine') }}">Combine</button>
+            <button type="button" class="btn btn-sm ms-auto" id="clearsel">Clear</button>
+        </div>
+        <details class="selbar-more">
+            <summary class="small">Tag or add to a collection</summary>
+            <div class="selbar-grid">
+                <div class="input-group input-group-sm">
+                    <input name="tag" class="form-control" placeholder="Tag name" dir="auto">
+                    <button class="btn btn-outline-primary" formaction="{{ route('library.tag') }}">Tag</button>
+                </div>
+                <select name="collection_id" class="form-select form-select-sm" dir="auto">
+                    <option value="">Choose a collection…</option>
+                    @foreach ($collections as $col)<option value="{{ $col->id }}">{{ $col->name }}</option>@endforeach
+                </select>
+                <div class="input-group input-group-sm">
+                    <input name="new_name" class="form-control" placeholder="or a new collection" dir="auto">
+                    <button class="btn btn-outline-primary" formaction="{{ route('library.collection') }}">Add</button>
+                </div>
+            </div>
+        </details>
     </div>
 
     <div class="card">
