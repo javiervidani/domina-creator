@@ -10,3 +10,12 @@
 
 ## Done when
 - A key can be saved, tested, masked, and removed.
+
+## Built
+- `SettingsController`, `ProfileController`, `AiKeyController`, `app/Settings` (AiProviders, AiKeyTester), models `AiKey` and `Setting`, views in `resources/views/settings`.
+- The profile pages step out of the creator schema with `Tenancy::outside()` because users live in `public`.
+- A key is write-only: replace, test, toggle, make default, remove. It is never sent to the browser or into an error message (the tester redacts it from the provider's reply).
+- Test key calls the provider's model-list endpoint (free, no text generated). The default model names are suggestions the creator can change.
+- Notification choices are stored (`settings` table) but nothing is mailed yet.
+- Not built: team members and invites (only the owner exists), plan and billing, using the keys for suggestions (phase 2).
+- Tests: `AiKeyMaskTest` (any DB), `AiKeyTesterTest` (fake HTTP), `SettingsTest` (PostgreSQL only).

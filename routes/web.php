@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\AiKeyController;
 use App\Http\Controllers\AccountTokenController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
@@ -13,7 +14,9 @@ use App\Http\Controllers\ContentTargetController;
 use App\Http\Controllers\InstagramCallbacksController;
 use App\Http\Controllers\InstagramConnectController;
 use App\Http\Controllers\LibraryBulkController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublishingController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TelegramConnectController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\TargetsController;
@@ -58,6 +61,15 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::post('content/{content}/parts/{part}/move', [ContentPartsController::class, 'move'])->name('content.parts.move');
     Route::post('content/{content}/draft/{account}', [PublishingController::class, 'draft'])->name('content.draft');
     Route::post('content/{content}/copies/{copy}/publish', [PublishingController::class, 'publish'])->name('content.publish');
+    Route::get('settings', [SettingsController::class, 'index'])->name('settings');
+    Route::patch('settings/notifications', [SettingsController::class, 'notifications'])->name('settings.notifications');
+    Route::patch('settings/profile', [ProfileController::class, 'update'])->name('settings.profile');
+    Route::put('settings/password', [ProfileController::class, 'password'])->name('settings.password');
+    Route::post('settings/ai-keys', [AiKeyController::class, 'store'])->name('ai.store');
+    Route::post('settings/ai-keys/{aiKey}/toggle', [AiKeyController::class, 'toggle'])->name('ai.toggle');
+    Route::post('settings/ai-keys/{aiKey}/default', [AiKeyController::class, 'makeDefault'])->name('ai.default');
+    Route::post('settings/ai-keys/{aiKey}/test', [AiKeyController::class, 'test'])->name('ai.test');
+    Route::delete('settings/ai-keys/{aiKey}', [AiKeyController::class, 'destroy'])->name('ai.destroy');
     Route::post('accounts/telegram', [TelegramConnectController::class, 'store'])->name('accounts.telegram');
     Route::delete('content/{content}/parts/{part}', [ContentPartsController::class, 'remove'])->name('content.parts.remove');
 

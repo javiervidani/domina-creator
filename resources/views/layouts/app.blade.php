@@ -7,6 +7,7 @@
     <a class="tabx {{ request()->routeIs('library', 'content.*') ? 'on' : '' }}" href="{{ route('library') }}">Library
         @if ($nav['drafts'] > 0)<span class="badgex" title="Drafts">{{ $nav['drafts'] }}</span>@endif</a>
     <a class="tabx {{ request()->routeIs('accounts') ? 'on' : '' }}" href="{{ route('accounts') }}">Accounts</a>
+    <a class="tabx {{ request()->routeIs('settings') ? 'on' : '' }}" href="{{ route('settings') }}">Settings</a>
 
     <div class="dropdown ms-auto">
         <button class="syncbtn" data-bs-toggle="dropdown" aria-expanded="false">

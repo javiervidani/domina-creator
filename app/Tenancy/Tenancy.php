@@ -47,6 +47,24 @@ class Tenancy
         }
     }
 
+    // For the few pages inside a creator's schema that must also touch a public table (the profile). The schema is
+    // left for the callback and entered again afterwards, even if the callback throws.
+    public function outside(Closure $callback): mixed
+    {
+        $creatorId = $this->current;
+        if ($creatorId === null) {
+            return $callback();
+        }
+
+        $this->leave();
+
+        try {
+            return $callback();
+        } finally {
+            $this->enter($creatorId);
+        }
+    }
+
     public static function schemaName(int $creatorId): string
     {
         return 'creator_'.$creatorId;
