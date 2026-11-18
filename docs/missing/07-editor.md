@@ -3,8 +3,11 @@
 ## Done
 - Editor, tabs with limits, autosave, sources list, source-changed banner with Compare, linked copies, History.
 
+## Proven live (2026-11-18, owner screenshots)
+- Editor page, tabs, same-as-master, count and limit, linked copies, Hebrew right to left.
+
 ## Missing
-- [ ] **Owner:** try it live: edit the text and reload; edit a YouTube text and untick "Same as master"; combine two posts and reorder/remove/add sources; open History; for Keep mine / Take the new version / Compare, make a post's original change (edit a caption on Instagram, edit the master text here, then Sync now).
+- [ ] **Owner:** still to try live: edit the text and reload (autosave kept it?); untick "Same as master" on YouTube and edit; combine two posts and reorder/remove/add sources; open History; for Keep mine / Take the new version / Compare, make a post's original change (edit a caption on Instagram, edit the master text here, then Sync now).
 - [ ] **Claude:** tests have never run (see the step 2 file).
 - [ ] **Claude:** restore an older version from History (not in the step list; ask first).
 - [ ] **Claude:** compare is our own word diff; replace with `jfcherng/php-diff` if the owner confirms it (STACK.md says Proposed).
