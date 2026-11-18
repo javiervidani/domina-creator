@@ -36,6 +36,13 @@ class InstagramConnector extends BaseConnector
         ];
     }
 
+    public function profile(): array
+    {
+        $body = $this->get(self::HOST.'/v23.0/me', ['fields' => 'user_id,username', 'access_token' => $this->accessToken]);
+
+        return ['id' => (string) ($body['user_id'] ?? $body['id'] ?? ''), 'username' => (string) ($body['username'] ?? '')];
+    }
+
     // The host root, not the versioned path. Instagram refuses tokens under 24 hours old or already expired.
     public function refreshToken(): array
     {

@@ -43,4 +43,11 @@ class InstagramConnectorTest extends TestCase
             $this->assertStringNotContainsString('secret-token', $e->getMessage());
         }
     }
+
+    public function test_profile_returns_the_id_and_username(): void
+    {
+        Http::fake(['graph.instagram.com/*' => Http::response(['user_id' => '42', 'username' => 'creator'])]);
+
+        $this->assertSame(['id' => '42', 'username' => 'creator'], (new InstagramConnector('t'))->profile());
+    }
 }

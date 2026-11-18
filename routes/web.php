@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\AccountTokenController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -38,6 +39,8 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('accounts', [AccountsController::class, 'index'])->name('accounts');
     Route::get('accounts/instagram/connect', [InstagramConnectController::class, 'redirect'])->name('accounts.instagram');
     Route::get('accounts/instagram/callback', [InstagramConnectController::class, 'callback']);
+    Route::post('accounts/token', [AccountTokenController::class, 'store'])->name('accounts.token');
+    Route::post('accounts/{account}/refresh', [AccountTokenController::class, 'refresh'])->name('accounts.refresh');
     Route::patch('accounts/{account}', [AccountsController::class, 'update'])->name('accounts.update');
     Route::post('accounts/{account}/source', [AccountsController::class, 'makeSource'])->name('accounts.source');
     Route::post('accounts/{account}/sync', [AccountsController::class, 'syncNow'])->name('accounts.sync');

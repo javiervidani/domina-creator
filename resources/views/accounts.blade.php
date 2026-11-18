@@ -6,6 +6,17 @@
     <a href="{{ route('accounts.instagram') }}" class="btn btn-primary rounded-pill">Connect Instagram</a>
 </div>
 
+<details class="card mb-3"><summary class="card-body py-2" style="cursor:pointer">Connect with an access token (advanced)</summary>
+    <div class="card-body pt-0">
+        <p class="small text-muted">For an account whose token you already hold, for example one made in the Meta app dashboard. It is checked with Instagram, then stored encrypted.</p>
+        <form method="post" action="{{ route('accounts.token') }}" class="row g-2" autocomplete="off">
+            @csrf
+            <div class="col-md-9"><input type="password" name="token" class="form-control" placeholder="Instagram access token" required autocomplete="off"></div>
+            <div class="col-auto"><button class="btn btn-primary rounded-pill">Connect</button></div>
+        </form>
+    </div>
+</details>
+
 @forelse ($accounts as $account)
     @php($h = $health[$account->id])
     <div class="card mb-3"><div class="card-body">
@@ -15,7 +26,8 @@
             @elseif ($h === 'expiring')<span class="badge text-bg-warning">Token expiring</span>
             @else<span class="badge text-bg-danger">Reconnect</span>@endif
             @if ($account->is_source_of_truth)<span class="badge text-bg-primary">Source of truth</span>@endif
-            @if ($account->token?->expires_at)<small class="text-muted">token valid until {{ $account->token->expires_at->format('Y-m-d') }}</small>@endif
+            @if ($account->token?->expires_at)<small class="text-muted">token valid until {{ $account->token->expires_at->format('Y-m-d') }}</small>
+            @elseif ($account->token)<small class="text-muted">token expiry not known yet</small>@endif
         </div>
         @if ($account->last_error)<div class="text-danger small mb-2">{{ $account->last_error }}</div>@endif
         @if ($h === 'reconnect')<a href="{{ route('accounts.instagram') }}" class="btn btn-sm btn-outline-danger rounded-pill mb-2">Reconnect</a>@endif
@@ -37,6 +49,8 @@
         </form>
 
         <div class="d-flex flex-wrap gap-2">
+            <form method="post" action="{{ route('accounts.refresh', $account) }}">@csrf
+                <button class="btn btn-sm btn-outline-secondary rounded-pill">Refresh token</button></form>
             <form method="post" action="{{ route('accounts.sync', $account) }}">@csrf
                 <button class="btn btn-sm btn-primary rounded-pill">Sync now</button></form>
             @unless ($account->is_source_of_truth)

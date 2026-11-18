@@ -4,6 +4,8 @@
 - Accounts page, encrypted tokens, own Socialite provider for Instagram Login, `RefreshTokenJob`,
   `accounts:refresh-tokens`, `SyncAccountJob` (reads one page, records the run), targets UI (review first by default).
 
+- [x] "Connect with an access token (advanced)" form and a Refresh token button, next to the normal sign-in (owner's own account, no Meta approval needed).
+
 ## Missing
 - [ ] **Owner, waiting on Meta:** the Instagram connection has never been tried. Needed:
   1. Meta app with the Instagram Login product. In `.env`: `INSTAGRAM_CLIENT_ID`, `INSTAGRAM_CLIENT_SECRET`,

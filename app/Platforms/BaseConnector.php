@@ -14,6 +14,9 @@ abstract class BaseConnector
     /** @return array{items: array, after: string, has_next: bool} */
     abstract public function mediaPage(string $after = ''): array;
 
+    /** @return array{id: string, username: string} */
+    abstract public function profile(): array;
+
     /** @return array{access_token: string, expires_in: int} */
     abstract public function refreshToken(): array;
 }
