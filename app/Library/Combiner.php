@@ -17,7 +17,7 @@ class Combiner
 
         return DB::transaction(function () use ($ordered) {
             $content = Content::create([
-                'title' => 'Combined: '.$ordered->first()->title,
+                'title' => $ordered->first()->title, // no English prefix: it would flip a Hebrew row to left-to-right; the Draft label marks it
                 'master_text' => $ordered->pluck('master_text')->implode("\n\n"),
                 'status' => 'draft',
             ]);

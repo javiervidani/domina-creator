@@ -23,6 +23,7 @@
     <button class="btn btn-outline-primary rounded-pill">Filter</button>
     <span class="vr"></span>
     <a class="btn btn-sm {{ ($f['view'] ?? '') === 'review' ? 'btn-primary' : 'btn-outline-secondary' }} rounded-pill" href="{{ route('library', ['view' => 'review']) }}">Needs review</a>
+    <a class="btn btn-sm {{ ($f['view'] ?? '') === 'drafts' ? 'btn-primary' : 'btn-outline-secondary' }} rounded-pill" href="{{ route('library', ['view' => 'drafts']) }}">Drafts @if ($draftCount > 0)<span class="badgex">{{ $draftCount }}</span>@endif</a>
     <a class="btn btn-sm btn-outline-secondary rounded-pill" href="{{ route('library') }}">Clear</a>
 </form>
 

@@ -21,8 +21,9 @@ class LibraryQuery
         if (! empty($f['account'])) {
             $q->whereHas('copies', fn ($c) => $c->where('connected_account_id', (int) $f['account']));
         }
-        if (in_array($f['status'] ?? '', self::STATUSES, true)) {
-            $q->where('status', $f['status']);
+        $status = ($f['view'] ?? '') === 'drafts' ? 'draft' : ($f['status'] ?? '');
+        if (in_array($status, self::STATUSES, true)) {
+            $q->where('status', $status);
         }
         // "Needs review" is the same list as "source changed" until publishing (step 8) adds drafts to approve.
         if (! empty($f['changed']) || ($f['view'] ?? '') === 'review') {

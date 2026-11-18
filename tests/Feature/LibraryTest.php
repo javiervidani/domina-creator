@@ -77,6 +77,8 @@ class LibraryTest extends TestCase
             $combined = app(Combiner::class)->combine([$two->id, $one->id]);
 
             $this->assertSame('draft', $combined->status);
+            $this->assertSame($two->title, $combined->title); // no "Combined:" prefix
+            $this->assertSame(1, LibraryQuery::build(['view' => 'drafts'])->count());
             $this->assertSame(['Ten minutes of light', 'Water first'], $combined->parts->pluck('text')->all());
             $this->assertSame("Ten minutes of light\n\nWater first", $combined->master_text);
             $this->assertSame('Water first', $one->fresh()->master_text); // the originals are untouched

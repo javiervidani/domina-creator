@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Library\LibraryQuery;
 use App\Models\Collection;
 use App\Models\ConnectedAccount;
+use App\Models\Content;
 use Illuminate\Http\Request;
 
 class LibraryController extends Controller
@@ -17,6 +18,7 @@ class LibraryController extends Controller
             'items' => LibraryQuery::build($filters)->paginate(25)->withQueryString(),
             'accounts' => ConnectedAccount::orderBy('id')->get(['id', 'platform', 'handle']),
             'collections' => Collection::orderBy('name')->get(['id', 'name']),
+            'draftCount' => Content::where('status', 'draft')->count(),
             'f' => $filters,
         ]);
     }
