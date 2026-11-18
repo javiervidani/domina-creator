@@ -28,6 +28,16 @@ class Content extends Model
         return $this->hasMany(ContentPart::class)->orderBy('position');
     }
 
+    public function targetTexts(): HasMany
+    {
+        return $this->hasMany(ContentTargetText::class);
+    }
+
+    public function versions(): HasMany
+    {
+        return $this->hasMany(ContentVersion::class)->latest('id');
+    }
+
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'content_tag');

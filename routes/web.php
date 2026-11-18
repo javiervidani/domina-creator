@@ -6,6 +6,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\ContentPartsController;
+use App\Http\Controllers\ContentSourceController;
+use App\Http\Controllers\ContentTargetController;
 use App\Http\Controllers\InstagramCallbacksController;
 use App\Http\Controllers\InstagramConnectController;
 use App\Http\Controllers\LibraryBulkController;
@@ -41,6 +44,13 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::post('library/tag', [LibraryBulkController::class, 'tag'])->name('library.tag');
     Route::get('content/{content}', [ContentController::class, 'show'])->name('content.show');
     Route::patch('content/{content}', [ContentController::class, 'update'])->name('content.update');
+    Route::patch('content/{content}/target/{target}', [ContentTargetController::class, 'update'])->name('content.target');
+    Route::post('content/{content}/keep', [ContentSourceController::class, 'keep'])->name('content.keep');
+    Route::post('content/{content}/take', [ContentSourceController::class, 'take'])->name('content.take');
+    Route::post('content/{content}/parts', [ContentPartsController::class, 'add'])->name('content.parts.add');
+    Route::post('content/{content}/parts/rebuild', [ContentPartsController::class, 'rebuild'])->name('content.parts.rebuild');
+    Route::post('content/{content}/parts/{part}/move', [ContentPartsController::class, 'move'])->name('content.parts.move');
+    Route::delete('content/{content}/parts/{part}', [ContentPartsController::class, 'remove'])->name('content.parts.remove');
 
     Route::get('accounts', [AccountsController::class, 'index'])->name('accounts');
     Route::get('accounts/instagram/connect', [InstagramConnectController::class, 'redirect'])->name('accounts.instagram');

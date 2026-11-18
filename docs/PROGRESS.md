@@ -12,7 +12,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | 4 | Accounts and connections | Running on Plesk with a pasted token; Instagram sign-in waits on Meta; tests not run yet |
 | 5 | Import and the one ID | Import and no-duplicates proven live (25 posts, 2nd run 0 new); scheduled pull and source_changed not yet seen live |
 | 6 | Library page | Library page and content page work live (owner, 2026-11-18). Combine opens a minimal editable page (title and text); the full editor is step 7. Editable page not yet tried live; PHPUnit suites not run |
-| 7 | Content editor | Not started |
+| 7 | Content editor | Code written, deployed for the live check |
 | 8 | Publishing and re-publish | Not started |
 | 9 | Dashboard and onboarding | Not started |
 | 10 | Settings and AI keys | Not started |
@@ -39,6 +39,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - 2026-11-18: ran the real app against a throwaway local PostgreSQL 16 (same roles as Plesk), one HTTP request at a time: register provisions a schema; import of 25 posts creates 25, a second run creates 0, an edited original keeps the creator's text and sets `source_changed`, the same text on another account links to the existing content; Library lists 25 per page with Hebrew right to left, search (English and Hebrew), source-changed, Needs review, status filters, Combine (2 items make a draft with 2 parts, 1 item is refused), Tag, drafts badge; a creator cannot read another creator's schema or `public.users`, and `app_user` without `SET ROLE` is denied. The PHPUnit suites themselves still have not run (dev dependencies cannot be installed here).
 - 2026-11-18: owner confirmed the Library page works live ("working great") with the 25 imported posts. Whether the owner tried Combine and Tag live was not stated.
 - 2026-11-18: owner confirmed `/content/3` opens live. Then, with the owner's "no preference" on the editor question, the content page became a minimal editor (title and text, Save) so Combine opens something editable. Not yet tried live.
+- Step 7 code: editor page at `/content/{id}` (Sources list with add/reorder/remove/rebuild, Master/YouTube/Telegram tabs with limits and "same as master", autosave, source-changed banner with Keep mine / Take the new version / Compare, Linked copies and History). New tables `content_target_texts`, `content_versions`. The compare view is our own small word diff (`app/Content/TextDiff`), not the proposed `jfcherng/php-diff`.
 
 ## Open questions
 - PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.
