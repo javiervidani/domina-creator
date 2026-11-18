@@ -6,8 +6,10 @@
 ## Proven locally (2026-11-18)
 - Real HTTP requests against a local PostgreSQL 16: list, pagination, Hebrew, every filter, Combine, Tag, drafts badge. See `PROGRESS.md`.
 
+## Proven live (2026-11-18)
+- Owner confirmed the Library works on the live site.
+
 ## Missing
-- [ ] **Owner:** deploy, check the list against the 25 imported posts, try the filters, select two rows and Combine.
 - [ ] **Claude:** tests have never run (see the step 2 file).
 - [ ] **Later (step 7):** the Content editor. Combine lands on a read-only page until then.
 - [ ] **Later (step 8):** the **Failed** saved view and a real **Needs review** (drafts waiting for approval). For now Needs review means source changed.
