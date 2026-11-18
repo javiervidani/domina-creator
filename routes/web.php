@@ -5,8 +5,10 @@ use App\Http\Controllers\AccountTokenController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ContentController;
 use App\Http\Controllers\InstagramCallbacksController;
 use App\Http\Controllers\InstagramConnectController;
+use App\Http\Controllers\LibraryBulkController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\TargetsController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +37,9 @@ Route::post('logout', [LoginController::class, 'destroy'])->middleware('auth')->
 // `tenant` must come after `auth`: it needs the signed-in user to find the schema.
 Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('library', LibraryController::class)->name('library');
+    Route::post('library/combine', [LibraryBulkController::class, 'combine'])->name('library.combine');
+    Route::post('library/tag', [LibraryBulkController::class, 'tag'])->name('library.tag');
+    Route::get('content/{content}', [ContentController::class, 'show'])->name('content.show');
 
     Route::get('accounts', [AccountsController::class, 'index'])->name('accounts');
     Route::get('accounts/instagram/connect', [InstagramConnectController::class, 'redirect'])->name('accounts.instagram');

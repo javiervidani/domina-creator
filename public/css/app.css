@@ -1,5 +1,44 @@
-/* Sits on top of vendored Bootstrap 5: light, Google-like, blue pill buttons. */
-:root { --bs-primary: #1a73e8; --bs-primary-rgb: 26, 115, 232; --bs-link-color: #1a73e8; }
-body { background: #f8f9fa; color: #202124; font-family: "Google Sans", Roboto, system-ui, sans-serif; }
-.btn-primary { --bs-btn-bg: #1a73e8; --bs-btn-border-color: #1a73e8; --bs-btn-hover-bg: #1765cc; --bs-btn-hover-border-color: #1765cc; }
+/* Sits on top of vendored Bootstrap 5: light, Google-like, blue pill buttons (tokens from docs/UI.md). */
+:root {
+    --ground: #f3f6fc; --line: #dde3ea; --line-strong: #c4c9cf; --ink: #1f1f1f; --ink-2: #444746; --ink-3: #676c72;
+    --blue: #0b57d0; --blue-hover: #0a4bb5; --blue-soft: #d3e3fd; --blue-ink: #041e49; --blue-tint: #eaf1fe;
+    --good: #146c2e; --good-soft: #d7f5df; --warn: #8a5300; --warn-soft: #ffe9b8; --bad: #b3261e; --bad-soft: #fce8e6;
+    --bs-primary: #0b57d0; --bs-primary-rgb: 11, 87, 208; --bs-link-color: #0b57d0;
+}
+body { background: var(--ground); color: var(--ink); font-family: "Heebo", Roboto, system-ui, sans-serif; }
+h1, h2, h3, .brand { font-family: "Rubik", "Heebo", system-ui, sans-serif; font-weight: 500; }
+.btn-primary { --bs-btn-bg: var(--blue); --bs-btn-border-color: var(--blue); --bs-btn-hover-bg: var(--blue-hover); --bs-btn-hover-border-color: var(--blue-hover); }
 .auth-card { max-width: 400px; margin: 8vh auto; border: 0; border-radius: 16px; }
+.card { border: 0; border-radius: 16px; }
+
+.studio-nav { display: flex; align-items: center; gap: 6px; padding: 10px 20px; background: #fff; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.brand { font-size: 17px; font-weight: 600; margin-right: 18px; }
+.brand b { color: var(--blue); }
+.tabx { padding: 6px 14px; border-radius: 999px; color: var(--ink-2); font-weight: 500; text-decoration: none; }
+.tabx:hover { background: var(--line); }
+.tabx.on { background: var(--blue-soft); color: var(--blue-ink); }
+.badgex { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--warn-soft); color: var(--warn); font-size: 11px; font-weight: 600; margin-left: 6px; }
+.syncbtn { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--ink-2); border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 4px 12px; }
+.syncbtn:hover { background: var(--blue-tint); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #1e9e4a; }
+.dot-warn { background: #e0a100; }
+.page { padding: 18px 20px; max-width: 1280px; margin: 0 auto; }
+
+.pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 1px 10px; font-size: 12px; font-weight: 500; background: var(--line); color: var(--ink-2); white-space: nowrap; }
+.pill.blue { background: var(--blue-soft); color: var(--blue-ink); }
+.pill.good { background: var(--good-soft); color: var(--good); }
+.pill.warn { background: var(--warn-soft); color: var(--warn); }
+.pill.bad { background: var(--bad-soft); color: var(--bad); }
+.cid { font: 500 12px ui-monospace, Menlo, Consolas, monospace; background: var(--ground); border: 1px solid var(--line); border-radius: 6px; padding: 1px 7px; color: var(--ink-2); }
+.pf { width: 22px; height: 22px; border-radius: 6px; display: inline-grid; place-items: center; color: #fff; font-size: 11px; font-weight: 600; }
+.pf.instagram { background: #c13584; } .pf.youtube { background: #d93025; } .pf.telegram { background: #229ed9; }
+.pf.off { background: #fff; color: var(--ink-3); outline: 1px dashed var(--line-strong); }
+
+.lib-row { display: grid; grid-template-columns: 28px minmax(0, 1fr) 120px 130px; gap: 12px; align-items: center; padding: 12px 16px; border-top: 1px solid var(--line); }
+.lib-row:first-child { border-top: 0; }
+.lib-row:hover { background: var(--blue-tint); }
+.lib-row .t { font-weight: 500; margin-bottom: 2px; }
+.lib-row .s { color: var(--ink-3); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lib-row a.row-link { color: inherit; text-decoration: none; display: block; min-width: 0; }
+.selbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; background: var(--blue-soft); border-radius: 12px; padding: 8px 14px; margin-bottom: 12px; color: var(--blue-ink); font-weight: 500; }
+@media (max-width: 700px) { .lib-row { grid-template-columns: 28px 1fr; } .lib-row .where, .lib-row .st { display: none; } }

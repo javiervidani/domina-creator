@@ -11,3 +11,10 @@
 ## Done when
 - Filters and bulk actions work on real imported data.
 - Combine opens the editor with the selected items as parts.
+
+## Built
+- `LibraryController` and `app/Library` (LibraryQuery, Combiner, NavStatus); list sorted by post date, newest first; `dir="auto"` for Hebrew.
+- Bulk: **Combine** creates a new draft content whose parts are the selected items in list order, then opens `/content/{id}`. **Tag** adds one tag to the selected items.
+- Top bar from the mockup: sync chip with a dropdown per account, and a drafts badge. Restyled `layouts/app` and `public/css/app.css`.
+- Tests: `LibraryTest` (PostgreSQL only).
+- Not built on purpose: **Add to collection** (button is disabled, collections are step 11), **Failed** saved view (needs publishing results, step 8), the editor (step 7).

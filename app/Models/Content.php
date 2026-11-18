@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,6 +21,16 @@ class Content extends Model
     public function copies(): HasMany
     {
         return $this->hasMany(ContentCopy::class);
+    }
+
+    public function parts(): HasMany
+    {
+        return $this->hasMany(ContentPart::class)->orderBy('position');
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'content_tag');
     }
 
     // The one platform ID shown to the creator.

@@ -8,6 +8,7 @@ be built in the repo, **Later** belongs to a later step and must not be built ea
 - `03-auth.md`
 - `04-accounts.md`
 - `05-import.md`
+- `06-library.md`
 
 ## Owner checklist (all steps)
 - [ ] Rotate the ops token (it was shared in chat). Set `APP_NAME=domina-creator` in the server `.env`.

@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use App\Library\LibraryQuery;
+use App\Models\ConnectedAccount;
+use Illuminate\Http\Request;
 
-// Empty for now: it only proves the request is inside the creator's own schema. Step 6 fills it.
 class LibraryController extends Controller
 {
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        return view('library', ['schema' => DB::selectOne('select current_schema() as s')->s]);
+        $filters = $request->only(['q', 'account', 'status', 'changed', 'view']);
+
+        return view('library', [
+            'items' => LibraryQuery::build($filters)->paginate(25)->withQueryString(),
+            'accounts' => ConnectedAccount::orderBy('id')->get(['id', 'platform', 'handle']),
+            'f' => $filters,
+        ]);
     }
 }
