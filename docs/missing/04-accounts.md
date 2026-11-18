@@ -6,6 +6,16 @@
 
 - [x] "Connect with an access token (advanced)" form and a Refresh token button, next to the normal sign-in (owner's own account, no Meta approval needed).
 
+## Temporary: token form (remove before other creators use the platform)
+The "Connect with an access token (advanced)" form is for the owner's own account while building (the token comes from the
+owner's WordPress plugin). It is kept separate so it can be deleted without touching the normal Instagram sign-in:
+- delete `app/Http/Controllers/AccountTokenController.php`
+- in `routes/web.php`: the `accounts.token` and `accounts.refresh` routes and the `AccountTokenController` import
+- in `resources/views/accounts.blade.php`: the `<details>` block and the Refresh token form
+- optionally `InstagramConnector::profile()` and its test if nothing else uses them
+After removal, accounts connect only through the Instagram sign-in. While it exists, turn off the WP plugin's weekly refresh
+for the same token.
+
 ## Missing
 - [ ] **Owner, waiting on Meta:** the Instagram connection has never been tried. Needed:
   1. Meta app with the Instagram Login product. In `.env`: `INSTAGRAM_CLIENT_ID`, `INSTAGRAM_CLIENT_SECRET`,
