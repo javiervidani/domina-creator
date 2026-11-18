@@ -3,6 +3,7 @@
 @section('body')
 <header class="studio-nav">
     <span class="brand">Creator <b>Studio</b></span>
+    <a class="tabx {{ request()->routeIs('dashboard', 'onboarding') ? 'on' : '' }}" href="{{ route('home') }}">Dashboard</a>
     <a class="tabx {{ request()->routeIs('library', 'content.*') ? 'on' : '' }}" href="{{ route('library') }}">Library
         @if ($nav['drafts'] > 0)<span class="badgex" title="Drafts">{{ $nav['drafts'] }}</span>@endif</a>
     <a class="tabx {{ request()->routeIs('accounts') ? 'on' : '' }}" href="{{ route('accounts') }}">Accounts</a>

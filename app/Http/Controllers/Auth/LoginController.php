@@ -32,7 +32,7 @@ class LoginController extends Controller
         RateLimiter::clear($key);
         $request->session()->regenerate();
 
-        return redirect()->intended(route('library'));
+        return redirect()->intended(route('home'));
     }
 
     public function destroy(Request $request)

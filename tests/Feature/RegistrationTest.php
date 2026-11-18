@@ -54,7 +54,8 @@ class RegistrationTest extends TestCase
         $user = User::where('email', $this->email)->firstOrFail();
         $creatorId = CreatorMember::where('user_id', $user->id)->value('creator_id');
 
-        $this->get('/library')->assertOk()->assertSee('creator_'.$creatorId);
+        $this->get('/library')->assertOk()->assertSee('Library');
+        $this->get('/')->assertRedirect('/onboarding'); // nothing set up yet, so the wizard comes first
     }
 
     public function test_sign_out_and_sign_in_again(): void
@@ -64,6 +65,6 @@ class RegistrationTest extends TestCase
         $this->get('/library')->assertRedirect('/login');
 
         $this->post('/login', ['email' => $this->email, 'password' => 'wrong-password'])->assertSessionHasErrors('email');
-        $this->post('/login', ['email' => $this->email, 'password' => 'a-long-password'])->assertRedirect('/library');
+        $this->post('/login', ['email' => $this->email, 'password' => 'a-long-password'])->assertRedirect('/');
     }
 }

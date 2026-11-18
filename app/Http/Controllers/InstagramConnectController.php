@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dashboard\Onboarding;
 use App\Models\ConnectedAccount;
 use App\Platforms\Instagram\InstagramProvider;
 use Illuminate\Http\Request;
@@ -51,6 +52,9 @@ class InstagramConnectController extends Controller
             'refreshed_at' => now(),
         ]);
 
-        return redirect()->route('accounts')->with('status', 'Instagram connected.');
+        // Back into the wizard while it is unfinished, otherwise to Accounts (a reconnect).
+        $done = Onboarding::complete((bool) $request->session()->get('skip_targets'));
+
+        return redirect()->route($done ? 'accounts' : 'onboarding')->with('status', 'Instagram connected.');
     }
 }

@@ -14,7 +14,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | 6 | Library page | Library page and content page work live (owner, 2026-11-18). Combine opens a minimal editable page (title and text); the full editor is step 7. Editable page not yet tried live; PHPUnit suites not run |
 | 7 | Content editor | Works live (owner screenshots, 2026-11-18): editor opens with Hebrew, Master/YouTube/Telegram tabs, limit and count, Linked copies. Not yet confirmed live: autosave after reload, History, Combine with sources, Compare. PHPUnit not run |
 | 8 | Publishing and re-publish | Code written (Telegram only), not yet tried live |
-| 9 | Dashboard and onboarding | Not started |
+| 9 | Dashboard and onboarding | Code written, not yet tried live |
 | 10 | Settings and AI keys | Not started |
 | 11 | Collections and website embed | Not started |
 | 12 | Deletion and 60-day recovery | Not started |
@@ -42,6 +42,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - Step 7 code: editor page at `/content/{id}` (Sources list with add/reorder/remove/rebuild, Master/YouTube/Telegram tabs with limits and "same as master", autosave, source-changed banner with Keep mine / Take the new version / Compare, Linked copies and History). New tables `content_target_texts`, `content_versions`. The compare view is our own small word diff (`app/Content/TextDiff`), not the proposed `jfcherng/php-diff`.
 - 2026-11-18: owner's phone screenshots show the live Library (25 posts, Hebrew right to left, IG/YT/TG icons, Imported status) and the editor (CNT-1, Sources, tabs, "Same as master" with "910 characters, YouTube limit 5,000", Linked copies). The two new tables exist on the server. The top bar looked unstyled, probably a cached stylesheet; the stylesheet link now carries a version.
 - Step 8 code (Telegram first, as the step file says; YouTube later because it needs a video and phase 1 is text only): `Connect Telegram` on Accounts (bot token + channel, checked and stored encrypted), draft copies for targets (review first by default, Auto queues on import), `PublishCopyJob` (sends, or edits the same message on Re-publish; temporary failures retry), editor's Linked copies panel with Approve and publish / Re-publish / Retry, a note when your text differs from the published copy, hash and time of the last send. New tables/columns: `publish_jobs`, status/published_hash/published_at/last_error on `content_copies`.
+- Step 9 code: `/dashboard` (needs-attention list: reconnect or expiring accounts, failed publishes, Telegram drafts, source-changed items; recent imports; the sync line "Instagram @x to Telegram Chan (review)"), `/onboarding` wizard (connect Instagram, source of truth, targets with review first or Auto, first import) that keeps no state of its own, home `/` sends an unfinished creator to the wizard and others to the dashboard, Dashboard tab in the top bar. No new tables.
 
 ## Open questions
 - PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.

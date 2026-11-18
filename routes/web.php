@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ContentPartsController;
 use App\Http\Controllers\ContentSourceController;
 use App\Http\Controllers\ContentTargetController;
@@ -18,7 +19,6 @@ use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\TargetsController;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/library');
 Route::view('privacy', 'privacy')->name('privacy');
 
 // Called by Meta, not by a person: no login, the signed request is checked in the controller.
@@ -41,6 +41,10 @@ Route::post('logout', [LoginController::class, 'destroy'])->middleware('auth')->
 
 // `tenant` must come after `auth`: it needs the signed-in user to find the schema.
 Route::middleware(['auth', 'tenant'])->group(function () {
+    Route::get('/', [DashboardController::class, 'home'])->name('home');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('onboarding', [DashboardController::class, 'onboarding'])->name('onboarding');
+    Route::post('onboarding/skip-targets', [DashboardController::class, 'skipTargets'])->name('onboarding.skip');
     Route::get('library', LibraryController::class)->name('library');
     Route::post('library/combine', [LibraryBulkController::class, 'combine'])->name('library.combine');
     Route::post('library/tag', [LibraryBulkController::class, 'tag'])->name('library.tag');
