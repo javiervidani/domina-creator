@@ -33,7 +33,12 @@
         <button class="btn btn-primary btn-sm rounded-pill" formaction="{{ route('library.combine') }}">Combine</button>
         <input name="tag" class="form-control form-control-sm w-auto" placeholder="Tag name" dir="auto">
         <button class="btn btn-sm btn-outline-primary rounded-pill" formaction="{{ route('library.tag') }}">Tag</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill" disabled title="Collections arrive in a later step">Add to collection</button>
+        <select name="collection_id" class="form-select form-select-sm w-auto" dir="auto">
+            <option value="">Add to collection…</option>
+            @foreach ($collections as $col)<option value="{{ $col->id }}">{{ $col->name }}</option>@endforeach
+        </select>
+        <input name="new_name" class="form-control form-control-sm w-auto" placeholder="or a new collection" dir="auto">
+        <button class="btn btn-sm btn-outline-primary rounded-pill" formaction="{{ route('library.collection') }}">Add</button>
         <button type="button" class="btn btn-sm ms-auto" id="clearsel">Clear</button>
     </div>
 

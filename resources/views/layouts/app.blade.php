@@ -6,6 +6,7 @@
     <a class="tabx {{ request()->routeIs('dashboard', 'onboarding') ? 'on' : '' }}" href="{{ route('home') }}">Dashboard</a>
     <a class="tabx {{ request()->routeIs('library', 'content.*') ? 'on' : '' }}" href="{{ route('library') }}">Library
         @if ($nav['drafts'] > 0)<span class="badgex" title="Drafts">{{ $nav['drafts'] }}</span>@endif</a>
+    <a class="tabx {{ request()->routeIs('collections*') ? 'on' : '' }}" href="{{ route('collections') }}">Collections</a>
     <a class="tabx {{ request()->routeIs('accounts') ? 'on' : '' }}" href="{{ route('accounts') }}">Accounts</a>
     <a class="tabx {{ request()->routeIs('settings') ? 'on' : '' }}" href="{{ route('settings') }}">Settings</a>
 

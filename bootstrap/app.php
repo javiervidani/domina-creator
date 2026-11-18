@@ -12,6 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function (): void {
+            // Public read-only pages for visitors on other sites: no session, cookies or CSRF.
+            Route::group([], base_path('routes/public.php'));
+
             // No web group: no session, cookies or CSRF. The token is the only gate.
             Route::prefix('ops')->middleware(['throttle:30,1', App\Ops\OpsToken::class])->group(function (): void {
                 Route::get('health', App\Ops\HealthController::class);

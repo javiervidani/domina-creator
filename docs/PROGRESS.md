@@ -16,7 +16,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | 8 | Publishing and re-publish | Code written (Telegram only), not yet tried live |
 | 9 | Dashboard and onboarding | Code written, not yet tried live |
 | 10 | Settings and AI keys | Code written, not yet tried live |
-| 11 | Collections and website embed | Not started |
+| 11 | Collections and website embed | Code written, not yet tried live |
 | 12 | Deletion and 60-day recovery | Not started |
 | 13 | CSV export and backups | Not started |
 | 14 | Optional light image storage (backlog, last) | Not started, only if the owner asks |
@@ -46,6 +46,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - Step 9 code: `/dashboard` (needs-attention list: reconnect or expiring accounts, failed publishes, Telegram drafts, source-changed items; recent imports; the sync line "Instagram @x to Telegram Chan (review)"), `/onboarding` wizard (connect Instagram, source of truth, targets with review first or Auto, first import) that keeps no state of its own, home `/` sends an unfinished creator to the wizard and others to the dashboard, Dashboard tab in the top bar. No new tables.
 - Owner decision 2026-11-18: phase 1 now includes **linked media**: the post's image or video is shown in the editor and, later, sent to other networks as a link, never copied. Built: media links stored on import, a Media card in the editor. Recorded for later in the step 8, 11 and 13 files. `CLAUDE.md`, `PLATFORM.md` and `docs/STACK.md` updated.
 - Step 10 code: Settings page (Profile and password, Notification choices, AI keys, Team note). AI keys: one row per provider (Claude, OpenAI, Grok, Groq), encrypted, shown as the last four characters only, default model, on/off, default provider, Test key (lists the provider's models, so no text is generated), Remove. New tables `settings`, `ai_keys` in the creator schema. Decided by default because the owner did not answer: team invites later, notification choices saved but no emails sent yet. Backlog step 14 (optional light image storage) added.
+- Step 11 code: Collections tab (create, items with reorder and remove, details with cover link and visibility private / link / public, Add to collection from the Library), Website embed tab (layout, accent, show picture, allowed sites, embed code, RSS and JSON links, create a new link). Public read-only pages `/embed/{token}`, `/feed/{token}/json|rss`, `/c/{creator}/{slug}[/json|/rss]` with no session. Own feed tokens (`<creator id>.<40 random>`, encrypted plus hashed), no Sanctum. Frame rules via `Content-Security-Policy: frame-ancestors` from the allowed sites; JSON CORS only for those sites. New tables `collections`, `collection_items`, `embed_settings`, `feed_tokens`.
 
 ## Open questions
 - PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.
