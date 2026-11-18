@@ -6,8 +6,8 @@ use RuntimeException;
 
 class PlatformException extends RuntimeException
 {
-    // Instagram code 190 means the token is dead, so only a new sign-in helps.
-    public function __construct(string $message, public readonly bool $needsReconnect = false)
+    // needsReconnect: the token is dead, only a new sign-in helps. retryable: a temporary failure worth another try.
+    public function __construct(string $message, public readonly bool $needsReconnect = false, public readonly bool $retryable = false)
     {
         parent::__construct($message);
     }

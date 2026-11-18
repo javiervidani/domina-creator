@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\DB;
 // created | linked | changed | copy_updated | unchanged | skipped.
 class ContentImporter
 {
+    /** @var array<int> contents made by this importer, so the caller can plan their targets */
+    public array $created = [];
+
     public function import(ConnectedAccount $account, array $item): string
     {
         $externalId = (string) ($item['id'] ?? '');
@@ -68,7 +71,7 @@ class ContentImporter
         ];
 
         // The same text already imported from a different account is the same content, not a new one.
-        $match = ContentCopy::where('match_hash', $fields['match_hash'])
+        $match = ContentCopy::where('match_hash', $fields['match_hash'])->where('link_mode', '!=', 'target')
             ->where('connected_account_id', '!=', $account->id)->first();
 
         try {
@@ -81,6 +84,7 @@ class ContentImporter
             DB::transaction(function () use ($fields, $text) {
                 $content = Content::create(['title' => CaptionText::title($text), 'master_text' => $text]);
                 ContentCopy::create($fields + ['content_id' => $content->id, 'is_origin' => true, 'link_mode' => 'origin']);
+                $this->created[] = $content->id;
             });
 
             return 'created';

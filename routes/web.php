@@ -12,6 +12,8 @@ use App\Http\Controllers\ContentTargetController;
 use App\Http\Controllers\InstagramCallbacksController;
 use App\Http\Controllers\InstagramConnectController;
 use App\Http\Controllers\LibraryBulkController;
+use App\Http\Controllers\PublishingController;
+use App\Http\Controllers\TelegramConnectController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\TargetsController;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +52,9 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::post('content/{content}/parts', [ContentPartsController::class, 'add'])->name('content.parts.add');
     Route::post('content/{content}/parts/rebuild', [ContentPartsController::class, 'rebuild'])->name('content.parts.rebuild');
     Route::post('content/{content}/parts/{part}/move', [ContentPartsController::class, 'move'])->name('content.parts.move');
+    Route::post('content/{content}/draft/{account}', [PublishingController::class, 'draft'])->name('content.draft');
+    Route::post('content/{content}/copies/{copy}/publish', [PublishingController::class, 'publish'])->name('content.publish');
+    Route::post('accounts/telegram', [TelegramConnectController::class, 'store'])->name('accounts.telegram');
     Route::delete('content/{content}/parts/{part}', [ContentPartsController::class, 'remove'])->name('content.parts.remove');
 
     Route::get('accounts', [AccountsController::class, 'index'])->name('accounts');

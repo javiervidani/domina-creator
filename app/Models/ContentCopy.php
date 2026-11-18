@@ -11,7 +11,7 @@ class ContentCopy extends Model
 
     protected function casts(): array
     {
-        return ['is_origin' => 'boolean', 'remote_published_at' => 'datetime'];
+        return ['is_origin' => 'boolean', 'remote_published_at' => 'datetime', 'published_at' => 'datetime'];
     }
 
     public function content(): BelongsTo

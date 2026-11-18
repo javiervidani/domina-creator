@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Content\TextDiff;
 use App\Content\VersionRecorder;
+use App\Models\ConnectedAccount;
 use App\Models\Content;
+use App\Publishing\Publisher;
+use App\Publishing\TargetText;
 use Illuminate\Http\Request;
 
 // The Content editor page and the master text/title save. Autosave posts here as JSON.
@@ -15,7 +18,14 @@ class ContentController extends Controller
         $content->load(['parts', 'copies', 'tags', 'targetTexts', 'versions']);
         $origin = $content->copies->firstWhere('is_origin', true);
 
+        // Per target copy: does the text now differ from what was last sent? Shown next to Re-publish.
+        $differs = $content->copies->where('link_mode', 'target')->mapWithKeys(
+            fn ($c) => [$c->id => Publisher::differs($c, TargetText::for($content, $c->platform))]);
+        $sendable = ConnectedAccount::whereIn('platform', Publisher::SUPPORTED)
+            ->whereNotIn('id', $content->copies->pluck('connected_account_id')->filter())->get(['id', 'platform', 'handle']);
+
         return view('content', [
+            'differs' => $differs, 'sendable' => $sendable,
             'content' => $content,
             'targetTexts' => $content->targetTexts->pluck('text', 'target'),
             'diff' => $content->source_changed && $origin ? TextDiff::sides($content->master_text, $origin->source_text) : null,

@@ -12,7 +12,7 @@ class AccountImporter
     {
     }
 
-    /** @return array{seen: int, created: int, linked: int, changed: int, skipped: int} */
+    /** @return array{seen: int, created: int, linked: int, changed: int, skipped: int, new_ids: array<int>} */
     public function run(ConnectedAccount $account, BaseConnector $connector): array
     {
         $counts = ['seen' => 0, 'created' => 0, 'linked' => 0, 'changed' => 0, 'skipped' => 0];
@@ -43,6 +43,9 @@ class AccountImporter
             }
             $after = $page['after'];
         }
+
+        $counts['new_ids'] = $this->importer->created;
+        $this->importer->created = [];
 
         return $counts;
     }

@@ -7,6 +7,7 @@ use App\Models\ConnectedAccount;
 use App\Models\SyncRun;
 use App\Platforms\Instagram\InstagramConnector;
 use App\Platforms\PlatformException;
+use App\Publishing\TargetPlanner;
 use Illuminate\Support\Facades\Log;
 
 // Pulls an account's posts into the Library and records the run. Transient errors are retried by the queue.
@@ -24,7 +25,8 @@ class SyncAccountJob extends CreatorJob
     protected function work(): void
     {
         $account = ConnectedAccount::with('token')->find($this->accountId);
-        if (! $account || ! $account->token) {
+        // Only Instagram is imported from; a Telegram account is a place to publish to.
+        if (! $account || ! $account->token || $account->platform !== 'instagram') {
             return;
         }
 
@@ -36,6 +38,11 @@ class SyncAccountJob extends CreatorJob
             $run->update(['status' => 'ok', 'fetched' => $counts['seen'], 'created' => $counts['created'] + $counts['linked'],
                 'changed' => $counts['changed'], 'finished_at' => now()]);
             $account->update(['last_sync_at' => now(), 'last_error' => null]);
+
+            // Drafts for the targets of this account. Targets on Auto are queued for publishing once we leave the schema.
+            foreach (app(TargetPlanner::class)->planForNew($counts['new_ids'], $account) as $copyId) {
+                $this->later(new PublishCopyJob($this->creatorId, $copyId));
+            }
         } catch (PlatformException $e) {
             // Also in the log so /ops/logs shows it. Account id and creator only; the message never holds the token.
             Log::warning('Instagram sync failed'." (creator {$this->creatorId}, account {$account->id}): ".$e->getMessage());
