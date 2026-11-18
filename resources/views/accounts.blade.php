@@ -98,7 +98,7 @@
     <tbody>
     @forelse ($runs as $run)
         <tr><td>{{ $run->started_at->format('Y-m-d H:i') }}</td><td>{{ '@'.$run->account?->handle }}</td><td>{{ str_replace('_', ' ', $run->kind) }}</td>
-            <td>@if ($run->status === 'failed')<span class="text-danger">{{ $run->error }}</span>@elseif ($run->status === 'ok')OK{{ $run->kind === 'sync' ? ', '.$run->fetched.' items seen' : '' }}@else Running @endif</td></tr>
+            <td>@if ($run->status === 'failed')<span class="text-danger">{{ $run->error }}</span>@elseif ($run->status === 'ok')OK{{ $run->kind === 'sync' ? ', '.$run->fetched.' posts seen, '.$run->created.' new, '.$run->changed.' changed' : '' }}@else Running @endif</td></tr>
     @empty
         <tr><td colspan="4" class="text-muted">No runs yet.</td></tr>
     @endforelse

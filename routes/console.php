@@ -9,3 +9,5 @@ Artisan::command('inspire', function () {
 
 // Weekly is enough: Instagram accepts a refresh any time after 24 hours, so several tries fit before expiry.
 Illuminate\Support\Facades\Schedule::command('accounts:refresh-tokens')->weekly();
+
+Illuminate\Support\Facades\Schedule::command('accounts:sync-due')->everyFiveMinutes()->withoutOverlapping();

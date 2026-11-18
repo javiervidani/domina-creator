@@ -12,3 +12,10 @@
 ## Done when
 - A scheduled pull imports new posts once, with no duplicates on a second run.
 - A changed original shows as `source_changed` and the edited text is untouched.
+
+## Built
+- Tables `contents`, `content_copies` (unique per platform and external id). The one platform ID is `CNT-<contents.id>`.
+- New posts create content plus an origin copy. The same text on another account links to the existing content (`link_mode auto`); undo and confirm come with the Library (step 6).
+- A changed original updates the stored source text; the master text follows it only if never edited, otherwise `source_changed` is set and the text is untouched.
+- Posts without a caption are skipped (phase 1 is text only).
+- Tests: `CaptionTextTest`, `ImportScheduleTest` (any DB), `ImportTest` (PostgreSQL only).
