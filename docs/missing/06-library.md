@@ -7,9 +7,11 @@
 - Real HTTP requests against a local PostgreSQL 16: list, pagination, Hebrew, every filter, Combine, Tag, drafts badge. See `PROGRESS.md`.
 
 ## Proven live (2026-11-18)
-- Owner confirmed the Library works on the live site.
+- Owner confirmed the Library page works on the live site. Combine and Tag live were not confirmed separately.
 
 ## Missing
+- [ ] **Step 6 done-when, open:** "Combine opens the editor with the selected items as parts". Met when step 7 turns `/content/{id}` into the editor.
+- [ ] **Owner:** try Combine and Tag on the live Library and say so.
 - [ ] **Claude:** tests have never run (see the step 2 file).
 - [ ] **Later (step 7):** the Content editor. Combine lands on a read-only page until then.
 - [ ] **Later (step 8):** the **Failed** saved view and a real **Needs review** (drafts waiting for approval). For now Needs review means source changed.

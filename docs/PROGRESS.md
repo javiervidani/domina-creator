@@ -11,7 +11,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | 3 | Sign in and registration | Running on Plesk; password reset (mail) not tried; tests not run yet |
 | 4 | Accounts and connections | Running on Plesk with a pasted token; Instagram sign-in waits on Meta; tests not run yet |
 | 5 | Import and the one ID | Import and no-duplicates proven live (25 posts, 2nd run 0 new); scheduled pull and source_changed not yet seen live |
-| 6 | Library page | Done: works on the live site (owner, 2026-11-18). Combine opens a read-only page until step 7; PHPUnit suites not run yet |
+| 6 | Library page | Works on the live site (owner, 2026-11-18). One done-when item open: Combine should open the editor, it opens a read-only page until step 7. PHPUnit suites not run yet |
 | 7 | Content editor | Not started |
 | 8 | Publishing and re-publish | Not started |
 | 9 | Dashboard and onboarding | Not started |
@@ -37,7 +37,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - Step 5 proven live on the owner's account: 25 posts imported, a second run created none, the newest post matches the real latest post. Hebrew text stored correctly.
 - Step 6 code: Library list (search, account, status, source-changed filters, Needs review view, pagination), selecting rows with Combine and Tag, read-only content page, mockup top bar with sync chip dropdown and drafts badge. New tables `content_parts`, `tags`, `content_tag`.
 - 2026-11-18: ran the real app against a throwaway local PostgreSQL 16 (same roles as Plesk), one HTTP request at a time: register provisions a schema; import of 25 posts creates 25, a second run creates 0, an edited original keeps the creator's text and sets `source_changed`, the same text on another account links to the existing content; Library lists 25 per page with Hebrew right to left, search (English and Hebrew), source-changed, Needs review, status filters, Combine (2 items make a draft with 2 parts, 1 item is refused), Tag, drafts badge; a creator cannot read another creator's schema or `public.users`, and `app_user` without `SET ROLE` is denied. The PHPUnit suites themselves still have not run (dev dependencies cannot be installed here).
-- 2026-11-18: owner confirmed the Library works on the live site with the 25 imported posts.
+- 2026-11-18: owner confirmed the Library page works live ("working great") with the 25 imported posts. Whether the owner tried Combine and Tag live was not stated.
 
 ## Open questions
 - PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.
