@@ -7,24 +7,29 @@
         <div class="text-muted small">Everything imported from your accounts. One ID per piece of content.</div></div>
 </div>
 
-<form method="get" class="d-flex gap-2 flex-wrap align-items-center mb-3">
-    <input name="q" value="{{ $f['q'] ?? '' }}" class="form-control" style="max-width:320px" placeholder="Search titles and texts" dir="auto">
-    <select name="account" class="form-select w-auto">
-        <option value="">All accounts</option>
-        @foreach ($accounts as $a)<option value="{{ $a->id }}" @selected(($f['account'] ?? '') == $a->id)>{{ ucfirst($a->platform) }} {{ '@'.$a->handle }}</option>@endforeach
-    </select>
-    <select name="status" class="form-select w-auto">
-        <option value="">Any status</option>
-        <option value="imported" @selected(($f['status'] ?? '') === 'imported')>Imported</option>
-        <option value="draft" @selected(($f['status'] ?? '') === 'draft')>Draft</option>
-    </select>
-    <div class="form-check"><input type="checkbox" class="form-check-input" id="chg" name="changed" value="1" @checked(! empty($f['changed']))>
-        <label class="form-check-label" for="chg">Source changed</label></div>
-    <button class="btn btn-outline-primary rounded-pill">Filter</button>
-    <span class="vr"></span>
-    <a class="btn btn-sm {{ ($f['view'] ?? '') === 'review' ? 'btn-primary' : 'btn-outline-secondary' }} rounded-pill" href="{{ route('library', ['view' => 'review']) }}">Needs review</a>
-    <a class="btn btn-sm {{ ($f['view'] ?? '') === 'drafts' ? 'btn-primary' : 'btn-outline-secondary' }} rounded-pill" href="{{ route('library', ['view' => 'drafts']) }}">Drafts @if ($draftCount > 0)<span class="badgex">{{ $draftCount }}</span>@endif</a>
-    <a class="btn btn-sm btn-outline-secondary rounded-pill" href="{{ route('library') }}">Clear</a>
+<form method="get" class="lib-filters mb-3">
+    <div class="input-group">
+        <input name="q" value="{{ $f['q'] ?? '' }}" class="form-control" placeholder="Search titles and texts" dir="auto" aria-label="Search">
+        <button class="btn btn-primary">Search</button>
+    </div>
+    <div class="lib-selects">
+        <select name="account" class="form-select" aria-label="Account">
+            <option value="">All accounts</option>
+            @foreach ($accounts as $a)<option value="{{ $a->id }}" @selected(($f['account'] ?? '') == $a->id)>{{ ucfirst($a->platform) }} {{ '@'.$a->handle }}</option>@endforeach
+        </select>
+        <select name="status" class="form-select" aria-label="Status">
+            <option value="">Any status</option>
+            <option value="imported" @selected(($f['status'] ?? '') === 'imported')>Imported</option>
+            <option value="draft" @selected(($f['status'] ?? '') === 'draft')>Draft</option>
+        </select>
+        <div class="form-check"><input type="checkbox" class="form-check-input" id="chg" name="changed" value="1" @checked(! empty($f['changed']))>
+            <label class="form-check-label" for="chg">Source changed</label></div>
+    </div>
+    <div class="chips">
+        <a class="chip {{ ($f['view'] ?? '') === 'review' ? 'on' : '' }}" href="{{ route('library', ['view' => 'review']) }}">Needs review</a>
+        <a class="chip {{ ($f['view'] ?? '') === 'drafts' ? 'on' : '' }}" href="{{ route('library', ['view' => 'drafts']) }}">Drafts @if ($draftCount > 0)<span class="badgex">{{ $draftCount }}</span>@endif</a>
+        <a class="chip" href="{{ route('library') }}">Clear</a>
+    </div>
 </form>
 
 <form method="post" id="bulk">
@@ -58,22 +63,28 @@
     <div class="card">
         @forelse ($items as $item)
             @php($on = $item->copies->pluck('platform')->all())
+            @php($cut = str_ends_with($item->title, '…'))
+            @php($lead = rtrim($item->title, '…'))
+            {{-- The grey line shows what comes after the title. A title cut mid-text keeps the full text; a title that is the whole text needs no line. --}}
+            @php($snippet = $cut ? $item->master_text : ltrim(str_starts_with($item->master_text, $lead) ? mb_substr($item->master_text, mb_strlen($lead)) : $item->master_text, " \n.…"))
             <div class="lib-row">
                 <input type="checkbox" name="ids[]" value="{{ $item->id }}" class="form-check-input rowsel" aria-label="Select">
                 <a class="row-link" href="{{ route('content.show', $item) }}">
                     <div class="t" dir="auto">{{ $item->title }} <span class="cid">{{ $item->platformId() }}</span>
                         @foreach ($item->tags as $tag)<span class="pill blue">{{ $tag->name }}</span> @endforeach</div>
-                    <div class="s" dir="auto">{{ \Illuminate\Support\Str::limit($item->master_text, 140) }}</div>
+                    @if ($snippet !== '')<div class="s" dir="auto">{{ \Illuminate\Support\Str::limit($snippet, 140) }}</div>@endif
                 </a>
-                <div class="where d-flex gap-1">
-                    @foreach ($platforms as $key => $short)
-                        <span class="pf {{ $key }} {{ in_array($key, $on) ? '' : 'off' }}" title="{{ ucfirst($key) }}{{ in_array($key, $on) ? '' : ' (not there)' }}">{{ $short }}</span>
-                    @endforeach
-                </div>
-                <div class="st">
-                    @if ($item->source_changed)<span class="pill warn">Source changed</span>
-                    @elseif ($item->status === 'draft')<span class="pill blue">Draft</span>
-                    @else<span class="pill">Imported</span>@endif
+                <div class="lib-meta">
+                    <div class="where">
+                        @foreach ($platforms as $key => $short)
+                            <span class="pf {{ $key }} {{ in_array($key, $on) ? '' : 'off' }}" title="{{ ucfirst($key) }}{{ in_array($key, $on) ? '' : ' (not there)' }}">{{ $short }}</span>
+                        @endforeach
+                    </div>
+                    <div class="st">
+                        @if ($item->source_changed)<span class="pill warn">Source changed</span>
+                        @elseif ($item->status === 'draft')<span class="pill blue">Draft</span>
+                        @else<span class="pill">Imported</span>@endif
+                    </div>
                 </div>
             </div>
         @empty
