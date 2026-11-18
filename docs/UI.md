@@ -10,3 +10,4 @@ Approved mockups (Claude artifacts, owner's account). Use them for the matching 
 - Fonts: Heebo (text), Rubik (headings). Cards radius 16px, pill buttons, status pills.
 - Platform badges: IG `#c13584`, YT `#d93025`, TG `#229ed9`.
 - Steps 3 and 4 pages use plain Bootstrap for now. Restyle them to this top bar when step 6 builds the shared layout.
+- Content text is often Hebrew (right to left). Text areas, titles and previews need `dir="auto"` so each piece lays out in its own direction; check this in the Library and editor (steps 6 and 7).

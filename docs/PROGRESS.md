@@ -7,10 +7,10 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 |---|---|---|
 | 0 | Planning, mockups, decisions | Done |
 | 1 | Project setup and deploy to Plesk | Done |
-| 2 | Database, roles, creator schemas | Code written, not yet run on Plesk |
-| 3 | Sign in and registration | Code written, not yet run on Plesk |
-| 4 | Accounts and connections | Code written, not yet run on Plesk |
-| 5 | Import and the one ID | Code written, not yet run on Plesk |
+| 2 | Database, roles, creator schemas | Running on Plesk (schema made on sign-up); isolation tests not run yet |
+| 3 | Sign in and registration | Running on Plesk; password reset (mail) not tried; tests not run yet |
+| 4 | Accounts and connections | Running on Plesk with a pasted token; Instagram sign-in waits on Meta; tests not run yet |
+| 5 | Import and the one ID | Import and no-duplicates proven live (25 posts, 2nd run 0 new); scheduled pull and source_changed not yet seen live |
 | 6 | Library page | Not started |
 | 7 | Content editor | Not started |
 | 8 | Publishing and re-publish | Not started |
@@ -34,6 +34,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - UI references recorded in `docs/UI.md` (mockups for the Library and the Content editor).
 - `docs/missing/` lists the missing elements for steps 2 to 4. The Instagram connection waits on Meta (the app, then approval for other creators).
 - Step 5 code: `contents` and `content_copies` tables, `app/Import` (CaptionText, ContentImporter, AccountImporter, ImportSchedule), `SyncAccountJob` now imports (3 tries), `accounts:sync-due` every 5 minutes. Text only. Run `creators:migrate` (the deploy script does).
+- Step 5 proven live on the owner's account: 25 posts imported, a second run created none, the newest post matches the real latest post. Hebrew text stored correctly.
 
 ## Open questions
 - PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.
