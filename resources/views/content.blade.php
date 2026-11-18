@@ -33,7 +33,9 @@
 <div class="row g-3">
     <aside class="col-lg-3">@include('content._parts')</aside>
 
-    <main class="col-lg-6"><div class="card"><div class="card-body">
+    <main class="col-lg-6">
+        @include('content._media')
+        <div class="card"><div class="card-body">
         <ul class="nav nav-tabs mb-3">
             <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#t-master" type="button">Master text</button></li>
             @foreach (\App\Content\Targets::LABELS as $key => $label)

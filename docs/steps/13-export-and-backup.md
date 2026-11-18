@@ -12,3 +12,6 @@
 
 ## Done when
 - A dump of one creator restores into a clean schema, and the export link expires on schedule.
+
+## Future, asked by the owner (2026-11-18): media links in the export
+- The CSV export includes the media and thumbnail addresses as text columns. There are no media files to export or back up, because none are stored.

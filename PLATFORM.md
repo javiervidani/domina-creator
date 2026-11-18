@@ -20,7 +20,7 @@ platform collects that content in one place, the creator edits it there, and the
 - Editing happens on the platform copy. A change at the source never overwrites an edit. The creator chooses.
 - A published copy is never changed automatically. The creator presses **Re-publish**.
 - New targets start as **review first**. Auto-publish is a switch the creator turns on.
-- Phase 1 is text only and manual editing. AI suggestions come in phase 2 with the creator's own API key.
+- Phase 1 is text and manual editing, with the post's image or video shown and sent by link only (never copied). AI suggestions come in phase 2 with the creator's own API key.
 
 ## Privacy model
 - Each creator has a separate PostgreSQL schema (`creator_<id>`) in one database.

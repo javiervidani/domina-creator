@@ -21,3 +21,9 @@
 - Failures: the copy shows Failed with Telegram's reason and a Retry button. Rate limits and Telegram outages retry by themselves (3 tries).
 - Not built: YouTube publishing and the Reels-audio warning (YouTube needs a video, phase 1 is text only), per-target scheduling.
 - Tests: `TelegramConnectorTest`, `PublisherDiffersTest`, `PublishingTest` (PostgreSQL only). Never run yet.
+
+## Future, asked by the owner (2026-11-18): send the media to other networks by link
+- **Telegram:** `sendPhoto` and `sendVideo` accept a URL, so the media can be sent without us storing it. Captions use the target text and the 1024-character caption limit (a long text goes as a separate message). Re-publish would edit the caption (`editMessageCaption`) and cannot swap the media.
+- **Instagram addresses expire**, and Telegram fetches the address at send time. So the sync must have refreshed the link recently; otherwise fail with a clear message and ask for a Sync now before sending.
+- **YouTube** needs the actual video bytes, so a link alone is not enough: the upload would have to stream the file through the server (temporary, never kept). Decide with the owner when the YouTube connector is built.
+- A per-target switch "include the media" (default on for Telegram) belongs in the editor's Linked copies panel.

@@ -9,3 +9,6 @@
 
 ## Done when
 - A test page on another domain shows a collection through the embed code.
+
+## Future, asked by the owner (2026-11-18): media in collections and the embed
+- Collection items and the website embed can show the linked image or video thumbnail. Because addresses expire, the embed must not hot-link Instagram addresses from visitors' browsers for long-lived pages: decide whether the widget shows the thumbnail only while fresh, or links to the original post instead.

@@ -34,7 +34,7 @@ Status: **Decided** (agreed in chat), **Proposed** (recommended, not confirmed),
 | spatie/laravel-activitylog | History tab in the editor | Proposed |
 | jfcherng/php-diff | Compare view when the source changed | Proposed |
 | spatie/laravel-permission | Roles inside a creator's team | Later |
-| spatie/laravel-medialibrary | Media files | Later |
+| spatie/laravel-medialibrary | Storing media files. Not used: media is shown and sent by link only (owner decision). Reconsider only if links expire too often | Later |
 | spatie/laravel-feed | RSS feeds for creators' sites | Later |
 | A multi-tenancy package (stancl/tenancy or spatie/laravel-multitenancy) | Schema switching. Check that it supports schema per tenant on PostgreSQL, or write our own small class | Open |
 

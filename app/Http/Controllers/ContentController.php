@@ -25,6 +25,7 @@ class ContentController extends Controller
             ->whereNotIn('id', $content->copies->pluck('connected_account_id')->filter())->get(['id', 'platform', 'handle']);
 
         return view('content', [
+            'media' => $origin,
             'differs' => $differs, 'sendable' => $sendable,
             'content' => $content,
             'targetTexts' => $content->targetTexts->pluck('text', 'target'),

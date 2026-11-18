@@ -14,3 +14,4 @@
 - [ ] **Later (step 8):** publishing and re-publish from the Linked copies panel; the target limits are only shown here, not enforced.
 - [ ] **Later:** fetching a video transcript from YouTube or Instagram (needs the YouTube connector); until then it is pasted.
 - [ ] **Later (phase 2):** AI suggestions tab.
+- [x] Media card (image or video) in the editor, linked and not copied (2026-11-18). **Owner:** check it live after a Sync now.

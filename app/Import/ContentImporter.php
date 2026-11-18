@@ -27,12 +27,15 @@ class ContentImporter
 
         $copy = ContentCopy::where('platform', $account->platform)->where('external_id', $externalId)->first();
 
-        return $copy ? $this->update($copy, $text) : $this->create($account, $item, $externalId, $text);
+        return $copy ? $this->update($copy, $text, $item) : $this->create($account, $item, $externalId, $text);
     }
 
-    private function update(ContentCopy $copy, string $text): string
+    private function update(ContentCopy $copy, string $text, array $item = []): string
     {
         $hash = CaptionText::changeHash($text);
+        if ($item !== []) {
+            $copy->update(array_filter($this->mediaLinks($item))); // never blank a link the sync did not return
+        }
         if ($copy->source_hash === $hash) {
             return 'unchanged';
         }
@@ -66,6 +69,7 @@ class ContentImporter
             'media_type' => $item['media_type'] ?? null,
             'remote_published_at' => isset($item['timestamp']) ? date('Y-m-d H:i:s', (int) strtotime($item['timestamp'])) : null,
             'source_text' => $text,
+        ] + $this->mediaLinks($item) + [
             'source_hash' => CaptionText::changeHash($text),
             'match_hash' => CaptionText::matchHash($text),
         ];
@@ -91,5 +95,13 @@ class ContentImporter
         } catch (UniqueConstraintViolationException) {
             return 'unchanged'; // two runs met the same new post at once; the other one won
         }
+    }
+
+    // Only https links are kept, and only as text: nothing is fetched here.
+    private function mediaLinks(array $item): array
+    {
+        $https = fn ($url) => is_string($url) && str_starts_with($url, 'https://') ? $url : null;
+
+        return ['media_url' => $https($item['media_url'] ?? null), 'thumbnail_url' => $https($item['thumbnail_url'] ?? null)];
     }
 }

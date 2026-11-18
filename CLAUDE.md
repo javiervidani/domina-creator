@@ -34,7 +34,8 @@ Never put secrets, tokens, or real creator data in the repo, in logs, or in test
 - Never overwrite an edited text because the source changed. Flag `source_changed` and let the creator choose.
 - Never change a published copy automatically. Re-publish is a manual action.
 - New targets default to review first.
-- Phase 1 is text only. No AI until phase 2.
+- Phase 1 is text plus linked media: the post's image or video is shown and sent as a link, never downloaded or copied
+  (owner decision, 2026-11-18). No AI until phase 2.
 
 ## Environment
 - No Redis. Queue, cache, and sessions use the database or files. Horizon is not used.

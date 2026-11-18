@@ -17,3 +17,5 @@
 - [ ] **Later (step 6):** show the content in the Library, and let the creator confirm or undo an automatic link.
 - [ ] **Later (step 7):** Keep mine, Take the new version, Compare, and content versions.
 - [ ] **Later:** import from YouTube and Telegram (only the Instagram connector exists).
+- [ ] **Owner:** after the deploy, run **Sync now** once so the 25 imported posts get their media links.
+- [ ] **Later (owner decision):** links to older posts expire. If that becomes a problem, store copies (spatie/laravel-medialibrary) instead of links.

@@ -18,3 +18,6 @@
 - Adding a source appends its text to the master text; move and remove only change the list; Rebuild replaces the master text from the list.
 - Video transcript is a pasted text for now (fetching a transcript needs the YouTube connector).
 - Not built: restore from History, undo/redo and formatting toolbar (plain text only in phase 1), the AI suggestions tab (phase 2).
+
+## Added by the owner (2026-11-18): media in the editor
+- The editor shows the origin post's image (or a video player with its thumbnail) in a **Media** card above the text. It is linked, not copied.

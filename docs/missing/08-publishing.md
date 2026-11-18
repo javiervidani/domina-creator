@@ -10,3 +10,4 @@
 - [ ] **Later:** YouTube publishing (needs the video, the YouTube connector, quota handling and the Reels audio warning). The step file lists it; it cannot be text only.
 - [ ] **Claude (ask first):** backfill drafts for old contents when a target is added; a place to see the send log (`publish_jobs` is recorded but not shown).
 - [ ] **Claude:** the Compare/Take-new-version actions change only the master text; whether a Telegram copy should be flagged then is not decided.
+- [ ] **Later (owner ask, 2026-11-18):** send the media to Telegram by link (`sendPhoto`/`sendVideo` with the address), YouTube needs the file bytes. See `docs/steps/08-publishing.md`.

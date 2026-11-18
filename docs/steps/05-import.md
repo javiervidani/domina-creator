@@ -19,3 +19,8 @@
 - A changed original updates the stored source text; the master text follows it only if never edited, otherwise `source_changed` is set and the text is untouched.
 - Posts without a caption are skipped (phase 1 is text only).
 - Tests: `CaptionTextTest`, `ImportScheduleTest` (any DB), `ImportTest` (PostgreSQL only).
+
+## Added by the owner (2026-11-18): media links
+- Import also keeps the post's image or video **address** (`media_url`, `thumbnail_url`, https only). No file is downloaded or stored.
+- Links are refreshed on every sync because the network's addresses expire. Older posts outside the sync window keep an old address that may stop working; the editor then hides the broken picture and keeps "Open the original post".
+- A post with no caption is still skipped (a content needs text). Carousels show only their first picture.
