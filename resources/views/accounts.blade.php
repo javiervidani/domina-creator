@@ -19,11 +19,25 @@
 
 <details class="card mb-3"><summary class="card-body py-2" style="cursor:pointer">Connect Telegram (publish to a channel or group)</summary>
     <div class="card-body pt-0">
-        <p class="small text-muted">Make a bot with @BotFather, add it as an admin of your channel or group, then enter the bot token and the channel (for example <code>@mychannel</code>) or its numeric id. The token is checked with Telegram and stored encrypted.</p>
+        <ol class="small text-muted ps-3 mb-2">
+            <li>In Telegram, talk to <b>@BotFather</b>, send <code>/newbot</code> and copy the <b>bot token</b> it gives you.</li>
+            <li>Choose where posts go and add your bot there:
+                <ul class="mb-0">
+                    <li><b>A channel or group:</b> add the bot as an <b>administrator</b> who can post and edit messages.</li>
+                    <li><b>Just you (for a test):</b> open your bot in Telegram and press <b>Start</b>, once.</li>
+                </ul></li>
+            <li>Enter the bot token and the destination:
+                <ul class="mb-0">
+                    <li>a public channel: <code>@mychannel</code></li>
+                    <li>a private channel or group: its numeric id, for a channel it starts with <code>-100</code> (get it by forwarding a post to <b>@getidsbot</b>)</li>
+                    <li>a private chat with the bot: the bot's <code>@username</code> or your numeric user id</li>
+                </ul></li>
+        </ol>
+        <p class="small text-muted">The token is checked with Telegram and stored encrypted. It is never shown again.</p>
         <form method="post" action="{{ route('accounts.telegram') }}" class="row g-2" autocomplete="off">
             @csrf
             <div class="col-md-5"><input type="password" name="bot_token" class="form-control" placeholder="Bot token" required autocomplete="off"></div>
-            <div class="col-md-4"><input name="chat_id" class="form-control" placeholder="@channel or chat id" required></div>
+            <div class="col-md-4"><input name="chat_id" class="form-control" placeholder="@channel, -100… id or @bot" required></div>
             <div class="col-auto"><button class="btn btn-primary rounded-pill">Connect</button></div>
         </form>
     </div>

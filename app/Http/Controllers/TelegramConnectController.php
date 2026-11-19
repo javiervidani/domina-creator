@@ -22,7 +22,7 @@ class TelegramConnectController extends Controller
         try {
             $info = (new TelegramConnector($token, $chat))->chat();
         } catch (PlatformException $e) {
-            return back()->with('error', 'Telegram did not accept that: '.$e->getMessage().' (the bot must be an admin of the channel).');
+            return back()->with('error', 'Telegram did not accept that: '.$e->getMessage().' (for a channel or group the bot must be an administrator; for a private chat press Start on the bot first; a private channel id starts with -100).');
         }
 
         // A Telegram account is a place to publish to, never the source of truth or an import source.
