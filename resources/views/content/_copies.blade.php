@@ -30,6 +30,10 @@
                     {{ ['draft' => 'Approve and publish', 'failed' => 'Retry', 'published' => 'Re-publish'][$copy->status] ?? 'Publish' }}</button>
             </form>
             @endif
+            @if (in_array($copy->status, ['draft', 'failed'], true))
+            <form method="post" action="{{ route('content.copy.remove', [$content, $copy]) }}" class="mt-1" onsubmit="return confirm('Remove this {{ ucfirst($copy->platform) }} copy? Nothing is deleted on {{ ucfirst($copy->platform) }}.')">@csrf @method('DELETE')
+                <button class="btn btn-sm btn-link text-danger p-0">Remove</button></form>
+            @endif
         @endif
     </div>
 @empty

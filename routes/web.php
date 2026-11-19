@@ -87,6 +87,7 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::post('content/{content}/parts/rebuild', [ContentPartsController::class, 'rebuild'])->name('content.parts.rebuild');
     Route::post('content/{content}/parts/{part}/move', [ContentPartsController::class, 'move'])->name('content.parts.move');
     Route::post('content/{content}/draft/{account}', [PublishingController::class, 'draft'])->name('content.draft');
+    Route::delete('content/{content}/copies/{copy}', [PublishingController::class, 'discard'])->name('content.copy.remove');
     Route::post('content/{content}/copies/{copy}/publish', [PublishingController::class, 'publish'])->name('content.publish');
     Route::get('settings', [SettingsController::class, 'index'])->name('settings');
     Route::patch('settings/notifications', [SettingsController::class, 'notifications'])->name('settings.notifications');

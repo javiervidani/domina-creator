@@ -40,4 +40,16 @@ class PublishingController extends Controller
 
         return back()->with('status', 'Sending to '.ucfirst($copy->platform).'. Refresh in a moment to see the result.');
     }
+
+    // Remove a draft or failed copy. A published copy stays: its message exists on the network.
+    public function discard(Content $content, ContentCopy $copy)
+    {
+        abort_unless($copy->content_id === $content->id && $copy->link_mode === 'target', 404);
+        if (! in_array($copy->status, ['draft', 'failed'], true)) {
+            return back()->with('error', 'Only a draft or a failed copy can be removed.');
+        }
+        $copy->delete();
+
+        return back()->with('status', 'Removed. Nothing was sent or deleted on '.ucfirst($copy->platform).'.');
+    }
 }
