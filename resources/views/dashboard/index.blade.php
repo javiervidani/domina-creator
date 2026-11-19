@@ -14,7 +14,11 @@
             @forelse ($attention as $item)
                 <a href="{{ $item['url'] }}" class="d-flex gap-2 align-items-start py-2 border-top text-decoration-none text-body">
                     <span class="pill {{ $item['tone'] }} flex-shrink-0">{{ ['account' => 'Account', 'failed' => 'Failed', 'draft' => 'Draft', 'changed' => 'Changed'][$item['kind']] }}</span>
-                    <span dir="auto">{{ $item['text'] }}</span>
+                    <span class="min-w-0">
+                        <span class="d-block">{{ $item['text'] }}</span>
+                        @if (! empty($item['title']))<span class="d-block fw-medium" dir="auto">{{ $item['title'] }}</span>@endif
+                        @if (! empty($item['detail']))<span class="d-block small text-muted" dir="auto">{{ $item['detail'] }}</span>@endif
+                    </span>
                 </a>
             @empty
                 <div class="text-muted small">Nothing needs you right now.</div>

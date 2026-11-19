@@ -2,6 +2,7 @@
 @section('title', 'Set up')
 @section('content')
 @php($current = collect($steps)->search(fn ($s) => ! $s['done']))
+@php($at = fn ($a) => ($a->platform === 'instagram' ? '@' : '').$a->handle)
 <h1 class="h3 mb-1">Let's set up your workspace</h1>
 <p class="text-muted">Four short steps. You can change everything later on the Accounts page.</p>
 
@@ -32,12 +33,7 @@
                 <a href="{{ route('accounts') }}" class="btn btn-outline-primary rounded-pill">Connect Telegram</a>
             @else
                 <p class="small text-muted">New targets start as <b>review first</b>: nothing is sent until you approve it. You can switch a target to Auto.</p>
-                <form method="post" action="{{ route('targets.store') }}" class="d-flex gap-2 flex-wrap mb-2">@csrf
-                    <select name="source_account_id" class="form-select form-select-sm w-auto">@foreach ($accounts as $a)<option value="{{ $a->id }}">{{ $a->handle }}</option>@endforeach</select>
-                    <span class="align-self-center">to</span>
-                    <select name="target_account_id" class="form-select form-select-sm w-auto">@foreach ($accounts as $a)<option value="{{ $a->id }}">{{ $a->handle }}</option>@endforeach</select>
-                    <button class="btn btn-sm btn-primary rounded-pill">Add target</button>
-                </form>
+                @include('partials._target_form')
             @endif
             <form method="post" action="{{ route('onboarding.skip') }}" class="mt-2">@csrf
                 <button class="btn btn-sm btn-link px-0">Skip for now</button></form>

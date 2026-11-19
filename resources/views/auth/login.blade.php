@@ -5,9 +5,9 @@
 <form method="post" action="{{ route('login') }}">
     @csrf
     <div class="mb-3"><label class="form-label">Email</label>
-        <input type="email" name="email" value="{{ old('email') }}" class="form-control" required autofocus></div>
+        <input type="email" name="email" autocomplete="username" value="{{ old('email') }}" class="form-control" required autofocus></div>
     <div class="mb-3"><label class="form-label">Password</label>
-        <input type="password" name="password" class="form-control" required></div>
+        <input type="password" name="password" autocomplete="current-password" class="form-control" required></div>
     <div class="form-check mb-3"><input type="checkbox" name="remember" value="1" class="form-check-input" id="remember">
         <label class="form-check-label" for="remember">Stay signed in</label></div>
     <button class="btn btn-primary rounded-pill w-100">Sign in</button>

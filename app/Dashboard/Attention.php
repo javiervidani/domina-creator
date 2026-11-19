@@ -12,7 +12,7 @@ class Attention
 {
     private const LIMIT = 5;
 
-    /** @return array<int, array{kind: string, text: string, url: string, tone: string}> */
+    /** @return array<int, array{kind: string, text: string, url: string, tone: string, title?: ?string, detail?: string}> */
     public static function items(): array
     {
         $items = [];
@@ -21,23 +21,23 @@ class Attention
             $health = AccountHealth::forAccount($a);
             if ($health !== 'ok') {
                 $items[] = ['kind' => 'account', 'tone' => $health === 'reconnect' ? 'bad' : 'warn', 'url' => route('accounts'),
-                    'text' => ucfirst($a->platform).' @'.$a->handle.($health === 'reconnect' ? ': reconnect needed' : ': token expiring soon')];
+                    'text' => ucfirst($a->platform).($a->platform === 'instagram' ? ' @' : ' ').$a->handle, 'detail' => $health === 'reconnect' ? 'Reconnect needed' : 'Token expiring soon'];
             }
         }
 
         foreach (ContentCopy::with('content')->where('link_mode', 'target')->where('status', 'failed')->latest('id')->limit(self::LIMIT)->get() as $c) {
             $items[] = ['kind' => 'failed', 'tone' => 'bad', 'url' => route('content.show', $c->content_id),
-                'text' => 'Failed to publish to '.ucfirst($c->platform).': '.$c->content?->title.' ('.str($c->last_error)->limit(60).')'];
+                'text' => 'Failed to publish to '.ucfirst($c->platform), 'title' => $c->content?->title, 'detail' => str($c->last_error)->limit(80)->toString()];
         }
 
         foreach (ContentCopy::with('content')->where('link_mode', 'target')->where('status', 'draft')->latest('id')->limit(self::LIMIT)->get() as $c) {
             $items[] = ['kind' => 'draft', 'tone' => 'warn', 'url' => route('content.show', $c->content_id),
-                'text' => ucfirst($c->platform).' draft waiting for approval: '.$c->content?->title];
+                'text' => ucfirst($c->platform).' draft waiting for approval', 'title' => $c->content?->title];
         }
 
         foreach (Content::where('source_changed', true)->latest('id')->limit(self::LIMIT)->get() as $c) {
             $items[] = ['kind' => 'changed', 'tone' => 'warn', 'url' => route('content.show', $c),
-                'text' => 'The original changed: '.$c->title];
+                'text' => 'The original changed', 'title' => $c->title];
         }
 
         return $items;

@@ -18,10 +18,10 @@
         @forelse ($collection->items as $item)
             <div class="d-flex align-items-center gap-2 py-2 {{ $loop->first ? '' : 'border-top' }}">
                 <span class="cid">{{ $item->content?->platformId() }}</span>
-                <a href="{{ $item->content ? route('content.show', $item->content) : '#' }}" class="flex-grow-1 text-truncate" dir="auto">{{ $item->content?->title ?? 'Removed' }}</a>
-                @unless ($loop->first)<form method="post" action="{{ route('collections.move', [$collection, $item]) }}">@csrf<input type="hidden" name="dir" value="up"><button class="btn btn-sm py-0 px-1" title="Move up">↑</button></form>@endunless
-                @unless ($loop->last)<form method="post" action="{{ route('collections.move', [$collection, $item]) }}">@csrf<input type="hidden" name="dir" value="down"><button class="btn btn-sm py-0 px-1" title="Move down">↓</button></form>@endunless
-                <form method="post" action="{{ route('collections.remove', [$collection, $item]) }}">@csrf @method('DELETE')<button class="btn btn-sm py-0 px-1 text-danger" title="Remove from the collection">×</button></form>
+                <a href="{{ $item->content ? route('content.show', $item->content) : '#' }}" class="row-link flex-grow-1 text-truncate" dir="auto">{{ $item->content?->title ?? 'Removed' }}</a>
+                @unless ($loop->first)<form method="post" action="{{ route('collections.move', [$collection, $item]) }}">@csrf<input type="hidden" name="dir" value="up"><button class="icon-btn" title="Move up">↑</button></form>@endunless
+                @unless ($loop->last)<form method="post" action="{{ route('collections.move', [$collection, $item]) }}">@csrf<input type="hidden" name="dir" value="down"><button class="icon-btn" title="Move down">↓</button></form>@endunless
+                <form method="post" action="{{ route('collections.remove', [$collection, $item]) }}">@csrf @method('DELETE')<button class="icon-btn text-danger" title="Remove from the collection">×</button></form>
             </div>
         @empty
             <div class="text-muted">Empty. In the Library, select posts and use <b>Add to collection</b>.</div>

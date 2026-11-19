@@ -6,12 +6,12 @@
                 <span>{{ $loop->iteration }}.</span><span class="cid">{{ $part->label }}</span>
                 <span class="ms-auto d-flex gap-1">
                     @unless ($loop->first)
-                    <form method="post" action="{{ route('content.parts.move', [$content, $part]) }}">@csrf<input type="hidden" name="dir" value="up"><button class="btn btn-sm py-0 px-1" title="Move up">↑</button></form>
+                    <form method="post" action="{{ route('content.parts.move', [$content, $part]) }}">@csrf<input type="hidden" name="dir" value="up"><button class="icon-btn" title="Move up">↑</button></form>
                     @endunless
                     @unless ($loop->last)
-                    <form method="post" action="{{ route('content.parts.move', [$content, $part]) }}">@csrf<input type="hidden" name="dir" value="down"><button class="btn btn-sm py-0 px-1" title="Move down">↓</button></form>
+                    <form method="post" action="{{ route('content.parts.move', [$content, $part]) }}">@csrf<input type="hidden" name="dir" value="down"><button class="icon-btn" title="Move down">↓</button></form>
                     @endunless
-                    <form method="post" action="{{ route('content.parts.remove', [$content, $part]) }}">@csrf @method('DELETE')<button class="btn btn-sm py-0 px-1 text-danger" title="Remove from the list">×</button></form>
+                    <form method="post" action="{{ route('content.parts.remove', [$content, $part]) }}">@csrf @method('DELETE')<button class="icon-btn text-danger" title="Remove from the list">×</button></form>
                 </span>
             </div>
             <div class="small mt-1" dir="auto" style="max-height:3.2em;overflow:hidden">{{ \Illuminate\Support\Str::limit($part->text, 120) }}</div>
