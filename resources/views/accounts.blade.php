@@ -30,14 +30,14 @@
                 <ul class="mb-0">
                     <li>a public channel: <code>@mychannel</code></li>
                     <li>a private channel or group: its numeric id, for a channel it starts with <code>-100</code> (get it by forwarding a post to <b>@getidsbot</b>)</li>
-                    <li>a private chat with the bot: the bot's <code>@username</code> or your numeric user id</li>
+                    <li>a private chat with you: your own numeric user id (get it from <b>@userinfobot</b>), never the bot's own name</li>
                 </ul></li>
         </ol>
         <p class="small text-muted">The token is checked with Telegram and stored encrypted. It is never shown again.</p>
         <form method="post" action="{{ route('accounts.telegram') }}" class="row g-2" autocomplete="off">
             @csrf
             <div class="col-md-5"><input type="password" name="bot_token" class="form-control" placeholder="Bot token" required autocomplete="off"></div>
-            <div class="col-md-4"><input name="chat_id" class="form-control" placeholder="@channel, -100… id or @bot" required></div>
+            <div class="col-md-4"><input name="chat_id" class="form-control" placeholder="@channel, -100… id or your user id" required></div>
             <div class="col-auto"><button class="btn btn-primary rounded-pill">Connect</button></div>
         </form>
     </div>
