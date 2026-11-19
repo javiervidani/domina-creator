@@ -53,6 +53,8 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - Combined posts no longer get an English "Combined:" title prefix (existing drafts tidied by a migration); Library has a Drafts filter pill with a count.
 - 2026-11-19: removed the placeholder `public/index.html` from the first deploy test. Apache served it before Laravel, so the site's root address showed "Under construction" instead of the app (`/dashboard`, `/login` and the rest were never affected).
 
+- 2026-11-19: Telegram publishing proven live (owner: a Hebrew post arrived in the test channel). Added: clearer Telegram errors, Remove for draft or failed copies, and "Send with the picture" (by link; step 8 file). Not yet tried live. Step 15 file written (AI rewrite and shorten, audio and on-device notes).
+
 ## Open questions
 - PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.
 - Plesk webhook works. The deploy folder is the web root today; Laravel needs the document root set to `public`.

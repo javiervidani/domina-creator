@@ -27,3 +27,9 @@
 - **Instagram addresses expire**, and Telegram fetches the address at send time. So the sync must have refreshed the link recently; otherwise fail with a clear message and ask for a Sync now before sending.
 - **YouTube** needs the actual video bytes, so a link alone is not enough: the upload would have to stream the file through the server (temporary, never kept). Decide with the owner when the YouTube connector is built.
 - A per-target switch "include the media" (default on for Telegram) belongs in the editor's Linked copies panel.
+
+## Added 2026-11-19: send with the picture
+- Each Telegram copy has "Send with the picture" (on by default when the post has one). The picture is the post's image, or a video's cover image, sent **by link** (`sendPhoto`; Telegram downloads it, we store nothing).
+- A text of 1024 characters or less goes as the picture's caption. A longer text goes as a second message right after the picture (a photo caption cannot be longer). Re-publish edits the caption or the text message; the picture itself cannot be changed after the first send, so the choice is only offered before it.
+- If the picture address has expired Telegram cannot download it: the error says to Sync now on the Instagram account, then Retry, or untick the option. A carousel sends its first picture only.
+- Columns `send_image`, `image_mode` on `content_copies` (creator migration `2026_11_20_000001`).

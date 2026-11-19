@@ -34,7 +34,9 @@ class PublishingController extends Controller
             return back()->with('error', 'The text is '.mb_strlen($text).' characters; Telegram allows '.TelegramConnector::LIMIT.'. Shorten it in the Telegram tab first.');
         }
 
-        $copy->update(['status' => 'queued', 'last_error' => null]);
+        // The picture choice can only change before the first send: a sent message cannot gain or lose its picture.
+        $choice = $copy->status === 'published' ? [] : ['send_image' => $request->boolean('send_image')];
+        $copy->update(['status' => 'queued', 'last_error' => null] + $choice);
         // After the response, outside the creator schema: the queue table is in public.
         PublishCopyJob::dispatch($request->attributes->get('creator_id'), $copy->id)->afterResponse();
 

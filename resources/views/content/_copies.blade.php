@@ -1,4 +1,5 @@
 <div class="small text-muted mb-2">One ID: <span class="cid">{{ $content->platformId() }}</span>. Every copy on another account is linked to it.</div>
+@php($img = \App\Publishing\Publisher::imageUrl($media))
 @forelse ($content->copies as $copy)
     @php($isTarget = $copy->link_mode === 'target')
     <div class="border rounded-3 p-2 mb-2">
@@ -26,6 +27,13 @@
             @if ($copy->status !== 'queued')
             <form method="post" action="{{ route('content.publish', [$content, $copy]) }}" class="mt-2"
                   @if ($copy->status === 'published') onsubmit="return confirm('Update the published {{ ucfirst($copy->platform) }} message with your current text?')" @endif>@csrf
+                @if ($img && $copy->status !== 'published')
+                    <input type="hidden" name="send_image" value="0">
+                    <label class="small d-block mb-1"><input type="checkbox" name="send_image" value="1" @checked($copy->send_image)>
+                        Send with the picture{{ $media->media_type === 'VIDEO' ? ' (the video\'s cover image)' : '' }}</label>
+                @elseif ($copy->status === 'published' && $copy->image_mode)
+                    <div class="small text-muted mb-1">Sent with the picture.</div>
+                @endif
                 <button class="btn btn-sm rounded-pill {{ $copy->status === 'published' ? (($differs[$copy->id] ?? false) ? 'btn-primary' : 'btn-outline-secondary') : 'btn-primary' }}">
                     {{ ['draft' => 'Approve and publish', 'failed' => 'Retry', 'published' => 'Re-publish'][$copy->status] ?? 'Publish' }}</button>
             </form>

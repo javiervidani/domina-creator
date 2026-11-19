@@ -45,6 +45,9 @@ suggestion beside the current text, and applies or dismisses it. Nothing changes
 - Tests with a fake provider (no real keys, no real text in tests).
 
 ## Not in this step
+- **Generating a new picture with AI** for a post (owner request, 2026-11-19). Phase 2, a separate item: needs an image model
+  key, a clear "generated" label, and the result stored as a link or a light copy (see step 14), never replacing the original
+  picture. Sending the post's own Instagram picture by link is already built (step 8).
 - Collections, translation, hashtag ideas, scheduling suggestions, automatic AI on import (later, if asked).
 - In-browser or local models. See the note below.
 

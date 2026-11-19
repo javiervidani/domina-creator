@@ -19,6 +19,8 @@ class TelegramError
             str_contains($d, 'user not found'), str_contains($d, 'user_is_bot') => 'That user id is not valid for a private chat. Use your own numeric id from @userinfobot, after you pressed Start on the bot.',
             str_contains($d, 'message to edit not found'), str_contains($d, 'message can\'t be edited') => 'The message on Telegram was deleted or is too old to edit. Remove this copy and create a new draft.',
             str_contains($d, 'message is too long') => 'The text is longer than Telegram allows (4096 characters). Shorten it in the Telegram tab.',
+            str_contains($d, 'failed to get http url content'), str_contains($d, 'wrong file identifier'), str_contains($d, 'wrong type of the web page content'), str_contains($d, 'wrong remote file') => 'Telegram could not download the picture, usually because Instagram\'s picture address expired. Press Sync now on the Instagram account, then Retry, or untick "Send with the picture".',
+            str_contains($d, 'caption is too long') => 'The text is too long for a message with a picture (1024 characters). Shorten it, or untick "Send with the picture".',
             str_contains($d, 'message text is empty') => 'The text is empty. Add text in the Telegram tab or in the master text.',
             str_contains($d, 'group chat was upgraded to a supergroup') => 'Telegram changed this group into a supergroup. Connect it again with its new -100 id.',
             $code === 429 => 'Telegram asks to slow down. It will be tried again shortly.',
