@@ -20,6 +20,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | 12 | Deletion and 60-day recovery | Code written; lock, restore and purge checked on a local PostgreSQL 16 through the real pages; not yet tried live |
 | 13 | CSV export and backups | Not started |
 | 14 | Optional light image storage (backlog, last) | Not started, only if the owner asks |
+| 15 | AI suggestions: rewrite and shorten per post (phase 2) | Step file written 2026-11-19; not started, only when the owner says |
 
 ## Done so far
 - Mockups of the Library and the Content editor, including the AI suggestions panel.
