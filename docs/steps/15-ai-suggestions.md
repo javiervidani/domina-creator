@@ -60,5 +60,20 @@ suggestion beside the current text, and applies or dismisses it. Nothing changes
 - Suggested path: build this step with hosted providers first; add an "On this device" provider later behind the same
   `AiClient` interface, as an opt-in.
 
+## Note: audio, BlueTTS (owner screenshots, 2026-11-19)
+Not part of this step; a candidate for a later "audio" step. Checked only from the bluetts.com pages, not yet from its
+GitHub repo or the "Model licenses" page.
+- **What it is:** text to speech that runs in the browser (a Hebrew voice "Shira" is in the demo). The model is about
+  425 MB, downloaded once per device and cached. No key, and the text never leaves the device.
+- **Licences (as stated on the site):** code MIT (Max Melichov); audio decoder fine-tuned from Supertone's Supertonic-3
+  under OpenRAIL-M (use restrictions apply); voices from LibriTTS-R under CC BY 4.0 (credit required); German and Italian
+  pronunciation from Wiktionary under CC BY-SA. The source and licence of the Hebrew voice is **not yet confirmed**.
+- **Before building:** read the repo and "Model licenses"; confirm the Hebrew voice licence, the OpenRAIL-M restrictions
+  against our use, and that credits can be shown (an attribution line in Settings or the privacy page).
+- **If built:** opt-in per creator with a clear warning about the 425 MB first download and mobile data; vendor the
+  script (no Node build on Plesk) and allow the model host in the CSP; browser-only, so no server load; a "Listen" button
+  on a post or target text. Check WebGPU and memory support and fall back to "not available on this device".
+- **Speech to text** (transcripts) is a different model (for example Whisper in the browser); plan it separately.
+
 ## Notes
 - Related: `docs/steps/07-editor.md`, `docs/steps/10-settings-and-ai-keys.md`, `docs/DATABASE.md` (AI tables), `docs/UI.md`.
