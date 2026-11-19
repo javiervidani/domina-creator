@@ -34,7 +34,7 @@
         </div>
     </div>
     <nav class="nav-links" aria-label="Main">
-        <a class="tabx {{ request()->routeIs('dashboard', 'onboarding') ? 'on' : '' }}" href="{{ route('home') }}">Dashboard</a>
+        <a class="tabx {{ request()->routeIs('dashboard', 'onboarding') ? 'on' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
         <a class="tabx {{ request()->routeIs('library', 'content.*') ? 'on' : '' }}" href="{{ route('library') }}">Library
             @if ($nav['drafts'] > 0)<span class="badgex" title="Drafts">{{ $nav['drafts'] }}</span>@endif</a>
         <a class="tabx {{ request()->routeIs('collections*') ? 'on' : '' }}" href="{{ route('collections') }}">Collections</a>

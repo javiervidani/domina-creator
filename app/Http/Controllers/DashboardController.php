@@ -18,8 +18,12 @@ class DashboardController extends Controller
         return redirect()->route(Onboarding::complete((bool) $request->session()->get('skip_targets')) ? 'dashboard' : 'onboarding');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if (! Onboarding::complete((bool) $request->session()->get('skip_targets'))) {
+            return redirect()->route('onboarding');
+        }
+
         $lines = AccountTarget::with(['source', 'target'])->get()->groupBy('source_account_id')->map(
             fn ($group) => SyncLine::format($group->first()->source->platform, $group->first()->source->handle,
                 $group->map(fn ($t) => ['platform' => $t->target->platform, 'handle' => $t->target->handle, 'mode' => $t->mode])->all())
