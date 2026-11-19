@@ -68,8 +68,9 @@ class TelegramConnector extends BaseConnector
 
         if (! $response->successful() || empty($body['ok'])) {
             $code = (int) ($body['error_code'] ?? $response->status());
-            throw new PlatformException((string) ($body['description'] ?? 'Telegram request failed.'), $code === 401,
-                $code === 429 || $code >= 500);
+            // 404 is what Telegram answers for a token it does not know.
+            throw new PlatformException(TelegramError::explain($code, (string) ($body['description'] ?? '')),
+                $code === 401 || $code === 404, $code === 429 || $code >= 500);
         }
 
         return $body['result'];

@@ -82,7 +82,7 @@ class PublishingTest extends TestCase
         app(Tenancy::class)->run(self::ID, function () use ($copyId) {
             $copy = ContentCopy::find($copyId);
             $this->assertSame('failed', $copy->status);
-            $this->assertSame('chat not found', $copy->last_error);
+            $this->assertStringContainsString('chat not found', $copy->last_error);
         });
     }
 }
