@@ -2,19 +2,21 @@
 @section('title', $content->title)
 @section('content')
 @php($limits = \App\Content\Targets::LIMITS)
-<div class="d-flex align-items-center flex-wrap gap-2 mb-3">
-    <a href="{{ route('library') }}" class="btn btn-sm btn-outline-secondary rounded-pill">← Library</a>
-    <div class="flex-grow-1" style="min-width:220px">
-        <input form="masterForm" name="title" class="form-control form-control-lg border-0 bg-transparent px-1" dir="auto"
-               value="{{ old('title', $content->title) }}" aria-label="Title" required>
-        <div class="px-1"><span class="cid">{{ $content->platformId() }}</span>
+<div class="ed-head mb-3">
+    <a href="{{ route('library') }}" class="btn btn-sm btn-outline-secondary rounded-pill ed-back">← Library</a>
+    <div class="ed-title">
+        {{-- A textarea so a long title wraps instead of being cut off; it grows with the text (see the script). --}}
+        <textarea form="masterForm" name="title" rows="1" dir="auto" aria-label="Title" required>{{ old('title', $content->title) }}</textarea>
+        <div><span class="cid">{{ $content->platformId() }}</span>
             @if ($content->status === 'draft')<span class="pill blue">Draft</span>@endif
             @foreach ($content->tags as $tag)<span class="pill blue">{{ $tag->name }}</span>@endforeach</div>
     </div>
-    <span class="small text-muted" id="saved">Saved</span>
-    <button form="masterForm" class="btn btn-primary rounded-pill">Save</button>
-    <form method="post" action="{{ route('content.destroy', $content) }}" onsubmit="return confirm('Move this post to the Recycle bin for 60 days?')">@csrf @method('DELETE')
-        <button class="btn btn-outline-danger btn-sm rounded-pill">Delete</button></form>
+    <div class="ed-actions">
+        <span class="small text-muted" id="saved">Saved</span>
+        <button form="masterForm" class="btn btn-primary btn-sm rounded-pill px-3">Save</button>
+        <form method="post" action="{{ route('content.destroy', $content) }}" onsubmit="return confirm('Move this post to the Recycle bin for 60 days?')">@csrf @method('DELETE')
+            <button class="btn btn-outline-danger btn-sm rounded-pill">Delete</button></form>
+    </div>
 </div>
 
 @if ($content->source_changed && $diff)
@@ -33,9 +35,9 @@
 @endif
 
 <div class="row g-3">
-    <aside class="col-lg-3">@include('content._parts')</aside>
+    <aside class="col-lg-3 order-2 order-lg-1">@include('content._parts')</aside>
 
-    <main class="col-lg-6">
+    <main class="col-lg-6 order-1 order-lg-2">
         @include('content._media')
         <div class="card"><div class="card-body">
         <ul class="nav nav-tabs mb-3">
@@ -68,7 +70,7 @@
         <div class="small text-muted mt-3">Originals are never changed. Edits live here and are saved as you type.</div>
     </div></div></main>
 
-    <aside class="col-lg-3"><div class="card"><div class="card-body">
+    <aside class="col-lg-3 order-3"><div class="card"><div class="card-body">
         <ul class="nav nav-tabs mb-3">
             <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#r-copies" type="button">Linked copies</button></li>
             <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#r-history" type="button">History</button></li>

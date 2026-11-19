@@ -3,6 +3,14 @@
 // the status text just says "Not saved" and the Save button still works.
 (function () {
     var saved = document.getElementById('saved');
+    // The title is a textarea so it can wrap; keep it as tall as its text, and keep Enter from adding a line break.
+    var title = document.querySelector('.ed-title textarea');
+    if (title) {
+        var fit = function () { title.style.height = 'auto'; title.style.height = title.scrollHeight + 'px'; };
+        title.addEventListener('input', fit);
+        title.addEventListener('keydown', function (e) { if (e.key === 'Enter') e.preventDefault(); });
+        fit();
+    }
     function count(form) {
         var ta = form.querySelector('textarea'), out = form.querySelector('[data-count]');
         if (!ta || !out) return;
@@ -20,7 +28,7 @@
         }
         function queue() { count(form); clearTimeout(timer); timer = setTimeout(send, 700); }
         if (ta) ta.addEventListener('input', queue);
-        if (document.querySelector('input[name=title]') && form.id === 'masterForm') document.querySelector('input[name=title]').addEventListener('input', queue);
+        if (document.querySelector('[name=title]') && form.id === 'masterForm') document.querySelector('[name=title]').addEventListener('input', queue);
         if (same) same.addEventListener('change', function () {
             ta.readOnly = same.checked;
             if (same.checked) ta.value = ta.dataset.master;
