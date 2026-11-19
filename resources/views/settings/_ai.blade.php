@@ -1,18 +1,18 @@
 <div class="small text-muted mb-3">Your own keys, for the AI suggestions that arrive in a later phase. A key is stored encrypted and shown only as its last four characters. It cannot be read back, only replaced, tested or removed.</div>
 <div class="row g-3">
-@foreach ($providers as $id => $p)
+@php($ordered = collect($providers)->sortBy(fn ($p, $id) => $keys->has($id) ? 0 : 1))
+@foreach ($ordered as $id => $p)
     @php($k = $keys->get($id))
     <div class="col-lg-6"><div class="card h-100"><div class="card-body">
-        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+        @unless ($k)<details class="ai-add"><summary class="d-flex align-items-center gap-2"><strong>{{ $p['label'] }}</strong><span class="pill ms-auto">Add key</span></summary><div class="mt-3">@endunless
+        @if ($k)<div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
             <strong>{{ $p['label'] }}</strong>
-            @if ($k)
                 <span class="pill {{ $k->enabled ? 'good' : '' }}">{{ $k->enabled ? 'On' : 'Off' }}</span>
                 @if ($k->is_default)<span class="pill blue">Default</span>@endif
                 @if ($k->last_test_ok === true)<span class="pill good">Key works</span>
                 @elseif ($k->last_test_ok === false)<span class="pill bad">Not accepted</span>
                 @else<span class="pill warn">Not tested</span>@endif
-            @endif
-        </div>
+        </div>@endif
         @if ($k && $k->last_test_ok === false)<div class="small text-danger mb-2">{{ $k->last_test_error }}</div>@endif
 
         <form method="post" action="{{ route('ai.store') }}" autocomplete="off">@csrf
@@ -34,6 +34,7 @@
             <form method="post" action="{{ route('ai.destroy', $k) }}" onsubmit="return confirm('Remove this key?')">@csrf @method('DELETE')<button class="btn btn-sm btn-outline-danger rounded-pill">Remove</button></form>
         </div>
         @endif
+        @unless ($k)</div></details>@endunless
     </div></div></div>
 @endforeach
 </div>

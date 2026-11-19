@@ -29,17 +29,18 @@
     </div>
 </details>
 
+@php($at = fn ($a) => ($a->platform === 'instagram' ? '@' : '').$a->handle)
 @forelse ($accounts as $account)
     @php($h = $health[$account->id])
     <div class="card mb-3"><div class="card-body">
         <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-            <strong>{{ ucfirst($account->platform) }} {{ '@'.$account->handle }}</strong>
+            <strong dir="auto">{{ ucfirst($account->platform) }} {{ $at($account) }}</strong>
             @if ($h === 'ok')<span class="badge text-bg-success">OK</span>
             @elseif ($h === 'expiring')<span class="badge text-bg-warning">Token expiring</span>
             @else<span class="badge text-bg-danger">Reconnect</span>@endif
             @if ($account->is_source_of_truth)<span class="badge text-bg-primary">Source of truth</span>@endif
             @if ($account->token?->expires_at)<small class="text-muted">token valid until {{ $account->token->expires_at->format('Y-m-d') }}</small>
-            @elseif ($account->token)<small class="text-muted">token expiry not known yet</small>@endif
+            @elseif ($account->token && $account->platform === 'instagram')<small class="text-muted">token expiry not known yet</small>@endif
         </div>
         @if ($account->last_error)<div class="text-danger small mb-2">{{ $account->last_error }}</div>@endif
         @if ($h === 'reconnect')<a href="{{ route('accounts.instagram') }}" class="btn btn-sm btn-outline-danger rounded-pill mb-2">Reconnect</a>@endif
@@ -64,19 +65,19 @@
         <div class="small text-muted mb-2">A place to publish to. Add it as a target below, then approve each draft in the editor.</div>
         @endif
 
-        <div class="d-flex flex-wrap gap-2">
+        <div class="d-flex flex-wrap gap-2 acc-actions">
             @if ($account->platform === 'instagram')
-            <form method="post" action="{{ route('accounts.refresh', $account) }}">@csrf
-                <button class="btn btn-sm btn-outline-secondary rounded-pill">Refresh token</button></form>
             <form method="post" action="{{ route('accounts.sync', $account) }}">@csrf
                 <button class="btn btn-sm btn-primary rounded-pill">Sync now</button></form>
+            <form method="post" action="{{ route('accounts.refresh', $account) }}">@csrf
+                <button class="btn btn-sm btn-outline-secondary rounded-pill">Refresh token</button></form>
             @endif
             @unless ($account->is_source_of_truth || $account->platform !== 'instagram')
                 <form method="post" action="{{ route('accounts.source', $account) }}"
                       onsubmit="return confirm('Make this the source of truth? The badge moves here. Edited texts are never overwritten.')">@csrf
                     <button class="btn btn-sm btn-outline-secondary rounded-pill">Make source of truth</button></form>
             @endunless
-            <form method="post" action="{{ route('accounts.destroy', $account) }}"
+            <form method="post" action="{{ route('accounts.destroy', $account) }}" class="ms-auto"
                   onsubmit="return confirm('Disconnect this account? Its token is deleted.')">@csrf @method('DELETE')
                 <button class="btn btn-sm btn-outline-danger rounded-pill">Disconnect</button></form>
         </div>
@@ -89,37 +90,45 @@
 <h2 class="h5 mt-4">Targets</h2>
 <div class="card mb-3"><div class="card-body">
     @foreach ($targets as $t)
-        <div class="d-flex gap-2 align-items-center mb-2">
-            <span>{{ '@'.$t->source->handle }} → {{ '@'.$t->target->handle }}</span>
+        <div class="target-row">
+            <div class="target-name" dir="auto">{{ $at($t->source) }} → {{ $at($t->target) }}</div>
             <form method="post" action="{{ route('targets.update', $t) }}">@csrf @method('PATCH')
-                <select name="mode" class="form-select form-select-sm" onchange="this.form.submit()">
+                <select name="mode" class="form-select form-select-sm" onchange="this.form.submit()" aria-label="Mode">
                     <option value="review" @selected($t->mode === 'review')>Review first</option>
                     <option value="auto" @selected($t->mode === 'auto')>Auto</option>
                 </select>
             </form>
             <form method="post" action="{{ route('targets.destroy', $t) }}">@csrf @method('DELETE')
-                <button class="btn btn-sm btn-link text-danger">Remove</button></form>
+                <button class="btn btn-sm btn-outline-danger rounded-pill">Remove</button></form>
         </div>
     @endforeach
-    <form method="post" action="{{ route('targets.store') }}" class="d-flex gap-2 flex-wrap">@csrf
-        <select name="source_account_id" class="form-select form-select-sm w-auto">@foreach ($accounts as $a)<option value="{{ $a->id }}">{{ $a->handle }}</option>@endforeach</select>
-        <span class="align-self-center">→</span>
-        <select name="target_account_id" class="form-select form-select-sm w-auto">@foreach ($accounts as $a)<option value="{{ $a->id }}">{{ $a->handle }}</option>@endforeach</select>
+    <form method="post" action="{{ route('targets.store') }}" class="target-add">@csrf
+        <div><label class="form-label small mb-1">From</label>
+            <select name="source_account_id" class="form-select form-select-sm" dir="auto">@foreach ($accounts as $a)<option value="{{ $a->id }}">{{ $at($a) }}</option>@endforeach</select></div>
+        <div><label class="form-label small mb-1">To</label>
+            <select name="target_account_id" class="form-select form-select-sm" dir="auto">@foreach ($accounts as $a)<option value="{{ $a->id }}">{{ $at($a) }}</option>@endforeach</select></div>
         <button class="btn btn-sm btn-outline-primary rounded-pill">Add target (review first)</button>
     </form>
 </div></div>
 @endif
 
 <h2 class="h5 mt-4">Activity</h2>
-<div class="card"><div class="table-responsive"><table class="table table-sm mb-0">
-    <thead><tr><th>When</th><th>Account</th><th>Kind</th><th>Result</th></tr></thead>
-    <tbody>
+<div class="card"><div class="card-body py-2">
     @forelse ($runs as $run)
-        <tr><td>{{ $run->started_at->format('Y-m-d H:i') }}</td><td>{{ '@'.$run->account?->handle }}</td><td>{{ str_replace('_', ' ', $run->kind) }}</td>
-            <td>@if ($run->status === 'failed')<span class="text-danger">{{ $run->error }}</span>@elseif ($run->status === 'ok')OK{{ $run->kind === 'sync' ? ', '.$run->fetched.' posts seen, '.$run->created.' new, '.$run->changed.' changed' : '' }}@else Running @endif</td></tr>
+        <div class="run {{ $loop->first ? '' : 'border-top' }}">
+            <div class="run-head">
+                <span class="small text-muted">{{ $run->started_at->format('M j, H:i') }}</span>
+                <span class="pill">{{ str_replace('_', ' ', $run->kind) }}</span>
+                @if ($run->status === 'failed')<span class="pill bad">Failed</span>
+                @elseif ($run->status === 'ok')<span class="pill good">OK</span>
+                @else<span class="pill blue">Running</span>@endif
+                <span class="small ms-auto" dir="auto">{{ $run->account ? $at($run->account) : '' }}</span>
+            </div>
+            @if ($run->status === 'failed')<div class="small text-danger">{{ $run->error }}</div>
+            @elseif ($run->status === 'ok' && $run->kind === 'sync')<div class="small text-muted">{{ $run->fetched }} posts seen, {{ $run->created }} new, {{ $run->changed }} changed</div>@endif
+        </div>
     @empty
-        <tr><td colspan="4" class="text-muted">No runs yet.</td></tr>
+        <div class="text-muted py-2">No runs yet.</div>
     @endforelse
-    </tbody>
-</table></div></div>
+</div></div>
 @endsection

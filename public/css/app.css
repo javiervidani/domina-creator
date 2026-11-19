@@ -121,3 +121,22 @@ details > summary { cursor: pointer; list-style: none; }
 .media-box { max-height: 220px; }
 @media (min-width: 768px) { .media-box { max-height: 420px; } }
 @media (max-width: 575px) { .banner { flex-direction: column; } .banner .btn { flex: 1 1 auto; } }
+
+/* Accounts: targets and activity read as small blocks instead of a squeezed row and table. */
+.target-row { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.target-name { grid-column: 1 / -1; font-weight: 500; }
+.target-row .form-select { min-width: 150px; }
+.target-add { display: grid; gap: 8px; margin-top: 12px; }
+@media (min-width: 768px) {
+    .target-row { grid-template-columns: 1fr auto auto; }
+    .target-name { grid-column: auto; }
+    .target-add { grid-template-columns: 1fr 1fr auto; align-items: end; }
+}
+.run { padding: 8px 0; }
+.run-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.acc-actions .ms-auto { margin-inline-start: auto; }
+
+/* Settings: a provider without a key is one tidy row that opens into its form. */
+.ai-add > summary { list-style: none; cursor: pointer; }
+.ai-add > summary::-webkit-details-marker { display: none; }
+@media (max-width: 575px) { .nav-tabs { -webkit-mask-image: linear-gradient(to right, #000 90%, transparent); mask-image: linear-gradient(to right, #000 90%, transparent); } }

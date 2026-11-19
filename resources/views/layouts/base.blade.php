@@ -11,5 +11,6 @@
 <body>
 @yield('body')
 <script src="{{ asset('vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
+<script>document.addEventListener('shown.bs.tab', function (e) { e.target.scrollIntoView({ inline: 'center', block: 'nearest' }); });</script>
 </body>
 </html>
