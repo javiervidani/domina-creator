@@ -7,10 +7,10 @@ namespace App\Settings;
 class AiProviders
 {
     public const ALL = [
-        'claude' => ['label' => 'Claude (Anthropic)', 'model' => 'claude-sonnet-5-5', 'url' => 'https://api.anthropic.com/v1/models'],
-        'openai' => ['label' => 'OpenAI', 'model' => 'gpt-4o-mini', 'url' => 'https://api.openai.com/v1/models'],
-        'grok' => ['label' => 'Grok (xAI)', 'model' => 'grok-2', 'url' => 'https://api.x.ai/v1/models'],
-        'groq' => ['label' => 'Groq', 'model' => 'llama-3.3-70b-versatile', 'url' => 'https://api.groq.com/openai/v1/models'],
+        'claude' => ['label' => 'Claude (Anthropic)', 'model' => 'claude-sonnet-5-5', 'url' => 'https://api.anthropic.com/v1/models', 'chat' => 'https://api.anthropic.com/v1/messages'],
+        'openai' => ['label' => 'OpenAI', 'model' => 'gpt-4o-mini', 'url' => 'https://api.openai.com/v1/models', 'chat' => 'https://api.openai.com/v1/chat/completions'],
+        'grok' => ['label' => 'Grok (xAI)', 'model' => 'grok-2', 'url' => 'https://api.x.ai/v1/models', 'chat' => 'https://api.x.ai/v1/chat/completions'],
+        'groq' => ['label' => 'Groq', 'model' => 'llama-3.3-70b-versatile', 'url' => 'https://api.groq.com/openai/v1/models', 'chat' => 'https://api.groq.com/openai/v1/chat/completions'],
     ];
 
     public static function valid(string $provider): bool

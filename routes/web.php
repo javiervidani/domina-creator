@@ -23,6 +23,7 @@ use App\Http\Controllers\RecycleBinController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PicturesController;
 use App\Http\Controllers\PublishingController;
+use App\Http\Controllers\SuggestionsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TelegramConnectController;
 use App\Http\Controllers\LibraryController;
@@ -83,6 +84,10 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('content/{content}', [ContentController::class, 'show'])->name('content.show');
     Route::patch('content/{content}', [ContentController::class, 'update'])->name('content.update');
     Route::patch('content/{content}/target/{target}', [ContentTargetController::class, 'update'])->name('content.target');
+    Route::post('content/{content}/ai/{target}', [SuggestionsController::class, 'store'])->name('ai.suggest');
+    Route::get('ai/suggestions/{suggestion}', [SuggestionsController::class, 'show'])->name('ai.suggestion');
+    Route::post('ai/suggestions/{suggestion}/apply', [SuggestionsController::class, 'apply'])->name('ai.apply');
+    Route::post('ai/suggestions/{suggestion}/dismiss', [SuggestionsController::class, 'dismiss'])->name('ai.dismiss');
     Route::post('content/{content}/keep', [ContentSourceController::class, 'keep'])->name('content.keep');
     Route::post('content/{content}/take', [ContentSourceController::class, 'take'])->name('content.take');
     Route::post('content/{content}/parts', [ContentPartsController::class, 'add'])->name('content.parts.add');

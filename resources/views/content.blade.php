@@ -53,6 +53,7 @@
                     <textarea name="master_text" class="form-control" rows="14" dir="auto" required>{{ old('master_text', $content->master_text) }}</textarea>
                     <div class="small text-muted mt-1"><span data-count></span></div>
                 </form>
+                @include('content._ai', ['target' => 'master'])
             </div>
             @foreach (\App\Content\Targets::LABELS as $key => $label)
                 @php($own = $targetTexts->has($key))
@@ -64,6 +65,7 @@
                         <textarea name="text" class="form-control" rows="14" dir="auto" data-master="{{ $content->master_text }}" @readonly(! $own)>{{ $own ? $targetTexts[$key] : $content->master_text }}</textarea>
                         <div class="small text-muted mt-1"><span data-count></span> · {{ $label }} limit {{ number_format($limits[$key]) }}</div>
                     </form>
+                    @include('content._ai', ['target' => $key])
                 </div>
             @endforeach
         </div>

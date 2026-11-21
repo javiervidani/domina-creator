@@ -3,6 +3,9 @@
 // the status text just says "Not saved" and the Save button still works.
 (function () {
     var saved = document.getElementById('saved');
+    // Coming back from an AI request lands on the tab it was for (the address ends with #t-telegram, for example).
+    var tabButton = location.hash && document.querySelector('[data-bs-target="' + location.hash + '"]');
+    if (tabButton && window.bootstrap) bootstrap.Tab.getOrCreateInstance(tabButton).show();
     // The title is a textarea so it can wrap; keep it as tall as its text, and keep Enter from adding a line break.
     var title = document.querySelector('.ed-title textarea');
     if (title) {

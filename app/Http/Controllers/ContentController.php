@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Content\TextDiff;
 use App\Content\VersionRecorder;
 use App\Models\ConnectedAccount;
+use App\Models\AiKey;
+use App\Models\AiSuggestion;
 use App\Models\Content;
 use App\Publishing\Publisher;
 use App\Publishing\TargetText;
@@ -28,6 +30,8 @@ class ContentController extends Controller
             'media' => $origin,
             'differs' => $differs, 'sendable' => $sendable,
             'content' => $content,
+            'aiReady' => AiKey::where('enabled', true)->exists(),
+            'suggestions' => AiSuggestion::where('content_id', $content->id)->whereIn('status', ['pending', 'offered', 'failed'])->latest('id')->get()->unique('target')->keyBy('target'),
             'targetTexts' => $content->targetTexts->pluck('text', 'target'),
             'diff' => $content->source_changed && $origin ? TextDiff::sides($content->master_text, $origin->source_text) : null,
             'others' => Content::where('id', '!=', $content->id)->orderByDesc('id')->limit(100)->get(['id', 'title']),

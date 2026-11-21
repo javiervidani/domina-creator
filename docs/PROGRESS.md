@@ -16,11 +16,11 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | 8 | Publishing and re-publish | Works live (owner, 2026-11-21): Review first, Re-publish, picture option |
 | 9 | Dashboard and onboarding | Code written, not yet tried live |
 | 10 | Settings and AI keys | Code written, not yet tried live |
-| 11 | Collections and website embed | Owner reports done (2026-11-21) |
+| 11 | Collections and website embed | Code written; not yet tried live (the owner has not embedded it on another site; there is no connector for that) |
 | 12 | Deletion and 60-day recovery | Works live (owner, 2026-11-21); also checked locally on PostgreSQL 16 |
 | 13 | CSV export and backups | Postponed to the end (owner, 2026-11-21) |
 | 14 | Optional light image storage | Built 2026-11-21 (small WebP copies, opt-in, 100 MB per creator); not yet tried live |
-| 15 | AI suggestions: rewrite and shorten per post (phase 2) | Step file written 2026-11-19; not started, only when the owner says |
+| 15 | AI suggestions: rewrite and shorten per post (phase 2) | Built 2026-11-22; not yet tried live |
 
 ## Done so far
 - Mockups of the Library and the Content editor, including the AI suggestions panel.

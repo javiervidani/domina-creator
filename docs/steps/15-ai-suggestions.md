@@ -1,6 +1,6 @@
 # Step 15 (phase 2): AI suggestions, rewrite and shorten per post
 
-**Status: planned, not started. Do not build until the owner says so.** Written 2026-11-19. Phase 1 has no AI
+**Status: built 2026-11-22 (owner: "continue to 15"), not yet tried live.** Written 2026-11-19. Phase 1 has no AI
 (`CLAUDE.md`); this step starts phase 2. Scope is decided: **rewrite** and **shorten**, **per post** only. Collections are
 out of scope.
 
@@ -80,3 +80,10 @@ GitHub repo or the "Model licenses" page.
 
 ## Notes
 - Related: `docs/steps/07-editor.md`, `docs/steps/10-settings-and-ai-keys.md`, `docs/DATABASE.md` (AI tables), `docs/UI.md`.
+
+## Built (2026-11-22)
+- Under the text of each tab (Master, YouTube, Telegram): **Rewrite with AI** and **Shorten with AI**. The result appears below with a word diff (your text now vs the suggestion), the character count and the limit, and **Apply** or **Dismiss**. The page updates by itself while the AI works.
+- Apply writes the text you had to History first ("Before the AI change"), then the new text ("Rewritten with AI" or "Shortened with AI"). A suggestion over the target's limit cannot be applied.
+- Uses the creator's default enabled key (Settings, AI keys) and that key's model. `app/Ai`: `AiClient` (base, one error explanation), `AnthropicClient`, `ChatClient` (OpenAI, Grok, Groq), `Prompts`. `SuggestTextJob` is queued and never retried. Table `ai_suggestions` (migration `2026_11_22_000001`). Limit of 30 suggestions a day. The post text is treated as data in the prompt; the log holds provider and creator only.
+- Privacy page says the text goes to the chosen provider when you press the buttons.
+- **Check live:** default model names (`AiProviders::ALL`) may be out of date: set the real one per key in Settings. Provider request formats were written from memory of their public APIs and checked only against fake answers.
