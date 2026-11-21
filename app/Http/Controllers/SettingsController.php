@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Media\ImageKeeper;
 use App\Models\AiKey;
+use App\Models\ContentCopy;
 use App\Models\Setting;
 use App\Settings\AiProviders;
 use Illuminate\Http\Request;
@@ -22,6 +24,7 @@ class SettingsController extends Controller
             'notify' => collect(self::NOTIFY)->map(fn ($label, $key) => ['label' => $label, 'on' => Setting::flag($key)]),
             'keys' => AiKey::orderBy('id')->get()->keyBy('provider'),
             'providers' => AiProviders::ALL,
+            'pictures' => ['on' => ImageKeeper::enabled(), 'bytes' => ImageKeeper::used(), 'count' => ContentCopy::whereNotNull('kept_path')->count()],
         ]);
     }
 

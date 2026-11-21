@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Import\AccountImporter;
+use App\Media\ImageKeeper;
+use App\Models\ContentCopy;
 use App\Models\ConnectedAccount;
 use App\Models\SyncRun;
 use App\Platforms\Instagram\InstagramConnector;
@@ -42,6 +44,12 @@ class SyncAccountJob extends CreatorJob
             // Drafts for the targets of this account. Targets on Auto are queued for publishing once we leave the schema.
             foreach (app(TargetPlanner::class)->planForNew($counts['new_ids'], $account) as $copyId) {
                 $this->later(new PublishCopyJob($this->creatorId, $copyId));
+            }
+
+            if (ImageKeeper::enabled()) { // small copies of the new pictures, made now while Instagram's address works
+                foreach (ContentCopy::whereIn('content_id', $counts['new_ids'])->where('is_origin', true)->pluck('id') as $copyId) {
+                    $this->later(new KeepImageJob($this->creatorId, $copyId));
+                }
             }
         } catch (PlatformException $e) {
             // Also in the log so /ops/logs shows it. Account id and creator only; the message never holds the token.

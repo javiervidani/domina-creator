@@ -3,6 +3,7 @@
 namespace App\Publishing;
 
 use App\Import\CaptionText;
+use App\Media\ImageKeeper;
 use App\Models\ConnectedAccount;
 use App\Models\ContentCopy;
 use App\Platforms\Telegram\TelegramConnector;
@@ -40,14 +41,18 @@ class Publisher
     /** First send. Telegram only lets a caption hold 1024 characters, so a longer text goes as its own message after the picture. */
     private function first(TelegramConnector $connector, ContentCopy $copy, string $text): array
     {
-        $image = $copy->send_image ? self::imageUrl($copy->content->copies()->where('is_origin', true)->first()) : null;
-        if (! $image) {
+        $origin = $copy->send_image ? $copy->content->copies()->where('is_origin', true)->first() : null;
+        // A kept copy is uploaded (it never expires); otherwise Telegram downloads the post's picture from its link.
+        $kept = $origin?->kept_path && ImageKeeper::disk()->exists($origin->kept_path) ? ImageKeeper::disk()->get($origin->kept_path) : null;
+        $link = self::imageUrl($origin);
+        if (! $kept && ! $link) {
             return [$connector->send($text), null];
         }
+        $send = fn (string $caption = '') => $kept ? $connector->sendPhotoFile($kept, $caption) : $connector->sendPhoto($link, $caption);
         if (mb_strlen($text) <= TelegramConnector::CAPTION_LIMIT) {
-            return [$connector->sendPhoto($image, $text), 'caption'];
+            return [$send($text), 'caption'];
         }
-        $connector->sendPhoto($image);
+        $send();
 
         return [$connector->send($text), 'separate'];
     }

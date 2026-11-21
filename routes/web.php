@@ -20,6 +20,8 @@ use App\Http\Controllers\InstagramConnectController;
 use App\Http\Controllers\LibraryBulkController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecycleBinController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\PicturesController;
 use App\Http\Controllers\PublishingController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TelegramConnectController;
@@ -91,6 +93,9 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::post('content/{content}/copies/{copy}/publish', [PublishingController::class, 'publish'])->name('content.publish');
     Route::get('settings', [SettingsController::class, 'index'])->name('settings');
     Route::patch('settings/notifications', [SettingsController::class, 'notifications'])->name('settings.notifications');
+    Route::patch('settings/pictures', [PicturesController::class, 'update'])->name('settings.pictures');
+    Route::delete('settings/pictures', [PicturesController::class, 'destroy'])->name('settings.pictures.delete');
+    Route::get('media/{copy}', [MediaController::class, 'show'])->name('media');
     Route::patch('settings/profile', [ProfileController::class, 'update'])->name('settings.profile');
     Route::put('settings/password', [ProfileController::class, 'password'])->name('settings.password');
     Route::post('settings/ai-keys', [AiKeyController::class, 'store'])->name('ai.store');

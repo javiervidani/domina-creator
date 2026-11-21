@@ -3,6 +3,7 @@
 namespace App\Tenancy;
 
 use App\Models\AccountToken;
+use Illuminate\Support\Facades\Storage;
 use App\Models\ConnectedAccount;
 use App\Models\CreatorMember;
 use App\Models\DeletionRequest;
@@ -58,6 +59,7 @@ class CreatorDeletion
         foreach (Tenant::where('status', 'pending_deletion')->where('purge_at', '<=', now())->pluck('creator_id') as $creatorId) {
             try {
                 DB::transaction(fn () => $this->purge($creatorId));
+                Storage::disk('local')->deleteDirectory("creators/{$creatorId}"); // kept pictures go with the history
                 $purged++;
             } catch (Throwable $e) {
                 // One stuck creator must not stop the others; it is tried again tomorrow.

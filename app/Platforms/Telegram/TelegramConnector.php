@@ -47,6 +47,14 @@ class TelegramConnector extends BaseConnector
         return (string) $this->call('sendPhoto', $payload)['message_id'];
     }
 
+    /** The same, for a kept copy: the file itself is uploaded, so no public address is needed. */
+    public function sendPhotoFile(string $bytes, string $caption = ''): string
+    {
+        $payload = ['chat_id' => $this->chatId] + ($caption !== '' ? ['caption' => $caption] : []);
+
+        return (string) $this->call('sendPhoto', $payload, ['photo', $bytes, 'picture.webp'])['message_id'];
+    }
+
     /** Re-publish of a message that was sent as a picture: only its caption can change. */
     public function editCaption(string $messageId, string $caption): void
     {
@@ -83,10 +91,11 @@ class TelegramConnector extends BaseConnector
         }
     }
 
-    private function call(string $method, array $payload): array
+    private function call(string $method, array $payload, ?array $file = null): array
     {
         // The bot token is in the URL, so errors only ever carry Telegram's own description.
-        $response = Http::timeout(30)->asJson()->post('https://api.telegram.org/bot'.$this->accessToken.'/'.$method, $payload);
+        $url = 'https://api.telegram.org/bot'.$this->accessToken.'/'.$method;
+        $response = $file ? Http::timeout(60)->attach(...$file)->post($url, $payload) : Http::timeout(30)->asJson()->post($url, $payload);
         $body = $response->json() ?? [];
 
         if (! $response->successful() || empty($body['ok'])) {

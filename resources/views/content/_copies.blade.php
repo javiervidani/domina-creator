@@ -1,5 +1,5 @@
 <div class="small text-muted mb-2">One ID: <span class="cid">{{ $content->platformId() }}</span>. Every copy on another account is linked to it.</div>
-@php($img = \App\Publishing\Publisher::imageUrl($media))
+@php($img = $media?->kept_path ? true : \App\Publishing\Publisher::imageUrl($media))
 @forelse ($content->copies as $copy)
     @php($isTarget = $copy->link_mode === 'target')
     <div class="border rounded-3 p-2 mb-2">

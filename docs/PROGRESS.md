@@ -13,13 +13,13 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | 5 | Import and the one ID | Import and no-duplicates proven live (25 posts, 2nd run 0 new); scheduled pull and source_changed not yet seen live |
 | 6 | Library page | Library page and content page work live (owner, 2026-11-18). Combine opens a minimal editable page (title and text); the full editor is step 7. Editable page not yet tried live; PHPUnit suites not run |
 | 7 | Content editor | Works live (owner screenshots, 2026-11-18): editor opens with Hebrew, Master/YouTube/Telegram tabs, limit and count, Linked copies. Not yet confirmed live: autosave after reload, History, Combine with sources, Compare. PHPUnit not run |
-| 8 | Publishing and re-publish | Code written (Telegram only), not yet tried live |
+| 8 | Publishing and re-publish | Works live (owner, 2026-11-21): Review first, Re-publish, picture option |
 | 9 | Dashboard and onboarding | Code written, not yet tried live |
 | 10 | Settings and AI keys | Code written, not yet tried live |
-| 11 | Collections and website embed | Code written, not yet tried live |
-| 12 | Deletion and 60-day recovery | Code written; lock, restore and purge checked on a local PostgreSQL 16 through the real pages; not yet tried live |
-| 13 | CSV export and backups | Not started |
-| 14 | Optional light image storage (backlog, last) | Not started, only if the owner asks |
+| 11 | Collections and website embed | Owner reports done (2026-11-21) |
+| 12 | Deletion and 60-day recovery | Works live (owner, 2026-11-21); also checked locally on PostgreSQL 16 |
+| 13 | CSV export and backups | Postponed to the end (owner, 2026-11-21) |
+| 14 | Optional light image storage | Built 2026-11-21 (small WebP copies, opt-in, 100 MB per creator); not yet tried live |
 | 15 | AI suggestions: rewrite and shorten per post (phase 2) | Step file written 2026-11-19; not started, only when the owner says |
 
 ## Done so far

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Media\ImageKeeper;
 use App\Models\Collection;
 use App\Models\Content;
 use App\Models\Tenant;
@@ -20,9 +21,10 @@ class PurgeTrash extends Command
         $cutoff = now()->subDays(CreatorDeletion::DAYS);
 
         foreach (Tenant::where('status', 'active')->pluck('creator_id') as $creatorId) {
-            $tenancy->run($creatorId, function () use ($cutoff) {
+            $tenancy->run($creatorId, function () use ($cutoff, $creatorId) {
                 Content::onlyTrashed()->where('deleted_at', '<', $cutoff)->forceDelete();
                 Collection::onlyTrashed()->where('deleted_at', '<', $cutoff)->forceDelete();
+                app(ImageKeeper::class)->sweep($creatorId);
             });
         }
 
