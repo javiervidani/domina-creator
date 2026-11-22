@@ -15,6 +15,7 @@ use App\Http\Controllers\ContentPartsController;
 use App\Http\Controllers\ContentSourceController;
 use App\Http\Controllers\ContentTargetController;
 use App\Http\Controllers\EmbedSettingsController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\InstagramCallbacksController;
 use App\Http\Controllers\InstagramConnectController;
 use App\Http\Controllers\LibraryBulkController;
@@ -82,6 +83,7 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('recycle-bin', [RecycleBinController::class, 'index'])->name('recycle');
     Route::post('recycle-bin/{type}/{id}/restore', [RecycleBinController::class, 'restore'])->name('recycle.restore');
     Route::delete('recycle-bin/{type}/{id}', [RecycleBinController::class, 'forget'])->name('recycle.forget');
+    Route::post('settings/export', [ExportController::class, 'download'])->middleware('throttle:3,1')->name('export.download');
     Route::post('settings/delete-history', [DeletionController::class, 'request'])->name('deletion.request');
     Route::post('library/tag', [LibraryBulkController::class, 'tag'])->name('library.tag');
     Route::get('content/{content}', [ContentController::class, 'show'])->name('content.show');
