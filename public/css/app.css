@@ -46,7 +46,7 @@ details > summary { cursor: pointer; list-style: none; }
 
 /* Selection bar in the Library: one tidy row, extras folded away, stays at the bottom of the screen while you scroll. */
 .selbar { position: sticky; bottom: 10px; z-index: 20; background: var(--blue-soft); color: var(--blue-ink); border-radius: 14px; padding: 8px 12px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(60, 64, 67, .3); }
-.selbar-main { display: flex; align-items: center; gap: 8px; }
+.selbar-main { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
 .selbar-more { margin-top: 6px; }
 .selbar-grid { display: grid; gap: 8px; margin-top: 8px; grid-template-columns: 1fr; }
 @media (min-width: 768px) { .selbar-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

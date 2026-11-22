@@ -23,6 +23,11 @@ class Content extends Model
         return $this->hasMany(ContentCopy::class);
     }
 
+    public function transcripts(): HasMany
+    {
+        return $this->hasMany(ContentTranscript::class);
+    }
+
     public function parts(): HasMany
     {
         return $this->hasMany(ContentPart::class)->orderBy('position');

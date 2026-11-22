@@ -18,6 +18,7 @@ class LibraryController extends Controller
             'items' => LibraryQuery::build($filters)->paginate(25)->withQueryString(),
             'accounts' => ConnectedAccount::orderBy('id')->get(['id', 'platform', 'handle']),
             'collections' => Collection::orderBy('name')->get(['id', 'name']),
+            'voiceCount' => Content::where('my_voice', true)->count(),
             'draftCount' => Content::where('status', 'draft')->count(),
             'f' => $filters,
         ]);

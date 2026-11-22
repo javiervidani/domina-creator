@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\FetchTranscriptJob;
 use App\Library\Combiner;
 use App\Models\Content;
 use App\Models\Tag;
@@ -33,6 +34,22 @@ class LibraryBulkController extends Controller
         }
 
         return back()->with('status', 'Tagged '.count($ids).' item'.(count($ids) > 1 ? 's' : '').' with "'.$name.'".');
+    }
+
+    // YouTube posts only, one queued job each (YouTube allows roughly 40 caption downloads a day, so a click is capped).
+    public function transcripts(Request $request)
+    {
+        $ids = $request->filled('one') ? [(int) $request->input('one')] : $this->ids($request);
+        $contents = Content::whereIn('id', $ids)->whereHas('copies', fn ($c) => $c->where('platform', 'youtube')->where('link_mode', '!=', 'target'))
+            ->whereDoesntHave('transcripts')->limit(30)->pluck('id');
+        if ($contents->isEmpty()) {
+            return back()->with('error', 'Select YouTube posts that have no transcript yet.');
+        }
+        foreach ($contents as $id) {
+            FetchTranscriptJob::dispatch($request->attributes->get('creator_id'), $id)->afterResponse();
+        }
+
+        return back()->with('status', 'Getting '.$contents->count().' transcript'.($contents->count() > 1 ? 's' : '').'. Reload in a moment; the result is also in Accounts, Activity.');
     }
 
     /** @return array<int> */

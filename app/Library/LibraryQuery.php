@@ -12,7 +12,7 @@ class LibraryQuery
 
     public static function build(array $f): Builder
     {
-        $q = Content::query()->with(['copies', 'tags']);
+        $q = Content::query()->with(['copies', 'tags'])->withCount('transcripts');
 
         if (($f['q'] ?? '') !== '') {
             $term = '%'.addcslashes($f['q'], '%_\\').'%';
@@ -24,6 +24,9 @@ class LibraryQuery
         $status = ($f['view'] ?? '') === 'drafts' ? 'draft' : ($f['status'] ?? '');
         if (in_array($status, self::STATUSES, true)) {
             $q->where('status', $status);
+        }
+        if (($f['view'] ?? '') === 'voice') {
+            $q->where('my_voice', true);
         }
         // "Needs review" is the same list as "source changed" until publishing (step 8) adds drafts to approve.
         if (! empty($f['changed']) || ($f['view'] ?? '') === 'review') {

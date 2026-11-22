@@ -3,6 +3,7 @@
 namespace App\Ai;
 
 use App\Models\Content;
+use App\Models\ContentTranscript;
 use App\Models\Setting;
 
 // What "In my style" adds to a request: the creator's own style guide and a few of their own marked posts as examples.
@@ -17,7 +18,7 @@ class StyleContext
     public static function for(int $excludeContentId): array
     {
         $guide = Setting::text('style_guide');
-        $examples = Content::where('my_voice', true)->where('id', '!=', $excludeContentId)->inRandomOrder()->limit(self::EXAMPLES)->pluck('master_text')
+        $examples = collect(self::voiceTexts(Content::where('my_voice', true)->where('id', '!=', $excludeContentId)->inRandomOrder()->limit(self::EXAMPLES)->get(['id', 'master_text'])))
             ->map(fn ($t) => mb_substr($t, 0, self::EXAMPLE_CHARS))->all();
 
         return ['guide' => $guide !== null && trim($guide) !== '' ? $guide : null, 'examples' => $examples];
@@ -40,7 +41,7 @@ class StyleContext
     {
         $used = 0;
         $out = [];
-        foreach (Content::where('my_voice', true)->latest('id')->limit(self::GUIDE_POSTS)->pluck('master_text') as $text) {
+        foreach (self::voiceTexts(Content::where('my_voice', true)->latest('id')->limit(self::GUIDE_POSTS)->get(['id', 'master_text'])) as $text) {
             $text = mb_substr($text, 0, self::EXAMPLE_CHARS * 2);
             if ($used + mb_strlen($text) > self::GUIDE_CHARS) {
                 break;
@@ -50,5 +51,13 @@ class StyleContext
         }
 
         return $out;
+    }
+
+    /** What the creator said or wrote: a fetched YouTube transcript is their own speech, so it is used instead of the video's description. */
+    private static function voiceTexts($contents): array
+    {
+        $transcripts = ContentTranscript::whereIn('content_id', $contents->pluck('id'))->pluck('text', 'content_id');
+
+        return $contents->map(fn ($c) => $transcripts[$c->id] ?? $c->master_text)->all();
     }
 }

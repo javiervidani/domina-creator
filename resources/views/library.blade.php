@@ -28,6 +28,7 @@
     <div class="chips">
         <a class="chip {{ ($f['view'] ?? '') === 'review' ? 'on' : '' }}" href="{{ route('library', ['view' => 'review']) }}">Needs review</a>
         <a class="chip {{ ($f['view'] ?? '') === 'drafts' ? 'on' : '' }}" href="{{ route('library', ['view' => 'drafts']) }}">Drafts @if ($draftCount > 0)<span class="badgex">{{ $draftCount }}</span>@endif</a>
+        <a class="chip {{ ($f['view'] ?? '') === 'voice' ? 'on' : '' }}" href="{{ route('library', ['view' => 'voice']) }}">My voice @if ($voiceCount > 0)<span class="badgex">{{ $voiceCount }}</span>@endif</a>
         <a class="chip" href="{{ route('library') }}">Clear</a>
     </div>
 </form>
@@ -38,10 +39,12 @@
         <div class="selbar-main">
             <span id="selcount" class="fw-semibold">0 selected</span>
             <button class="btn btn-primary btn-sm rounded-pill" formaction="{{ route('library.combine') }}">Combine</button>
+            <button class="btn btn-outline-primary btn-sm rounded-pill" formaction="{{ route('library.voice') }}">Mark as my voice</button>
+            <button class="btn btn-outline-secondary btn-sm rounded-pill" formaction="{{ route('library.transcripts') }}" title="YouTube posts only">Get transcripts</button>
             <button type="button" class="btn btn-sm ms-auto" id="clearsel">Clear</button>
         </div>
         <details class="selbar-more">
-            <summary class="small">Tag, collection or my voice</summary>
+            <summary class="small">Tag or add to a collection</summary>
             <div class="selbar-grid">
                 <div class="input-group input-group-sm">
                     <input name="tag" class="form-control" placeholder="Tag name" dir="auto">
@@ -55,7 +58,6 @@
                     <input name="new_name" class="form-control" placeholder="or a new collection" dir="auto">
                     <button class="btn btn-outline-primary" formaction="{{ route('library.collection') }}">Add</button>
                 </div>
-                <button class="btn btn-sm btn-outline-primary" formaction="{{ route('library.voice') }}">Mark as my voice</button>
                 <button class="btn btn-sm btn-outline-danger" formaction="{{ route('library.delete') }}" onclick="return confirm('Move the selected posts to the Recycle bin for 60 days?')">Move to Recycle bin</button>
             </div>
         </details>
@@ -72,7 +74,9 @@
                 <input type="checkbox" name="ids[]" value="{{ $item->id }}" class="form-check-input rowsel" aria-label="Select">
                 <a class="row-link" href="{{ route('content.show', $item) }}">
                     <div class="t" dir="auto">{{ $item->title }} <span class="cid">{{ $item->platformId() }}</span>
-                        @foreach ($item->tags as $tag)<span class="pill blue">{{ $tag->name }}</span> @endforeach</div>
+                        @foreach ($item->tags as $tag)<span class="pill blue">{{ $tag->name }}</span> @endforeach
+                        @if ($item->my_voice)<span class="pill good">My voice</span>@endif
+                        @if ($item->transcripts_count)<span class="pill">Transcript</span>@endif</div>
                     @if ($snippet !== '')<div class="s" dir="auto">{{ \Illuminate\Support\Str::limit($snippet, 140) }}</div>@endif
                 </a>
                 <div class="lib-meta">
@@ -82,6 +86,9 @@
                         @endforeach
                     </div>
                     <div class="st">
+                        @if (in_array('youtube', $on) && ! $item->transcripts_count)
+                            <button class="btn btn-sm btn-outline-secondary rounded-pill mb-1" name="one" value="{{ $item->id }}" formaction="{{ route('library.transcripts') }}" title="Get the captions of this video as text">Get transcript</button>
+                        @endif
                         @if ($item->source_changed)<span class="pill warn">Source changed</span>
                         @elseif ($item->status === 'draft')<span class="pill blue">Draft</span>
                         @else<span class="pill">Imported</span>@endif

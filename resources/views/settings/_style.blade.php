@@ -2,7 +2,7 @@
     <h2 class="h5">My style</h2>
     <p class="small text-muted mb-2">Teach the AI how <b>you</b> write. Mark 10 to 30 of your own posts as <b>my voice</b> (the button on a post, or select posts in the Library). From them you get a short
         style guide that you can read and edit, and a few of your real posts are added as examples whenever you ask for Rewrite or Shorten with "In my style".
-        The AI only suggests; nothing changes until you press Apply. When you use it, your guide and a few of your posts are sent to the AI provider you chose.</p>
+        For a YouTube video, its <b>transcript</b> (when you fetched one) is used instead of its description, because it is how you actually speak. In the Library, use <b>Get transcripts</b> on selected YouTube posts, then <b>Mark as my voice</b>. The AI only suggests; nothing changes until you press Apply. When you use it, your guide and a few of your posts are sent to the AI provider you chose.</p>
     <div class="small"><b>{{ $style['markedCount'] }}</b> post{{ $style['markedCount'] === 1 ? '' : 's' }} marked as my voice.
         @if ($style['markedCount'] < 10)<span class="text-muted">More is better: aim for 10 to 30.</span>@endif</div>
     @if ($style['marked']->isNotEmpty())

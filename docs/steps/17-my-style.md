@@ -54,3 +54,8 @@ teach the platform their voice from their own posts. Output only: text suggestio
 - **Examples:** with "In my style" on, each request adds the guide and up to 4 random marked posts (not the post being edited, 1,500 characters each). The panel says which were used. Off by default only when nothing is marked or written.
 - Code: `app/Ai/StyleContext`, `Prompts` (style and instruction blocks, guide prompt), `SuggestTextJob`, `StyleGuideJob`, `StyleController`, `Settings/StyleData`; migration `2026_11_24_000001` (`contents.my_voice`, `ai_instructions`, `ai_suggestions.instruction/use_style/style_note`). Privacy page updated.
 - Not built: topic-matched examples (retrieval, part 3).
+
+## Added 2026-11-24 (owner feedback after the first test)
+- **Library:** "Mark as my voice" and "Get transcripts" are now visible in the selection bar (not hidden in the menu); a **My voice** filter chip with a count; rows show **My voice** and **Transcript** pills; each YouTube row without a transcript has a **Get transcript** button.
+- **Transcripts in My style:** for a marked post that has a fetched transcript, the transcript is used (for the guide draft and for the examples) instead of the video's description, because it is the creator's own speech. Long lectures are cut to the first 1,500 characters as an example (3,000 for the guide draft).
+- Library transcripts run as queued jobs (`FetchTranscriptJob`, one per video, at most 30 per click because each download costs YouTube quota); results appear in Accounts > Activity. The fetching rules moved to `TranscriptFetcher`, shared with the editor button.

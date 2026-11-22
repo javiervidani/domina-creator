@@ -95,6 +95,7 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::post('content/{content}/transcript/{transcript}/use', [TranscriptsController::class, 'use'])->name('transcript.use');
     Route::delete('content/{content}/transcript/{transcript}', [TranscriptsController::class, 'destroy'])->name('transcript.destroy');
     Route::post('content/{content}/voice', [StyleController::class, 'voice'])->name('content.voice');
+    Route::post('library/transcripts', [LibraryBulkController::class, 'transcripts'])->name('library.transcripts');
     Route::post('library/voice', [StyleController::class, 'bulkVoice'])->name('library.voice');
     Route::post('settings/style/draft', [StyleController::class, 'draft'])->name('style.draft');
     Route::put('settings/style', [StyleController::class, 'save'])->name('style.save');
