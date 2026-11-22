@@ -24,6 +24,16 @@ class Setting extends Model
         return $row ? $row->value === '1' : $default;
     }
 
+    public static function text(string $key): ?string
+    {
+        return static::find($key)?->value;
+    }
+
+    public static function putText(string $key, ?string $value): void
+    {
+        $value === null ? static::whereKey($key)->delete() : static::updateOrCreate(['key' => $key], ['value' => $value]);
+    }
+
     public static function put(string $key, bool $value): void
     {
         static::updateOrCreate(['key' => $key], ['value' => $value ? '1' : '0']);

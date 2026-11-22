@@ -16,6 +16,12 @@ class AiKey extends Model
         return ['api_key' => 'encrypted', 'enabled' => 'boolean', 'is_default' => 'boolean', 'last_tested_at' => 'datetime', 'last_test_ok' => 'boolean'];
     }
 
+    /** The key used for AI suggestions: the default one if it is on, otherwise the oldest enabled key. */
+    public static function usable(): ?self
+    {
+        return static::where('enabled', true)->orderByDesc('is_default')->orderBy('id')->first();
+    }
+
     // The only form of the key the creator ever sees.
     public function masked(): string
     {

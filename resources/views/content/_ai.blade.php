@@ -1,11 +1,27 @@
 {{-- AI is only a suggestion: it appears next to your text and nothing changes until you press Apply. --}}
 @php($s = $suggestions[$target] ?? null)
-<div class="d-flex gap-2 flex-wrap mt-2">
-    @foreach (['rewrite' => 'Rewrite with AI', 'shorten' => 'Shorten with AI'] as $action => $label)
-        <form method="post" action="{{ route('ai.suggest', [$content, $target]) }}">@csrf<input type="hidden" name="action" value="{{ $action }}">
-            <button class="btn btn-sm btn-outline-primary rounded-pill" @disabled(! $aiReady || ($s && $s->status === 'pending'))>{{ $label }}</button></form>
-    @endforeach
-</div>
+<form method="post" action="{{ route('ai.suggest', [$content, $target]) }}" class="mt-2">@csrf
+    <div class="d-flex gap-2 flex-wrap">
+        @foreach (['rewrite' => 'Rewrite with AI', 'shorten' => 'Shorten with AI'] as $action => $label)
+            <button name="action" value="{{ $action }}" class="btn btn-sm btn-outline-primary rounded-pill" @disabled(! $aiReady || ($s && $s->status === 'pending'))>{{ $label }}</button>
+        @endforeach
+    </div>
+    @if ($aiReady)
+    <details class="mt-2"><summary class="small"><span class="pill">Instruction and my style</span></summary>
+        <div class="mt-2">
+            <textarea name="instruction" rows="2" maxlength="600" dir="auto" class="form-control form-control-sm" placeholder="Your instruction for this edit (optional), for example: warmer, short sentences, no exclamation marks"></textarea>
+            @if ($instructions->isNotEmpty())
+                <select name="saved_id" class="form-select form-select-sm mt-2" dir="auto"><option value="">No saved instruction</option>
+                    @foreach ($instructions as $i)<option value="{{ $i->id }}" @selected($i->is_default)>{{ $i->name }}</option>@endforeach</select>
+            @endif
+            <input name="save_as" maxlength="60" dir="auto" class="form-control form-control-sm mt-2" placeholder="Save the typed instruction as… (optional name)">
+            <div class="form-check mt-2"><input class="form-check-input" type="checkbox" name="style" value="1" id="style-{{ $target }}" @checked($styleAvailable) @disabled(! $styleAvailable)>
+                <label class="form-check-label small" for="style-{{ $target }}">In my style
+                    @unless ($styleAvailable)<span class="text-muted">(mark some of your posts as my voice first: Settings, My style)</span>@endunless</label></div>
+        </div>
+    </details>
+    @endif
+</form>
 @unless ($aiReady)<div class="small text-muted mt-1">Add an AI key in <a href="{{ route('settings') }}">Settings</a> to use this.</div>@endunless
 
 @if ($s && $s->status === 'pending')
@@ -44,6 +60,7 @@
                 <button class="btn btn-primary btn-sm rounded-pill" @disabled($over)>Apply</button></form>
             <form method="post" action="{{ route('ai.dismiss', $s) }}">@csrf<button class="btn btn-outline-secondary btn-sm rounded-pill">Dismiss</button></form>
         </div>
-        <div class="small text-muted mt-2">Made by {{ \App\Settings\AiProviders::ALL[$s->provider]['label'] }} ({{ $s->model }}) with your key. Your post text was sent to it.</div>
+        <div class="small text-muted mt-2">Made by {{ \App\Settings\AiProviders::ALL[$s->provider]['label'] }} ({{ $s->model }}) with your key. Your post text{{ $s->style_note ? ' and '.$s->style_note : '' }} was sent to it.
+        @if ($s->style_note)<br>In my style: {{ $s->style_note }}.@endif @if ($s->instruction)<br>Your instruction: <span dir="auto">{{ $s->instruction }}</span>@endif</div>
     </div></div>
 @endif

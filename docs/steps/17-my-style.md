@@ -1,6 +1,6 @@
 # Step 17 (phase 2): My style, the creator's own voice
 
-**Status: planned, not started. Do not build until the owner says so.** Written 2026-11-22 (owner request). Follows step 15
+**Status: parts 1 and 2 built 2026-11-24, not yet tried live. Part 3 (retrieval) not built.** Written 2026-11-22 (owner request). Follows step 15
 (AI Rewrite and Shorten, tested live with OpenAI on a Hebrew post).
 
 **Goal:** the AI's output sounds like the creator, not like "AI style". The creator can give their own instruction and can
@@ -46,3 +46,11 @@ teach the platform their voice from their own posts. Output only: text suggestio
 
 ## Notes
 - Related: `docs/steps/15-ai-suggestions.md`, `docs/steps/10-settings-and-ai-keys.md`, `docs/DATABASE.md`.
+
+## Built (2026-11-24): parts 1 and 2
+- **Instruction:** in the editor, "Instruction and my style" under Rewrite and Shorten: a typed instruction (max 600 characters), a saved one to pick (the default is preselected), and "Save the typed instruction as…". Saved instructions are managed in Settings > My style. The instruction goes last in the system prompt, after the fixed rules, and says it changes style only.
+- **My voice:** a "Mark as my voice" button on the post, and "Mark as my voice" in the Library selection bar (Tag, collection or my voice). `contents.my_voice`.
+- **Style guide:** Settings > My style. "Write a draft from my posts" (needs 3 or more marked posts, advice 10 to 30; sends at most 30 posts, about 24,000 characters) runs `StyleGuideJob`. The draft shows in an editable box; nothing becomes the guide until the creator presses Save. Stored in `settings` (`style_guide`, `style_guide_draft`, `style_guide_job`).
+- **Examples:** with "In my style" on, each request adds the guide and up to 4 random marked posts (not the post being edited, 1,500 characters each). The panel says which were used. Off by default only when nothing is marked or written.
+- Code: `app/Ai/StyleContext`, `Prompts` (style and instruction blocks, guide prompt), `SuggestTextJob`, `StyleGuideJob`, `StyleController`, `Settings/StyleData`; migration `2026_11_24_000001` (`contents.my_voice`, `ai_instructions`, `ai_suggestions.instruction/use_style/style_note`). Privacy page updated.
+- Not built: topic-matched examples (retrieval, part 3).

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Ai\Prompts;
+use App\Ai\StyleContext;
 use App\Content\Targets;
 use App\Content\VersionRecorder;
 use App\Jobs\SuggestTextJob;
+use App\Models\AiInstruction;
 use App\Models\AiKey;
 use App\Models\AiSuggestion;
 use App\Models\Content;
@@ -25,7 +27,9 @@ class SuggestionsController extends Controller
         $action = (string) $request->input('action');
         abort_unless(in_array($action, Prompts::ACTIONS, true), 422);
 
-        $key = AiKey::where('enabled', true)->orderByDesc('is_default')->orderBy('id')->first();
+        $data = $request->validate(['instruction' => ['nullable', 'string', 'max:600'], 'saved_id' => ['nullable', 'integer'],
+            'save_as' => ['nullable', 'string', 'max:60']]);
+        $key = AiKey::usable();
         if (! $key) {
             return back()->with('error', 'Add an AI key first: Settings, AI keys.');
         }
@@ -33,10 +37,19 @@ class SuggestionsController extends Controller
             return back()->with('error', 'Daily limit of '.self::DAILY_CAP.' AI suggestions reached. It protects your key from running up costs. Try tomorrow.');
         }
 
+        // The saved instruction (if picked) first, then what was typed for this one.
+        $typed = trim((string) ($data['instruction'] ?? ''));
+        $saved = ! empty($data['saved_id']) ? AiInstruction::find($data['saved_id'])?->text : null;
+        $instruction = trim(implode("\n", array_filter([$saved, $typed]))) ?: null;
+        if ($typed !== '' && ! empty($data['save_as'])) {
+            AiInstruction::create(['name' => $data['save_as'], 'text' => $typed]);
+        }
+
         // One open suggestion per tab: a new request replaces the old one.
         AiSuggestion::where('content_id', $content->id)->where('target', $target)->whereIn('status', ['pending', 'offered', 'failed'])->update(['status' => 'dismissed']);
         $suggestion = AiSuggestion::create(['content_id' => $content->id, 'target' => $target, 'action' => $action, 'provider' => $key->provider,
-            'model' => $key->default_model ?: AiProviders::ALL[$key->provider]['model']]);
+            'model' => $key->default_model ?: AiProviders::ALL[$key->provider]['model'],
+            'instruction' => $instruction, 'use_style' => $request->boolean('style') && StyleContext::available()]);
         SuggestTextJob::dispatch($request->attributes->get('creator_id'), $suggestion->id)->afterResponse();
 
         return redirect(route('content.show', $content).'#t-'.$target);

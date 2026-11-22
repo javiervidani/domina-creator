@@ -9,7 +9,9 @@
         <textarea form="masterForm" name="title" rows="1" dir="auto" aria-label="Title" required>{{ old('title', $content->title) }}</textarea>
         <div><span class="cid">{{ $content->platformId() }}</span>
             @if ($content->status === 'draft')<span class="pill blue">Draft</span>@endif
-            @foreach ($content->tags as $tag)<span class="pill blue">{{ $tag->name }}</span>@endforeach</div>
+            @foreach ($content->tags as $tag)<span class="pill blue">{{ $tag->name }}</span>@endforeach
+            <form method="post" action="{{ route('content.voice', $content) }}" class="d-inline">@csrf
+                <button class="btn btn-sm rounded-pill py-0 {{ $content->my_voice ? 'btn-primary' : 'btn-outline-secondary' }}" title="Posts marked as my voice teach the AI how you write (Settings, My style)">{{ $content->my_voice ? '✓ My voice' : 'Mark as my voice' }}</button></form></div>
     </div>
     <div class="ed-actions">
         <span class="small text-muted" id="saved">Saved</span>

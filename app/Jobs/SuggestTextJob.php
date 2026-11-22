@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Ai\AiClient;
 use App\Ai\AiException;
 use App\Ai\Prompts;
+use App\Ai\StyleContext;
 use App\Content\Targets;
 use App\Models\AiKey;
 use App\Models\AiSuggestion;
@@ -42,9 +43,12 @@ class SuggestTextJob extends CreatorJob
         $text = $suggestion->target === 'master' ? $content->master_text : TargetText::for($content->loadMissing('targetTexts'), $suggestion->target);
         $max = Prompts::maxLength(mb_strlen($text), Targets::LIMITS[$suggestion->target] ?? null);
 
+        $style = $suggestion->use_style ? StyleContext::for($content->id) : null;
+
         try {
-            $out = AiClient::for($suggestion->provider, $key->api_key, $suggestion->model)->complete(Prompts::system($suggestion->action, $max), $text);
-            $suggestion->update(['status' => 'offered', 'offered_text' => $out]);
+            $out = AiClient::for($suggestion->provider, $key->api_key, $suggestion->model)
+                ->complete(Prompts::system($suggestion->action, $max, $suggestion->instruction, $style), $text);
+            $suggestion->update(['status' => 'offered', 'offered_text' => $out, 'style_note' => $style ? (StyleContext::note($style) ?: null) : null]);
         } catch (AiException $e) {
             // Provider and creator only: the log never holds the post text or the key.
             Log::warning("AI suggestion failed (creator {$this->creatorId}, provider {$suggestion->provider}): ".$e->getMessage());

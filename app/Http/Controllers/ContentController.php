@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Content\TextDiff;
 use App\Content\VersionRecorder;
 use App\Models\ConnectedAccount;
+use App\Ai\StyleContext;
+use App\Models\AiInstruction;
 use App\Models\AiKey;
 use App\Models\AiSuggestion;
 use App\Models\Content;
@@ -33,6 +35,8 @@ class ContentController extends Controller
             'content' => $content,
             'youtubeCopy' => $content->copies->first(fn ($c) => $c->platform === 'youtube' && $c->link_mode !== 'target'),
             'transcript' => ContentTranscript::where('content_id', $content->id)->first(),
+            'styleAvailable' => StyleContext::available(),
+            'instructions' => AiInstruction::orderByDesc('is_default')->orderBy('name')->get(),
             'aiReady' => AiKey::where('enabled', true)->exists(),
             'suggestions' => AiSuggestion::where('content_id', $content->id)->whereIn('status', ['pending', 'offered', 'failed'])->latest('id')->get()->unique('target')->keyBy('target'),
             'targetTexts' => $content->targetTexts->pluck('text', 'target'),

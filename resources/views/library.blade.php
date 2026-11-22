@@ -41,7 +41,7 @@
             <button type="button" class="btn btn-sm ms-auto" id="clearsel">Clear</button>
         </div>
         <details class="selbar-more">
-            <summary class="small">Tag or add to a collection</summary>
+            <summary class="small">Tag, collection or my voice</summary>
             <div class="selbar-grid">
                 <div class="input-group input-group-sm">
                     <input name="tag" class="form-control" placeholder="Tag name" dir="auto">
@@ -55,6 +55,7 @@
                     <input name="new_name" class="form-control" placeholder="or a new collection" dir="auto">
                     <button class="btn btn-outline-primary" formaction="{{ route('library.collection') }}">Add</button>
                 </div>
+                <button class="btn btn-sm btn-outline-primary" formaction="{{ route('library.voice') }}">Mark as my voice</button>
                 <button class="btn btn-sm btn-outline-danger" formaction="{{ route('library.delete') }}" onclick="return confirm('Move the selected posts to the Recycle bin for 60 days?')">Move to Recycle bin</button>
             </div>
         </details>

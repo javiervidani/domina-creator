@@ -15,7 +15,7 @@ class Content extends Model
 
     protected function casts(): array
     {
-        return ['source_changed' => 'boolean'];
+        return ['source_changed' => 'boolean', 'my_voice' => 'boolean'];
     }
 
     public function copies(): HasMany
