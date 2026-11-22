@@ -6,10 +6,11 @@
             <button class="btn btn-sm btn-outline-primary rounded-pill">{{ $transcript ? 'Get it again' : 'Get transcript from YouTube' }}</button></form>
     </div>
     @if ($transcript)
-        <div class="small text-muted mb-2">From your YouTube captions{{ $transcript->language ? ' ('.$transcript->language.')' : '' }}.
+        <div class="small text-muted mb-2">From your YouTube captions{{ $transcript->language ? ' ('.(in_array($transcript->language, ['iw', 'he'], true) ? 'Hebrew' : $transcript->language).')' : '' }}.
             @if ($transcript->kind === 'asr')<b>Automatic captions: they can contain mistakes.</b>@endif</div>
-        <details class="mb-2"><summary class="small">Show the text ({{ number_format(mb_strlen($transcript->text)) }} characters)</summary>
-            <div dir="auto" class="mt-2" style="white-space:pre-wrap">{{ $transcript->text }}</div></details>
+        <button class="btn btn-sm btn-outline-secondary rounded-pill mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#transcript-text">
+            Show the text ({{ number_format(mb_strlen($transcript->text)) }} characters)</button>
+        <div class="collapse mb-3" id="transcript-text"><div dir="auto" class="border rounded-3 p-2" style="white-space:pre-wrap;max-height:22rem;overflow:auto">{{ $transcript->text }}</div></div>
         <div class="d-flex gap-2 flex-wrap">
             @foreach (['append' => 'Add below my text', 'replace' => 'Use as my text'] as $mode => $label)
                 <form method="post" action="{{ route('transcript.use', [$content, $transcript]) }}" onsubmit="return confirm('{{ $mode === 'replace' ? 'Replace the master text with the transcript?' : 'Add the transcript below the master text?' }} Your current text is saved in History first.')">@csrf
