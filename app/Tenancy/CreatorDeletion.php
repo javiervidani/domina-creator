@@ -60,6 +60,7 @@ class CreatorDeletion
             try {
                 DB::transaction(fn () => $this->purge($creatorId));
                 Storage::disk('local')->deleteDirectory("creators/{$creatorId}"); // kept pictures go with the history
+                Storage::disk('local')->deleteDirectory("backups/{$creatorId}"); // and our backups of it, at day 60
                 $purged++;
             } catch (Throwable $e) {
                 // One stuck creator must not stop the others; it is tried again tomorrow.

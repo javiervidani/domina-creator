@@ -18,7 +18,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | 10 | Settings and AI keys | Code written, not yet tried live |
 | 11 | Collections and website embed | Code written; not yet tried live (the owner has not embedded it on another site; there is no connector for that) |
 | 12 | Deletion and 60-day recovery | Works live (owner, 2026-11-21); also checked locally on PostgreSQL 16 |
-| 13 | CSV export and backups | Postponed to the end (owner, 2026-11-21) |
+| 13 | CSV export and backups | Built 2026-11-22: export my data (CSV zip) and encrypted per-creator backups with restore, checked on local PostgreSQL 16; not yet tried on Plesk; day-60 link and Drive or Box not built |
 | 14 | Optional light image storage | Built 2026-11-21 (small WebP copies, opt-in, 100 MB per creator); not yet tried live |
 | 15 | AI suggestions: rewrite and shorten per post (phase 2) | Built 2026-11-22; not yet tried live |
 | 16 | YouTube connection and transcripts (phase 2) | Built 2026-11-22 (connect, import, captions transcript); needs the Google setup and a live test |
@@ -56,6 +56,8 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 - 2026-11-19: removed the placeholder `public/index.html` from the first deploy test. Apache served it before Laravel, so the site's root address showed "Under construction" instead of the app (`/dashboard`, `/login` and the rest were never affected).
 
 - 2026-11-19: Telegram publishing proven live (owner: a Hebrew post arrived in the test channel). Added: clearer Telegram errors, Remove for draft or failed copies, and "Send with the picture" (by link; step 8 file). Not yet tried live. Step 15 file written (AI rewrite and shorten, audio and on-device notes).
+
+- Backlog (owner, 2026-11-22): a dropdown of the models a key can use (Settings, AI keys), filled from the provider's model list, instead of typing the model name.
 
 ## Open questions
 - PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.

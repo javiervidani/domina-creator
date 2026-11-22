@@ -35,6 +35,12 @@ return [
         ],
     ],
 
+    // Command-line tools for creators:backup and creators:restore (a full path if they are not on the PATH).
+    'backup' => [
+        'pg_dump' => env('PG_DUMP_BINARY', 'pg_dump'),
+        'pg_restore' => env('PG_RESTORE_BINARY', 'pg_restore'),
+    ],
+
     // Google sign-in for YouTube. Values come from .env, never from the repo.
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
