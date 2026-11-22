@@ -14,7 +14,8 @@
 <div class="card mb-3"><div class="card-body">
     <h3 class="h6">Style guide</h3>
     @if ($style['pending'])
-        <div class="banner mb-2"><div>Writing a draft from your posts… Reload this page in a moment. The queue worker must be running.</div></div>
+        <div class="banner mb-2"><div>Writing a draft from your posts… This page reloads by itself. The queue worker must be running.</div></div>
+        <script>setTimeout(function () { location.reload(); }, 6000);</script>
     @elseif ($style['error'])
         <div class="banner mb-2"><div class="text-danger">{{ $style['error'] }}</div></div>
     @endif
