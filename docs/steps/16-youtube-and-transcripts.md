@@ -60,3 +60,8 @@ transcript can be pulled in as editable text (then AI Rewrite and Shorten from s
 - Targets: the add-target form now lists importing accounts under From and Telegram under To.
 - **Owner setup:** Google Cloud project, YouTube Data API v3 on, OAuth consent screen (add yourself as a test user), a Web OAuth client with redirect `https://domina-creator.datashellv.com/accounts/youtube/callback`, then `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI` in the server `.env`.
 - **Still open:** whether automatic captions can be downloaded (the message says so if YouTube refuses). Speech to text fallback not built. Migration `2026_11_23_000001`.
+
+## Result of the first live test (owner, 2026-11-22)
+- Connect, import (with the small kept thumbnail) and transcript all work on the owner's channel. The permission message appeared first and went away after "Allow transcripts".
+- **Open question answered:** `captions.download` returned an **automatic Hebrew track** (language code `iw`, 702 characters) for the owner's own video. So automatic captions can be downloaded for the creator's own videos; the card warns they can contain mistakes. Whether every video behaves the same is not proven.
+- Speech to text is therefore only needed for videos with no captions at all. Still not built.
