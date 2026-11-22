@@ -8,6 +8,7 @@ use App\Models\ConnectedAccount;
 use App\Models\AiKey;
 use App\Models\AiSuggestion;
 use App\Models\Content;
+use App\Models\ContentTranscript;
 use App\Publishing\Publisher;
 use App\Publishing\TargetText;
 use Illuminate\Http\Request;
@@ -30,6 +31,8 @@ class ContentController extends Controller
             'media' => $origin,
             'differs' => $differs, 'sendable' => $sendable,
             'content' => $content,
+            'youtubeCopy' => $content->copies->first(fn ($c) => $c->platform === 'youtube' && $c->link_mode !== 'target'),
+            'transcript' => ContentTranscript::where('content_id', $content->id)->first(),
             'aiReady' => AiKey::where('enabled', true)->exists(),
             'suggestions' => AiSuggestion::where('content_id', $content->id)->whereIn('status', ['pending', 'offered', 'failed'])->latest('id')->get()->unique('target')->keyBy('target'),
             'targetTexts' => $content->targetTexts->pluck('text', 'target'),

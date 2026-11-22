@@ -4,6 +4,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h3 mb-0">Accounts</h1>
     <a href="{{ route('accounts.instagram') }}" class="btn btn-primary rounded-pill">Connect Instagram</a>
+    <a href="{{ route('accounts.youtube') }}" class="btn btn-outline-primary rounded-pill">Connect YouTube</a>
 </div>
 
 <details class="card mb-3"><summary class="card-body py-2" style="cursor:pointer">Connect with an access token (advanced)</summary>
@@ -57,9 +58,9 @@
             @elseif ($account->token && $account->platform === 'instagram')<small class="text-muted">token expiry not known yet</small>@endif
         </div>
         @if ($account->last_error)<div class="text-danger small mb-2">{{ $account->last_error }}</div>@endif
-        @if ($h === 'reconnect')<a href="{{ route('accounts.instagram') }}" class="btn btn-sm btn-outline-danger rounded-pill mb-2">Reconnect</a>@endif
+        @if ($h === 'reconnect')<a href="{{ route($account->platform === 'youtube' ? 'accounts.youtube' : 'accounts.instagram') }}" class="btn btn-sm btn-outline-danger rounded-pill mb-2">Reconnect</a>@endif
 
-        @if ($account->platform === 'instagram')
+        @if (in_array($account->platform, ['instagram', 'youtube']))
         <form method="post" action="{{ route('accounts.update', $account) }}" class="row g-2 align-items-center mb-2">
             @csrf @method('PATCH')
             <div class="col-auto form-check ms-2">
@@ -80,11 +81,15 @@
         @endif
 
         <div class="d-flex flex-wrap gap-2 acc-actions">
-            @if ($account->platform === 'instagram')
+            @if (in_array($account->platform, ['instagram', 'youtube']))
             <form method="post" action="{{ route('accounts.sync', $account) }}">@csrf
                 <button class="btn btn-sm btn-primary rounded-pill">Sync now</button></form>
+            @endif
+            @if ($account->platform === 'instagram')
             <form method="post" action="{{ route('accounts.refresh', $account) }}">@csrf
                 <button class="btn btn-sm btn-outline-secondary rounded-pill">Refresh token</button></form>
+            @elseif ($account->platform === 'youtube')
+            <a href="{{ route('accounts.youtube', ['transcripts' => 1]) }}" class="btn btn-sm btn-outline-secondary rounded-pill">Allow transcripts</a>
             @endif
             @unless ($account->is_source_of_truth || $account->platform !== 'instagram')
                 <form method="post" action="{{ route('accounts.source', $account) }}"

@@ -20,7 +20,7 @@ class SyncDueAccounts extends Command
     {
         foreach (Tenant::where('status', 'active')->pluck('creator_id') as $creatorId) {
             // Read inside the schema, dispatch outside it: the jobs table is in public.
-            $ids = $tenancy->run($creatorId, fn () => ConnectedAccount::where('platform', 'instagram')->where('import_enabled', true)->where('status', 'ok')->get()
+            $ids = $tenancy->run($creatorId, fn () => ConnectedAccount::whereIn('platform', ['instagram', 'youtube'])->where('import_enabled', true)->where('status', 'ok')->get()
                 ->filter(fn ($a) => ImportSchedule::isDue($a->import_frequency, $a->last_sync_at, now()))->pluck('id'));
 
             foreach ($ids as $accountId) {

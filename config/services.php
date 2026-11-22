@@ -35,6 +35,13 @@ return [
         ],
     ],
 
+    // Google sign-in for YouTube. Values come from .env, never from the repo.
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
+    ],
+
     // Instagram Login (graph.instagram.com). Values come from .env, never from the repo.
     'instagram' => [
         'client_id' => env('INSTAGRAM_CLIENT_ID'),

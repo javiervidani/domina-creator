@@ -39,6 +39,7 @@
 
     <main class="col-lg-6 order-1 order-lg-2">
         @include('content._media')
+        @include('content._transcript')
         <div class="card"><div class="card-body">
         <ul class="nav nav-tabs mb-3">
             <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#t-master" type="button">Master text</button></li>

@@ -1,6 +1,6 @@
 # Step 16 (phase 2): YouTube connection and transcripts
 
-**Status: planned, not started. Do not build until the owner says so.** Written 2026-11-22. Owner decision: the YouTube
+**Status: built 2026-11-22 (connect, import, transcript from captions), not yet tried live. Speech to text fallback is not built.** Written 2026-11-22. Owner decision: the YouTube
 channel and its transcripts belong to **the creator who connects it** (their own channel, their own sign-in).
 
 **Goal:** a creator connects their YouTube channel, their videos appear in the Library as posts, and for each video the
@@ -52,3 +52,11 @@ transcript can be pulled in as editable text (then AI Rewrite and Shorten from s
 
 ## Notes
 - Related: `docs/steps/04-accounts.md`, `docs/steps/05-import.md`, `docs/steps/15-ai-suggestions.md`, `docs/steps/14-optional-light-image-storage.md`.
+
+## Built (2026-11-22)
+- **Connect YouTube** button on Accounts (Google sign-in, own `YouTubeProvider`, read-only `youtube.readonly`). **Allow transcripts** asks again for `youtube.force-ssl`. Offline access: the refresh token is stored (encrypted) and a fresh one-hour access token is fetched before each sync (`YouTubeConnector::forAccount`). `expires_at` stays empty, so the health badge only turns to Reconnect when Google refuses the refresh.
+- **Import:** `accounts:sync-due` and Sync now include YouTube. Each public video becomes one Library item: text is the title, a blank line, then the description; the link is the watch page; the thumbnail is a link (the step 14 small copy applies too). Private and deleted videos are skipped. The uploads playlist is derived from the channel id (`UC...` to `UU...`).
+- **Transcript:** the editor shows a Transcript card on a YouTube item. "Get transcript from YouTube" picks an uploaded track first (Hebrew first), else an automatic one, converts SRT to plain text with paragraphs at pauses (`Srt`), stores it in `content_transcripts`. "Add below my text" and "Use as my text" write the old text to History first; Remove deletes the transcript. The master text is never changed without a click.
+- Targets: the add-target form now lists importing accounts under From and Telegram under To.
+- **Owner setup:** Google Cloud project, YouTube Data API v3 on, OAuth consent screen (add yourself as a test user), a Web OAuth client with redirect `https://domina-creator.datashellv.com/accounts/youtube/callback`, then `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI` in the server `.env`.
+- **Still open:** whether automatic captions can be downloaded (the message says so if YouTube refuses). Speech to text fallback not built. Migration `2026_11_23_000001`.

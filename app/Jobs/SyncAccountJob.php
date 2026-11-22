@@ -9,6 +9,7 @@ use App\Models\ConnectedAccount;
 use App\Models\SyncRun;
 use App\Platforms\Instagram\InstagramConnector;
 use App\Platforms\PlatformException;
+use App\Platforms\YouTube\YouTubeConnector;
 use App\Publishing\TargetPlanner;
 use Illuminate\Support\Facades\Log;
 
@@ -27,8 +28,8 @@ class SyncAccountJob extends CreatorJob
     protected function work(): void
     {
         $account = ConnectedAccount::with('token')->find($this->accountId);
-        // Only Instagram is imported from; a Telegram account is a place to publish to.
-        if (! $account || ! $account->token || $account->platform !== 'instagram') {
+        // Instagram and YouTube are imported from; a Telegram account is a place to publish to.
+        if (! $account || ! $account->token || ! in_array($account->platform, ['instagram', 'youtube'], true)) {
             return;
         }
 
@@ -36,7 +37,8 @@ class SyncAccountJob extends CreatorJob
             'status' => 'running', 'started_at' => now()]);
 
         try {
-            $counts = app(AccountImporter::class)->run($account, new InstagramConnector($account->token->access_token));
+            $connector = $account->platform === 'youtube' ? YouTubeConnector::forAccount($account) : new InstagramConnector($account->token->access_token);
+            $counts = app(AccountImporter::class)->run($account, $connector);
             $run->update(['status' => 'ok', 'fetched' => $counts['seen'], 'created' => $counts['created'] + $counts['linked'],
                 'changed' => $counts['changed'], 'finished_at' => now()]);
             $account->update(['last_sync_at' => now(), 'last_error' => null]);
@@ -53,7 +55,7 @@ class SyncAccountJob extends CreatorJob
             }
         } catch (PlatformException $e) {
             // Also in the log so /ops/logs shows it. Account id and creator only; the message never holds the token.
-            Log::warning('Instagram sync failed'." (creator {$this->creatorId}, account {$account->id}): ".$e->getMessage());
+            Log::warning(ucfirst($account->platform).' sync failed'." (creator {$this->creatorId}, account {$account->id}): ".$e->getMessage());
             $account->update(['last_error' => $e->getMessage(), 'status' => $e->needsReconnect ? 'reconnect' : $account->status]);
             $run->update(['status' => 'failed', 'error' => $e->getMessage(), 'finished_at' => now()]);
 

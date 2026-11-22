@@ -21,7 +21,8 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | 13 | CSV export and backups | Postponed to the end (owner, 2026-11-21) |
 | 14 | Optional light image storage | Built 2026-11-21 (small WebP copies, opt-in, 100 MB per creator); not yet tried live |
 | 15 | AI suggestions: rewrite and shorten per post (phase 2) | Built 2026-11-22; not yet tried live |
-| 16 | YouTube connection and transcripts (phase 2) | Step file written 2026-11-22; not started, only when the owner says |
+| 16 | YouTube connection and transcripts (phase 2) | Built 2026-11-22 (connect, import, captions transcript); needs the Google setup and a live test |
+| 17 | My style: own instruction and the creator's voice (phase 2) | Step file written 2026-11-22; not started, only when the owner says |
 
 ## Done so far
 - Mockups of the Library and the Content editor, including the AI suggestions panel.

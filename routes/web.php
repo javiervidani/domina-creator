@@ -24,6 +24,8 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PicturesController;
 use App\Http\Controllers\PublishingController;
 use App\Http\Controllers\SuggestionsController;
+use App\Http\Controllers\TranscriptsController;
+use App\Http\Controllers\YouTubeConnectController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TelegramConnectController;
 use App\Http\Controllers\LibraryController;
@@ -88,6 +90,9 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('ai/suggestions/{suggestion}', [SuggestionsController::class, 'show'])->name('ai.suggestion');
     Route::post('ai/suggestions/{suggestion}/apply', [SuggestionsController::class, 'apply'])->name('ai.apply');
     Route::post('ai/suggestions/{suggestion}/dismiss', [SuggestionsController::class, 'dismiss'])->name('ai.dismiss');
+    Route::post('content/{content}/transcript', [TranscriptsController::class, 'fetch'])->name('transcript.fetch');
+    Route::post('content/{content}/transcript/{transcript}/use', [TranscriptsController::class, 'use'])->name('transcript.use');
+    Route::delete('content/{content}/transcript/{transcript}', [TranscriptsController::class, 'destroy'])->name('transcript.destroy');
     Route::post('content/{content}/keep', [ContentSourceController::class, 'keep'])->name('content.keep');
     Route::post('content/{content}/take', [ContentSourceController::class, 'take'])->name('content.take');
     Route::post('content/{content}/parts', [ContentPartsController::class, 'add'])->name('content.parts.add');
@@ -112,6 +117,8 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::delete('content/{content}/parts/{part}', [ContentPartsController::class, 'remove'])->name('content.parts.remove');
 
     Route::get('accounts', [AccountsController::class, 'index'])->name('accounts');
+    Route::get('accounts/youtube/connect', [YouTubeConnectController::class, 'redirect'])->name('accounts.youtube');
+    Route::get('accounts/youtube/callback', [YouTubeConnectController::class, 'callback']);
     Route::get('accounts/instagram/connect', [InstagramConnectController::class, 'redirect'])->name('accounts.instagram');
     Route::get('accounts/instagram/callback', [InstagramConnectController::class, 'callback']);
     Route::post('accounts/token', [AccountTokenController::class, 'store'])->name('accounts.token');
