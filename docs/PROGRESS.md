@@ -57,7 +57,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 
 - 2026-11-19: Telegram publishing proven live (owner: a Hebrew post arrived in the test channel). Added: clearer Telegram errors, Remove for draft or failed copies, and "Send with the picture" (by link; step 8 file). Not yet tried live. Step 15 file written (AI rewrite and shorten, audio and on-device notes).
 
-- Backlog (owner, 2026-11-22): a dropdown of the models a key can use (Settings, AI keys), filled from the provider's model list, instead of typing the model name.
+- 2026-11-25: model list for each AI key (Settings, AI keys): Test key loads the models the key can use and the Default model box suggests them. Built, not yet tried live.
 
 ## Open questions
 - PHP on the Plesk domain is 8.3.36 with pdo_pgsql, mbstring, openssl, zip and the other Laravel extensions: Laravel 12 or newer fits.

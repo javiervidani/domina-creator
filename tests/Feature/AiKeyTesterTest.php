@@ -38,4 +38,11 @@ class AiKeyTesterTest extends TestCase
         $this->assertFalse((new AiKeyTester)->test('nope', 'k')['ok']);
         Http::assertNothingSent();
     }
+
+    public function test_the_model_list_keeps_only_text_models(): void
+    {
+        Http::fake(['api.openai.com/*' => Http::response(['data' => [['id' => 'gpt-b'], ['id' => 'text-embedding-3-small'], ['id' => 'whisper-1'], ['id' => 'gpt-a'], ['id' => 'gpt-b']]])]);
+
+        $this->assertSame(['gpt-a', 'gpt-b'], (new AiKeyTester)->test('openai', 'k')['models']);
+    }
 }

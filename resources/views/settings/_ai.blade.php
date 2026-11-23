@@ -20,7 +20,10 @@
             <label class="form-label small">API key {{ $k ? '(saved: '.$k->masked().', leave empty to keep)' : '' }}</label>
             <input type="password" name="api_key" class="form-control mb-2" placeholder="{{ $k ? '' : 'Paste your key' }}" autocomplete="off">
             <label class="form-label small">Default model</label>
-            <input name="default_model" class="form-control mb-2" value="{{ $k?->default_model ?? $p['model'] }}">
+            <input name="default_model" class="form-control mb-1" value="{{ $k?->default_model ?? $p['model'] }}" list="models-{{ $id }}" autocomplete="off" placeholder="Pick from the list or type">
+            @if ($k && $k->models)<datalist id="models-{{ $id }}">@foreach ($k->models as $m)<option value="{{ $m }}">@endforeach</datalist>@endif
+            <div class="small text-muted mb-2">@if ($k && $k->models){{ count($k->models) }} models your key can use (loaded {{ $k->models_at?->diffForHumans() }}). Clear the box to see them all.
+                @elseif ($k)Press <b>Test key</b> to load the list of models this key can use.@endif</div>
             <button class="btn btn-sm btn-primary rounded-pill">{{ $k ? 'Save' : 'Add key' }}</button>
         </form>
 
@@ -38,4 +41,4 @@
     </div></div></div>
 @endforeach
 </div>
-<div class="small text-muted mt-2">Model names are suggestions: change them to a model your account can use.</div>
+<div class="small text-muted mt-2">The model list comes from the provider when you press Test key. Pick one, or type a name.</div>

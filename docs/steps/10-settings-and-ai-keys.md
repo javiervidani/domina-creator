@@ -19,3 +19,6 @@
 - Notification choices are stored (`settings` table) but nothing is mailed yet.
 - Not built: team members and invites (only the owner exists), plan and billing, using the keys for suggestions (phase 2).
 - Tests: `AiKeyMaskTest` (any DB), `AiKeyTesterTest` (fake HTTP), `SettingsTest` (PostgreSQL only).
+
+## Added 2026-11-25: model list
+- Test key also saves the provider's model list (text models only: embeddings, speech and image models are dropped) in `ai_keys.models`. The Default model box on the Settings, AI keys card then suggests them (a list to pick from, or type any name). Migration `2026_11_25_000001`. Before the first test the card says to press Test key.

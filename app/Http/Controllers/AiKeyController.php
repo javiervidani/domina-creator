@@ -57,7 +57,8 @@ class AiKeyController extends Controller
     public function test(AiKey $aiKey, AiKeyTester $tester)
     {
         $result = $tester->test($aiKey->provider, $aiKey->api_key);
-        $aiKey->update(['last_tested_at' => now(), 'last_test_ok' => $result['ok'], 'last_test_error' => $result['error']]);
+        $aiKey->update(['last_tested_at' => now(), 'last_test_ok' => $result['ok'], 'last_test_error' => $result['error']]
+            + (! empty($result['models']) ? ['models' => $result['models'], 'models_at' => now()] : []));
 
         return back()->with($result['ok'] ? 'status' : 'error', $result['ok'] ? 'The key works.' : 'The key was not accepted: '.$result['error']);
     }

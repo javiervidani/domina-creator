@@ -7,7 +7,7 @@ use Throwable;
 
 class AiKeyTester
 {
-    /** @return array{ok: bool, error: ?string} the error is the provider's own words, never the key */
+    /** @return array{ok: bool, error: ?string, models?: array<string>} the error is the provider's own words, never the key */
     public function test(string $provider, string $key): array
     {
         if (! AiProviders::valid($provider)) {
@@ -21,7 +21,7 @@ class AiKeyTester
         }
 
         if ($response->successful()) {
-            return ['ok' => true, 'error' => null];
+            return ['ok' => true, 'error' => null, 'models' => AiModels::text((array) $response->json('data'))];
         }
 
         $message = $response->json('error.message') ?? $response->json('error');

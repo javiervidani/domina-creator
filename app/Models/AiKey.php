@@ -13,7 +13,7 @@ class AiKey extends Model
 
     protected function casts(): array
     {
-        return ['api_key' => 'encrypted', 'enabled' => 'boolean', 'is_default' => 'boolean', 'last_tested_at' => 'datetime', 'last_test_ok' => 'boolean'];
+        return ['api_key' => 'encrypted', 'enabled' => 'boolean', 'is_default' => 'boolean', 'last_tested_at' => 'datetime', 'last_test_ok' => 'boolean', 'models' => 'array', 'models_at' => 'datetime'];
     }
 
     /** The key used for AI suggestions: the default one if it is on, otherwise the oldest enabled key. */
