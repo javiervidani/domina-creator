@@ -30,7 +30,7 @@ Who: **Owner** = needs you (server, accounts, live tests). **Claude** = code or 
 - [ ] Step 17: "In my style" Rewrite with a saved guide, compare with it unticked, and check the panel names what was used. Try a larger OpenAI model (Test key, then pick from the list).
 
 ## 4. Next features (Claude, when you decide)
-- [ ] **Speech to text** for YouTube videos with no captions (Groq or OpenAI key, audio never stored).
+- [ ] **Speech to text** (BACKLOG, owner is still thinking about the flow, 2026-11-25). Idea so far: hosted Whisper with the creator's own key; Instagram videos sent by their link (short reels fit about 25 MB); YouTube videos with no captions by a "Transcribe a file" upload (no downloading from YouTube); audio never stored; the result lands in the Transcript card.
 - [ ] **Style retrieval** (step 17 part 3): examples picked by topic with pgvector. Only worth it with a large library. Needs the extension check described in `docs/steps/17-my-style.md`.
 - [ ] **Email**: send the notification emails (choices already saved) and the day-60 export link. Needs `MAIL_*` first.
 - [ ] **Team invites** with roles (Settings, Team says "later").
@@ -38,6 +38,7 @@ Who: **Owner** = needs you (server, accounts, live tests). **Claude** = code or 
 - [ ] Publishing to YouTube (update title or description of your own videos) and other networks.
 - [ ] Carousels: all pictures, not only the first.
 - [ ] Optional: S3-compatible storage for kept pictures, Google Drive or Box copies of backups.
+- [ ] **A book from the creator's content** (idea 2026-11-25, see `docs/steps/18-book-from-content.md`, concept only).
 - [ ] Tag removal and a tag filter in the Library (offered earlier, not requested).
 
 ## 5. Rules to keep in mind

@@ -22,6 +22,7 @@ Update this file at the end of every step. Mark a step Done only when it runs on
 | 14 | Optional light image storage | Built 2026-11-21 (small WebP copies, opt-in, 100 MB per creator); not yet tried live |
 | 15 | AI suggestions: rewrite and shorten per post (phase 2) | Built 2026-11-22; not yet tried live |
 | 16 | YouTube connection and transcripts (phase 2) | Built 2026-11-22 (connect, import, captions transcript); needs the Google setup and a live test |
+| 18 | A book from the creator's content (idea) | Concept written 2026-11-25; nothing decided or built |
 | 17 | My style: own instruction and the creator's voice (phase 2) | Parts 1 and 2 built 2026-11-24 (instruction, my voice, style guide, examples); part 3 retrieval not built; not yet tried live |
 
 ## Done so far
