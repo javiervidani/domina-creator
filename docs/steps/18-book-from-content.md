@@ -1,6 +1,21 @@
 # Step 18 (idea): a book from the creator's content
 
-**Status: concept only, written 2026-11-25 (owner idea). Nothing decided, nothing built.** Speech to text is in the backlog meanwhile.
+**Status: concept only, written 2026-11-25 (owner idea), reshaped the same day by the owner's two guidelines below. Nothing built.** Speech to text is in the backlog meanwhile.
+
+## Owner guidelines (2026-11-25), they decide the order of the work
+1. **Bottom-up.** The creator develops **one post** into a chapter or article: extends it, goes deeper, saves it. After several articles they connect them into a book. So the unit is the article, and the book is built from finished articles.
+2. **AI can deepen a post.** If a post is a subject that can be expanded, AI completes it, makes it deeper and adds more words. Suggestion only, as in steps 15 and 17.
+
+### What this means in practice
+- **Develop into an article:** a button on a post creates a new draft (kind `article`) with the post as its source, so the original is untouched and the link back is kept (Combine's source parts already do this). The creator writes in it, uses History, tags it, and it appears in the Library under an **Articles** filter.
+- **Expand with AI:** a third action next to Rewrite and Shorten, same panel (diff, Apply or Dismiss, History first, daily cap, My style, instruction box). Options: how much longer (about 2x, 3x or a target number of words), and whether to use the transcript or related posts as context. Rules for the prompt: explain, give structure, add questions and examples that follow from the post; **do not invent facts about the creator's life or work**; where a personal story would help, leave a marked placeholder for the creator to fill.
+- **Book builder** comes after: choose articles, order them, front and back matter, export.
+
+## Revised phases
+1. **Article and Expand:** kind `article`, Develop button, Library filter, Expand action. Usable on its own, no book needed.
+2. **Book builder (no AI):** books and ordered items from articles, export (print view, EPUB, DOCX).
+3. **AI around the book:** outline from the articles, transitions, introduction and closing; duplicate warnings.
+4. **Polish:** table of contents, page numbers, cover.
 
 ## The idea
 Turn what the creator already wrote and said (posts, YouTube transcripts, collections) into a book they can read, edit and export. The creator stays the author: AI only suggests, nothing is applied without a click (same rules as steps 15 and 17).
